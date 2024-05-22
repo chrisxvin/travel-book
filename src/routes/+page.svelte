@@ -1,59 +1,58 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+import AGGridSvelte from "ag-grid-svelte";
+import type { ColDef, ColGroupDef } from "ag-grid-community";
+import type { PageData } from "./$types";
+import type { ISchedule, IWhenWhere } from "$lib/models";
+
+export let data: PageData;
+export const plans = data.plans;
+
+function createWhenWhereColumnDefs(mainField: string): ColDef[] {
+    return [
+        { field: mainField + ".when", headerName: "When", cellDataType: "date" },
+        { field: mainField + ".city", headerName: "City" },
+        { field: mainField + ".place", headerName: "Place" },
+    ];
+}
+
+const columnDefs: ColGroupDef[] = [
+    {
+        headerName: "Departure",
+        children: createWhenWhereColumnDefs("departure"),
+    },
+    {
+        headerName: "Transportation",
+        children: [
+            { field: "transportation.type", headerName: "Type" },
+            { field: "transportation.code", headerName: "Code" },
+        ],
+    },
+    {
+        headerName: "Arrival",
+        children: createWhenWhereColumnDefs("arrival"),
+    },
+];
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+    <title>Home</title>
+    <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+    {#each plans as plan}
+        <p>{plan.title}</p>
+        <p>{plan.date}</p>
+        <p>{plan.schedule}</p>
+    {/each}
+    <div class="ag-theme-alpine my-grid">
+        <AGGridSvelte {columnDefs} rowData={plans[0].schedule} />
+    </div>
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
+.my-grid {
+    width: 100%;
+    height: 400px;
+}
 </style>
