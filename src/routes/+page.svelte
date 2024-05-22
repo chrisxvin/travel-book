@@ -2,10 +2,10 @@
 import AGGridSvelte from "ag-grid-svelte";
 import type { ColDef, ColGroupDef } from "ag-grid-community";
 import type { PageData } from "./$types";
-import type { ISchedule, IWhenWhere } from "$lib/models";
 
 export let data: PageData;
 export const plans = data.plans;
+console.log(data);
 
 function createWhenWhereColumnDefs(mainField: string): ColDef[] {
     return [
@@ -42,7 +42,8 @@ const columnDefs: ColGroupDef[] = [
 <section>
     {#each plans as plan}
         <p>{plan.title}</p>
-        <p>{plan.date}</p>
+        <p>{plan.from}</p>
+        <p>{plan.to}</p>
         <p>{plan.schedule}</p>
     {/each}
     <div class="ag-theme-alpine my-grid">

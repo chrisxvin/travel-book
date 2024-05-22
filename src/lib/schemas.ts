@@ -1,7 +1,7 @@
 import type { SchemaDefinition } from "mongoose";
 import type { ITransportation, ICity, IPlan, IScheduleEntry, ScheduleItem, IActivity } from "$lib/types";
 
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import { ScheduleEntryKind, TransportationType } from "$lib/types";
 
 const options = { discriminatorKey: "kind" };
@@ -11,6 +11,8 @@ export const ScheduleEntrySchema = new Schema<IScheduleEntry>({
         type: String,
         enum: [ScheduleEntryKind.City, ScheduleEntryKind.Transportation, ScheduleEntryKind.Activity],
     },
+}, {
+    _id: false,
 });
 
 ScheduleEntrySchema.discriminator(
@@ -64,12 +66,11 @@ ScheduleEntrySchema.discriminator(
 );
 
 const PlanDef: SchemaDefinition<IPlan> = {
-    id: Schema.Types.ObjectId,
     title: String,
     from: Date,
     to: Date,
     schedule: [ScheduleEntrySchema],
 };
-export const PlanSchema = new Schema<IPlan>(PlanDef, options);
+export const PlanSchema = new Schema<IPlan>(PlanDef);
 
 export const Plan = model<IPlan>("plans", PlanSchema);
