@@ -9,13 +9,16 @@ import { db } from "$lib/server/db";
 export const load: PageServerLoad = async ({ params }) => {
     // const plans = await prisma.plan.findMany();
     // const plans = await Plan.find();
+    // todo: Optimize: return root properties only
     const plans = await db.collection<IPlan>("plans").find().toArray();
-    console.log(plans);
     
     if (plans) return {
-        plans: plans.map(p => ({
-            ...p,
-            _id: p._id.toHexString(),
+        plans: plans.map<Exclude<IPlan, "schedule">>(p => ({
+            title: p.title,
+            from: p.from,
+            to: p.to,
+            schedule: [],
+            id: p._id.toHexString(),
         })),
     };
 

@@ -46,25 +46,7 @@ const columnDefs: ColGroupDef[] = [
 
 <section>
     {#each plans as plan}
-        <h1>{plan.title}</h1>
+        <h1><a href={`/plan/${plan.id}`}>{plan.title}</a></h1>
         <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
-
-        <div class="container">
-            {#each plan.schedule as schItem}
-                {#if schItem.kind === ScheduleEntryKind.City}
-                    <City city={schItem} />
-                {/if}
-                {#if schItem.kind === ScheduleEntryKind.Transportation}
-                    <Transportation tp={schItem} />
-                {/if}
-            {/each}
-        </div>
     {/each}
 </section>
-
-<style>
-.my-grid {
-    width: 100%;
-    height: 400px;
-}
-</style>

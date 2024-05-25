@@ -1,5 +1,4 @@
 export interface IPlan {
-    // id: ObjectId;
     id: string;
     title: string;
     from: Date;

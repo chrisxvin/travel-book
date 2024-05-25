@@ -7,10 +7,10 @@ export let tp: ITransportation;
 </script>
 
 <div class="card mb-1">
-    <div class="card-header clearfix" style="text-align: center;">
-        <span class="float-start">{tp.leaveFrom}</span>
-        --&gt;
-        <span class="float-end">{tp.arriveTo}</span>
+    <div class="card-header d-flex flex-row flex-wrap justify-content-between ">
+        <span class="">{tp.leaveFrom}</span>
+        <span class="">--&gt;</span>
+        <span class="">{tp.arriveTo}</span>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item clearfix">
