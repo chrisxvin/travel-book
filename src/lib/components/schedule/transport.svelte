@@ -1,9 +1,9 @@
 <script lang="ts">
-import type { ITransportation } from "$lib/types";
+import type { ITransport } from "$lib/types";
 
 import { showTime } from "$lib/utils";
 
-export let tp: ITransportation;
+export let tp: ITransport;
 </script>
 
 <div class="card mb-1">

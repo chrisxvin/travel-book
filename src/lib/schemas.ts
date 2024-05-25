@@ -1,15 +1,15 @@
 import type { SchemaDefinition } from "mongoose";
-import type { ITransportation, ICity, IPlan, IScheduleEntry, ScheduleItem, IActivity } from "$lib/types";
+import type { ITransport, ICity, IPlan, IScheduleEntry, ScheduleItem, IActivity } from "$lib/types";
 
 import { model, Schema } from "mongoose";
-import { ScheduleEntryKind, TransportationType } from "$lib/types";
+import { ScheduleEntryKind, TransportType } from "$lib/types";
 
 const options = { discriminatorKey: "kind" };
 
 export const ScheduleEntrySchema = new Schema<IScheduleEntry>({
     kind: {
         type: String,
-        enum: [ScheduleEntryKind.City, ScheduleEntryKind.Transportation, ScheduleEntryKind.Activity],
+        enum: [ScheduleEntryKind.City, ScheduleEntryKind.Transport, ScheduleEntryKind.Activity],
     },
 }, {
     _id: false,
@@ -27,23 +27,23 @@ ScheduleEntrySchema.discriminator(
     ),
 );
 ScheduleEntrySchema.discriminator(
-    ScheduleEntryKind.Transportation,
-    new Schema<ITransportation>(
+    ScheduleEntryKind.Transport,
+    new Schema<ITransport>(
         {
             leaveFrom: String,
             leaveAt: Date,
             travelBy: {
                 type: String,
                 enum: [
-                    TransportationType.Driving,
-                    TransportationType.Taxi,
-                    TransportationType.Bus,
-                    TransportationType.Metro,
-                    TransportationType.Train,
-                    TransportationType.Plane,
-                    TransportationType.Ship,
-                    TransportationType.Walk,
-                    TransportationType.Other,
+                    TransportType.Driving,
+                    TransportType.Taxi,
+                    TransportType.Bus,
+                    TransportType.Metro,
+                    TransportType.Train,
+                    TransportType.Plane,
+                    TransportType.Ship,
+                    TransportType.Walk,
+                    TransportType.Other,
                 ],
             },
             serviceId: String,

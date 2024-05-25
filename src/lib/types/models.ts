@@ -17,11 +17,11 @@ export interface ICity extends IScheduleEntry {
     hotel?: IHotel;
 }
 
-export interface ITransportation extends IScheduleEntry {
-    kind: ScheduleEntryKind.Transportation;
+export interface ITransport extends IScheduleEntry {
+    kind: ScheduleEntryKind.Transport;
     leaveFrom?: string;
     leaveAt?: Date;
-    travelBy: TransportationType;
+    travelBy: TransportType;
     serviceId: string;
     arriveTo?: string;
     arriveAt?: Date;
@@ -34,7 +34,7 @@ export interface IActivity extends IScheduleEntry {
     activity: string;
 }
 
-export type ScheduleItem = ICity | ITransportation | IActivity;
+export type ScheduleItem = ICity | ITransport | IActivity;
 
 export interface IHotel {
     name: string;
@@ -45,11 +45,11 @@ export interface IHotel {
 
 export enum ScheduleEntryKind {
     City = "city",
-    Transportation = "transportation",
+    Transport = "transport",
     Activity = "activity",
 }
 
-export enum TransportationType {
+export enum TransportType {
     Driving = "Driving",
     Taxi = "Taxi",
     Bus = "Bus",
