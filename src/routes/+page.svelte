@@ -1,7 +1,12 @@
 <script lang="ts">
-import AGGridSvelte from "ag-grid-svelte";
 import type { ColDef, ColGroupDef } from "ag-grid-community";
 import type { PageData } from "./$types";
+
+import AGGridSvelte from "ag-grid-svelte";
+import City from "$lib/components/schedule/city.svelte";
+import Transportation from "$lib/components/schedule/transportation.svelte";
+import { ScheduleEntryKind } from "$lib/types";
+import { showDate } from "$lib/utils";
 
 export let data: PageData;
 export const plans = data.plans;
@@ -41,14 +46,20 @@ const columnDefs: ColGroupDef[] = [
 
 <section>
     {#each plans as plan}
-        <p>{plan.title}</p>
-        <p>{plan.from}</p>
-        <p>{plan.to}</p>
-        <p>{plan.schedule}</p>
+        <h1>{plan.title}</h1>
+        <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
+
+        <div class="container">
+            {#each plan.schedule as schItem}
+                {#if schItem.kind === ScheduleEntryKind.City}
+                    <City city={schItem} />
+                {/if}
+                {#if schItem.kind === ScheduleEntryKind.Transportation}
+                    <Transportation tp={schItem} />
+                {/if}
+            {/each}
+        </div>
     {/each}
-    <div class="ag-theme-alpine my-grid">
-        <AGGridSvelte {columnDefs} rowData={plans[0].schedule} />
-    </div>
 </section>
 
 <style>

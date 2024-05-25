@@ -1,7 +1,6 @@
-import { Types } from "mongoose";
-
 export interface IPlan {
-    id: Types.ObjectId;
+    // id: ObjectId;
+    id: string;
     title: string;
     from: Date;
     to: Date;

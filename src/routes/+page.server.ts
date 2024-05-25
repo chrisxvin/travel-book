@@ -1,19 +1,21 @@
+import type { PageServerLoad } from "./$types";
+import type { IPlan } from "$lib/types";
+
 import { error } from "@sveltejs/kit";
 // import { prisma } from "$lib/server/db";
-import "$lib/server/db";
-import type { PageServerLoad } from "./$types";
-import { Plan } from "$lib/schemas";
-import type { IPlan } from "$lib/types";
+import { db } from "$lib/server/db";
+// import { Plan } from "$lib/schemas";
 
 export const load: PageServerLoad = async ({ params }) => {
     // const plans = await prisma.plan.findMany();
-    const plans = await Plan.find();
+    // const plans = await Plan.find();
+    const plans = await db.collection<IPlan>("plans").find().toArray();
     console.log(plans);
     
     if (plans) return {
-        plans: plans.map(_ => ({
-            ..._.toObject(),
-            _id: _.id.toString(),
+        plans: plans.map(p => ({
+            ...p,
+            _id: p._id.toHexString(),
         })),
     };
 
