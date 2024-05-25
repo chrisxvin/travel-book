@@ -3,6 +3,7 @@ import type { PageData } from "./$types";
 
 import City from "$lib/components/schedule/city.svelte";
 import Transportation from "$lib/components/schedule/transportation.svelte";
+import Activity from "$lib/components/schedule/activity.svelte";
 import { ScheduleEntryKind } from "$lib/types";
 import { showDate } from "$lib/utils";
 
@@ -25,6 +26,9 @@ export const plan = data.plan;
             {/if}
             {#if schItem.kind === ScheduleEntryKind.Transportation}
                 <Transportation tp={schItem} />
+            {/if}
+            {#if schItem.kind === ScheduleEntryKind.Activity}
+                <Activity act={schItem} />
             {/if}
         {/each}
     </div>

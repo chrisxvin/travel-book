@@ -32,7 +32,7 @@ ScheduleEntrySchema.discriminator(
         {
             leaveFrom: String,
             leaveAt: Date,
-            type: {
+            travelBy: {
                 type: String,
                 enum: [
                     TransportationType.Driving,
@@ -46,7 +46,7 @@ ScheduleEntrySchema.discriminator(
                     TransportationType.Other,
                 ],
             },
-            code: String,
+            serviceId: String,
             arriveTo: String,
             arriveAt: Date,
             price: Number,

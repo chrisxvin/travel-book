@@ -21,8 +21,8 @@ export interface ITransportation extends IScheduleEntry {
     kind: ScheduleEntryKind.Transportation;
     leaveFrom?: string;
     leaveAt?: Date;
-    type: TransportationType;
-    code: string;
+    travelBy: TransportationType;
+    serviceId: string;
     arriveTo?: string;
     arriveAt?: Date;
     price?: number;

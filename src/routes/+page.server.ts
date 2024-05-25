@@ -9,6 +9,7 @@ import { db } from "$lib/server/db";
 export const load: PageServerLoad = async ({ params }) => {
     // const plans = await prisma.plan.findMany();
     // const plans = await Plan.find();
+
     // todo: Optimize: return root properties only
     const plans = await db.collection<IPlan>("plans").find().toArray();
     
