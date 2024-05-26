@@ -11,6 +11,7 @@
         "strict": true,
         "moduleResolution": "bundler",
         "typeRoots": [
+            "node_modules/@types",
             "./src/lib/types",
         ],
     },

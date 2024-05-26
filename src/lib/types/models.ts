@@ -44,6 +44,7 @@ export interface IHotel {
 }
 
 export enum ScheduleEntryKind {
+    Unknown,
     City = "city",
     Transport = "transport",
     Activity = "activity",
