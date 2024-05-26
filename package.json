@@ -13,12 +13,12 @@
         "format": "prettier --write ."
     },
     "dependencies": {
+        "@mdi/font": "^7.4.47",
         "ag-grid-community": "^30.2.0",
         "ag-grid-svelte": "^0.3.0",
         "bootstrap": "^5.3.3",
         "luxon": "^3.4.4",
-        "mongodb": "^6.6.2",
-        "mongoose": "^8.4.0"
+        "mongodb": "^6.6.2"
     },
     "devDependencies": {
         "@fontsource/fira-mono": "^4.5.10",
