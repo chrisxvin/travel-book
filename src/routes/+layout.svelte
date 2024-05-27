@@ -6,7 +6,7 @@ import "./styles.css";
 <div class="app">
     <Header />
 
-    <main>
+    <main class="container-sm">
         <slot />
     </main>
 

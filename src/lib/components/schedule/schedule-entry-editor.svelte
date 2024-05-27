@@ -8,6 +8,9 @@ export let entry: IScheduleEntry | null;
 let editKind = ScheduleEntryKind.Unknown;
 
 function showEditor(kind: ScheduleEntryKind): void {
+    entry = {
+        kind,
+    } as IScheduleEntry;
     editKind = kind;
 }
 </script>

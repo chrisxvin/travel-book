@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/node_modules/ag-grid-community/styles/ag-theme-alpine.css" />
 
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?v=beta&key=TEST_API_KEY&loading=async&libraries=places&callback=initMap"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     %sveltekit.head%
@@ -17,6 +18,12 @@
 
 <body data-sveltekit-preload-data="hover">
     <div style="display: contents">%sveltekit.body%</div>
+
+    <script>
+        function initMap() {
+            
+        }
+    </script>
 </body>
 
 </html>

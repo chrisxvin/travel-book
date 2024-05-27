@@ -1,10 +1,14 @@
 <script lang="ts">
-import type { IScheduleEntry, ITransport } from "$lib/types";
+import { ScheduleEntryKind, type IScheduleEntry, type ITransport } from "$lib/types";
 
 import { onMount } from "svelte";
+import { GoogleMapsPlacesAutocomplete } from "../common";
+import { GOOGLE_API_KEY } from "$lib/consts";
 
 export let entry: IScheduleEntry | null;
+let transport = entry?.kind === ScheduleEntryKind.Transport ? (entry as ITransport) : null;
 
+/*
 function initAutocomplete() {
     const input = document.getElementById("transport-editor-ac") as HTMLInputElement;
     const autocomplete = new google.maps.places.Autocomplete(input);
@@ -16,16 +20,19 @@ function initAutocomplete() {
         console.log(selectedPlace);
     });
 }
-
-function handlePlaceChanged(e: any) {
+*/
+function handlePlaceChanged(e: CustomEvent) {
     console.log(e);
+    transport && (transport.leaveFrom = e.detail.selectedPrediction);
 }
 
 onMount(() => {
-    initAutocomplete();
+    // initAutocomplete();
 });
 </script>
 
 <div>
-    <input class="form-control" type="text" placeholder="Location" id="transport-editor-ac" />
+    <!-- <input class="form-control" type="text" placeholder="Location" id="transport-editor-ac" /> -->
+    <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="form-control" fields={[]} on:placeChanged={handlePlaceChanged} />
+    <p>{JSON.stringify(transport)}</p>
 </div>
