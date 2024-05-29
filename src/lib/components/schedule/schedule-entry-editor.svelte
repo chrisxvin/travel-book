@@ -19,13 +19,13 @@ function showEditor(kind: ScheduleEntryKind): void {
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Kind</button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item">City</a></li>
+            <li><a class="dropdown-item">Place</a></li>
             <li><a class="dropdown-item" on:click={e => showEditor(ScheduleEntryKind.Transport)}>Transport</a></li>
             <li><a class="dropdown-item">Activity</a></li>
         </ul>
     </div>
 
-    {#if editKind == ScheduleEntryKind.City}
+    {#if editKind == ScheduleEntryKind.Place}
         <div>Not available</div>
     {:else if editKind == ScheduleEntryKind.Transport}
         <TransportEditor {entry} />

@@ -3,7 +3,7 @@ import type { PageData } from "./$types";
 
 import { ScheduleEntryKind, type ScheduleItem } from "$lib/types";
 import { showDate } from "$lib/utils";
-import City from "$lib/components/schedule/city.svelte";
+import Place from "$lib/components/schedule/place.svelte";
 import Transport from "$lib/components/schedule/transport.svelte";
 import Activity from "$lib/components/schedule/activity.svelte";
 import ScheduleEntryEditor from "$lib/components/schedule/schedule-entry-editor.svelte";
@@ -34,8 +34,8 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
 
     <div>
         {#each plan.schedule as schItem}
-            {#if schItem.kind === ScheduleEntryKind.City}
-                <City city={schItem} />
+            {#if schItem.kind === ScheduleEntryKind.Place}
+                <Place place={schItem} />
             {/if}
             {#if schItem.kind === ScheduleEntryKind.Transport}
                 <Transport tp={schItem} />
