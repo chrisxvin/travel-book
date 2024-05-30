@@ -1,9 +1,10 @@
 export interface IPlan {
     id: string;
     title: string;
-    from: Date;
-    to: Date;
-    schedule: ScheduleItem[];
+    from: string;
+    to: string;
+    itinerary: Record<string, ScheduleItem[]>;
+    // schedule: ScheduleItem[];
 }
 
 export interface IScheduleEntry {
@@ -12,20 +13,18 @@ export interface IScheduleEntry {
 
 export interface IPlace extends IScheduleEntry {
     kind: ScheduleEntryKind.Place;
-    date: Date;
     city: string;
     place?: string;
-    hotel?: IHotel;
 }
 
 export interface ITransport extends IScheduleEntry {
     kind: ScheduleEntryKind.Transport;
     leaveFrom?: string;
-    leaveAt?: Date;
+    leaveAt?: string;
     travelBy: TransportType;
     serviceId: string;
     arriveTo?: string;
-    arriveAt?: Date;
+    arriveAt?: string;
     price?: number;
     currency?: string;
 }

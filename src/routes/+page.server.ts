@@ -12,16 +12,22 @@ export const load: PageServerLoad = async ({ params }) => {
 
     // todo: Optimize: return root properties only
     const plans = await db.collection<IPlan>("plans").find().toArray();
-    
-    if (plans) return {
-        plans: plans.map<Exclude<IPlan, "schedule">>(p => ({
-            title: p.title,
-            from: p.from,
-            to: p.to,
-            schedule: [],
-            id: p._id.toHexString(),
-        })),
-    };
+
+    if (plans) {
+        return {
+            plans: plans.map<Exclude<IPlan, "itinerary">>(p => {
+                const kv = Object.entries(p.itinerary);
+
+                return {
+                    title: p.title,
+                    from: kv.length > 0 ? kv[0][0] : "",
+                    to: kv.length > 0 ? kv[kv.length - 1][0] : "",
+                    itinerary: {},
+                    id: p._id.toHexString(),
+                };
+            }),
+        };
+    }
 
     error(404, "Not found");
 };

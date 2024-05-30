@@ -6,9 +6,7 @@ import { showDate } from "$lib/utils";
 export let place: IPlace;
 </script>
 
-<h1>
-    <span>{showDate(place.date)},</span>
-    <span>{place.city},</span>
-    <span>{place.place},</span>
-    <span>{place.hotel}</span>
-</h1>
+<h3>
+    <span class="mdi mdi-map-marker"></span>
+    <span>{place.city}, {place.place}</span>
+</h3>

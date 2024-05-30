@@ -2,9 +2,16 @@
 import type { ITransport } from "$lib/types";
 
 import { showTime } from "$lib/utils";
-import TransportIcon from "./transport-icon.svelte";
+import { TransportIcon } from "../common";
 
 export let tp: ITransport;
+
+const format = new Intl.NumberFormat("zh-CN", {
+    style: "currency",
+    currency: tp.currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
 </script>
 
 <div class="card mb-1">
@@ -20,12 +27,14 @@ export let tp: ITransport;
         </li>
         <li class="list-group-item clearfix">
             <span class="float-start"><TransportIcon type={tp.travelBy} /> {tp.serviceId}</span>
-            <span class="float-end"><span class="badge text-bg-primary">{tp.currency}</span>&nbsp;{tp.price}</span>
+            <span class="float-end">{format.format(tp.price ?? 0)}</span>
         </li>
+        <!--
         <li class="list-group-item clearfix">
             <span class="float-start">L</span>
             <span class="float-end">R</span>
         </li>
+        -->
     </ul>
 </div>
 
