@@ -1,12 +1,21 @@
 <script lang="ts">
-import type { IPlace } from "$lib/types";
+import type { IPlaceViewModel } from "$lib/types";
 
-import { showDate } from "$lib/utils";
+import { ScheduleEntryKind } from "$lib/types";
+import { Activity, Transport } from ".";
 
-export let place: IPlace;
+export let place: IPlaceViewModel;
 </script>
 
-<h3>
-    <span class="mdi mdi-map-marker"></span>
-    <span>{place.city}, {place.place}</span>
-</h3>
+{#if place.items == null || place.items.length == 0}
+    <span>No items.</span>
+{:else}
+    {#each place.items as item}
+        {#if item.kind === ScheduleEntryKind.Transport}
+            <Transport tp={item} />
+        {/if}
+        {#if item.kind === ScheduleEntryKind.Activity}
+            <Activity act={item} />
+        {/if}
+    {/each}
+{/if}

@@ -3,7 +3,7 @@ import type { PageData } from "./$types";
 
 import { ScheduleEntryKind, type ScheduleItem } from "$lib/types";
 import { showDate } from "$lib/utils";
-import { Day, ScheduleEntryEditor } from "$lib/components/schedule";
+import { Day, ScheduleEntryEditor } from "$lib/components";
 
 export let data: PageData;
 export const plan = data.plan;

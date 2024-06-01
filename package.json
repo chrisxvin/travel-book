@@ -17,6 +17,7 @@
         "ag-grid-community": "^30.2.0",
         "ag-grid-svelte": "^0.3.0",
         "bootstrap": "^5.3.3",
+        "lodash-es": "^4.17.21",
         "luxon": "^3.4.4",
         "mongodb": "^6.6.2"
     },
@@ -28,6 +29,7 @@
         "@sveltejs/vite-plugin-svelte": "^3.0.0",
         "@types/eslint": "^8.56.0",
         "@types/google.maps": "^3.55.9",
+        "@types/lodash-es": "^4.17.12",
         "@types/luxon": "^3.4.2",
         "@typescript-eslint/eslint-plugin": "^7.0.0",
         "@typescript-eslint/parser": "^7.0.0",
