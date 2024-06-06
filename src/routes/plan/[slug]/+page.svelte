@@ -7,7 +7,6 @@ import { Day, ScheduleEntryEditor } from "$lib/components";
 
 export let data: PageData;
 export const plan = data.plan;
-console.log(plan);
 
 let showEditor = false;
 let editingIndex = -1;
@@ -30,9 +29,11 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
     <h1>{plan.title}</h1>
     <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
 
-    {#each plan.itinerary as { date, places }}
-        <Day {date} {places} />
-    {/each}
+    <div class="accordion accordion-flush">
+        {#each plan.itinerary as { date, places }}
+            <Day {date} {places} />
+        {/each}
+    </div>
 
     <div class="container">
         <button on:click={handleBtnAddClick}>Add</button>

@@ -7,36 +7,39 @@ export let date: string;
 export let places: IPlaceViewModel[];
 </script>
 
-<h2>{date}</h2>
-<div class="accordion accordion-flush">
-    {#each places as place}
-        <div class="accordion-item">
-            <div class="accordion-header" id={place._id + "_header"}>
-                <div class="d-flex flex-row">
-                    <button
-                        class="accordion-button"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target={"#" + place._id}
-                        aria-expanded="true"
-                        aria-controls={place._id}>
-                        <h3>
-                            <span class="mdi mdi-map-marker"></span>
-                            <span>{place.city}{place.place == null ? "" : ", " + place.place}</span>
-                        </h3>
-                    </button>
-                </div>
-            </div>
-            <div id={place._id} class="accordion-collapse collapse show" aria-labelledby={place._id + "_header"}>
-                <div class="accordion-body">
-                    <Place {place} />
-                </div>
-            </div>
+<div class="accordion-item">
+    <div class="accordion-header" id={date + "_header"}>
+        <div class="d-flex flex-row">
+            <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={"#" + date}
+                aria-expanded="true"
+                aria-controls={date}>
+                <h2><span class="mdi mdi-calendar-today">&nbsp;{date}</span></h2>
+            </button>
         </div>
-    {/each}
+    </div>
+    <div id={date} class="accordion-collapse collapse show" aria-labelledby={date + "_header"}>
+        <div class="accordion-body">
+            {#each places as place}
+                <h3>
+                    <p>
+                        <span class="mdi mdi-map-marker">&nbsp;{place.city}{place.place == null ? "" : ", " + place.place}</span>
+                    </p>
+                </h3>
+                <Place {place} />
+            {/each}
+        </div>
+    </div>
 </div>
 
 <style lang="less" scoped>
+p {
+    margin-top: 1rem;
+}
+
 .accordion-button:not(.collapsed) {
     background-color: var(--bs-white);
 }
