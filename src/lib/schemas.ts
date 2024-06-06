@@ -1,22 +1,22 @@
 import type { SchemaDefinition } from "mongoose";
-import type { ITransport, IPlace, IPlan, IScheduleEntry, ScheduleItem, IActivity } from "$lib/types";
+import type { ITransport, IPlace, IPlan, ITimelineEntry, TimelineItem, IActivity } from "$lib/types";
 
 import { model, Schema } from "mongoose";
-import { ScheduleEntryKind, TransportType } from "$lib/types";
+import { TimelineEntryKind, TransportType } from "$lib/types";
 
 const options = { discriminatorKey: "kind" };
 
-export const ScheduleEntrySchema = new Schema<IScheduleEntry>({
+export const ScheduleEntrySchema = new Schema<ITimelineEntry>({
     kind: {
         type: String,
-        enum: [ScheduleEntryKind.Place, ScheduleEntryKind.Transport, ScheduleEntryKind.Activity],
+        enum: [TimelineEntryKind.Place, TimelineEntryKind.Transport, TimelineEntryKind.Activity],
     },
 }, {
     _id: false,
 });
 
 ScheduleEntrySchema.discriminator(
-    ScheduleEntryKind.Place,
+    TimelineEntryKind.Place,
     new Schema<IPlace>(
         {
             date: Date,
@@ -27,7 +27,7 @@ ScheduleEntrySchema.discriminator(
     ),
 );
 ScheduleEntrySchema.discriminator(
-    ScheduleEntryKind.Transport,
+    TimelineEntryKind.Transport,
     new Schema<ITransport>(
         {
             leaveFrom: String,
@@ -56,7 +56,7 @@ ScheduleEntrySchema.discriminator(
     ),
 );
 ScheduleEntrySchema.discriminator(
-    ScheduleEntryKind.Activity,
+    TimelineEntryKind.Activity,
     new Schema<IActivity>(
         {
             activity: String,

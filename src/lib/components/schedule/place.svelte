@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { IPlaceViewModel } from "$lib/types";
 
-import { ScheduleEntryKind } from "$lib/types";
+import { TimelineEntryKind } from "$lib/types";
 import { Activity, Transport } from ".";
 
 export let place: IPlaceViewModel;
@@ -11,10 +11,10 @@ export let place: IPlaceViewModel;
     <span>No items.</span>
 {:else}
     {#each place.items as item}
-        {#if item.kind === ScheduleEntryKind.Transport}
+        {#if item.kind === TimelineEntryKind.Transport}
             <Transport tp={item} />
         {/if}
-        {#if item.kind === ScheduleEntryKind.Activity}
+        {#if item.kind === TimelineEntryKind.Activity}
             <Activity act={item} />
         {/if}
     {/each}

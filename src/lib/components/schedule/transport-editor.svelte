@@ -1,12 +1,12 @@
 <script lang="ts">
-import { ScheduleEntryKind, type IScheduleEntry, type ITransport } from "$lib/types";
+import { TimelineEntryKind, type ITimelineEntry, type ITransport } from "$lib/types";
 
 import { onMount } from "svelte";
 import { GoogleMapsPlacesAutocomplete } from "../common";
 import { GOOGLE_API_KEY } from "$lib/consts";
 
-export let entry: IScheduleEntry | null;
-let transport = entry?.kind === ScheduleEntryKind.Transport ? (entry as ITransport) : null;
+export let entry: ITimelineEntry | null;
+let transport = entry?.kind === TimelineEntryKind.Transport ? (entry as ITransport) : null;
 
 /*
 function initAutocomplete() {

@@ -3,22 +3,28 @@ export interface IPlan {
     title: string;
     from: string;
     to: string;
-    itinerary: Record<string, ScheduleItem[]>;
-    // schedule: ScheduleItem[];
+    itinerary: IItineraryItem[];
 }
 
-export interface IScheduleEntry {
-    kind: ScheduleEntryKind;
+export interface IItineraryItem {
+    date: string;
+    timeline: TimelineItem[];
 }
 
-export interface IPlace extends IScheduleEntry {
-    kind: ScheduleEntryKind.Place;
+export type TimelineItem = IPlace | ITransport | IActivity;
+
+export interface ITimelineEntry {
+    kind: TimelineEntryKind;
+}
+
+export interface IPlace extends ITimelineEntry {
+    kind: TimelineEntryKind.Place;
     city: string;
     place?: string;
 }
 
-export interface ITransport extends IScheduleEntry {
-    kind: ScheduleEntryKind.Transport;
+export interface ITransport extends ITimelineEntry {
+    kind: TimelineEntryKind.Transport;
     leaveFrom?: string;
     leaveAt?: string;
     travelBy: TransportType;
@@ -29,12 +35,10 @@ export interface ITransport extends IScheduleEntry {
     currency?: string;
 }
 
-export interface IActivity extends IScheduleEntry {
-    kind: ScheduleEntryKind.Activity;
+export interface IActivity extends ITimelineEntry {
+    kind: TimelineEntryKind.Activity;
     activity: string;
 }
-
-export type ScheduleItem = IPlace | ITransport | IActivity;
 
 export interface IHotel {
     name: string;
@@ -43,7 +47,7 @@ export interface IHotel {
     currency: string;
 }
 
-export enum ScheduleEntryKind {
+export enum TimelineEntryKind {
     Unknown,
     Place = "place",
     Transport = "transport",

@@ -14,6 +14,37 @@ const format = new Intl.NumberFormat("zh-CN", {
 });
 </script>
 
+<div class="container">
+    <div class="row">
+        <div class="col-1">{tp.leaveAt ?? ""}</div>
+        <div class="col-1 waypoint-connector">
+            <span class="mdi mdi-circle-outline"></span>
+        </div>
+        <div class="col">{tp.leaveFrom}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-1 trans-icon"><TransportIcon type={tp.travelBy} /></div>
+        <div class="col-1 waypoint-connector">
+            <div class="middle">&nbsp;</div>
+        </div>
+        <div class="col">
+            <div class="transport-content">
+                {tp.serviceId}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1">{tp.arriveAt ?? ""}</div>
+        <div class="col-1 waypoint-connector">
+            <span class="mdi mdi-record-circle-outline"></span>
+        </div>
+        <div class="col">{tp.arriveTo}</div>
+    </div>
+</div>
+
+<!--
 <div class="card mb-1">
     <div class="card-header d-flex flex-row flex-wrap justify-content-between places">
         <span class="from">{tp.leaveFrom}</span>
@@ -29,14 +60,9 @@ const format = new Intl.NumberFormat("zh-CN", {
             <span class="float-start"><TransportIcon type={tp.travelBy} /> {tp.serviceId}</span>
             <span class="float-end">{format.format(tp.price ?? 0)}</span>
         </li>
-        <!--
-        <li class="list-group-item clearfix">
-            <span class="float-start">L</span>
-            <span class="float-end">R</span>
-        </li>
-        -->
     </ul>
 </div>
+-->
 
 <style lang="less" scoped>
 .places {
@@ -47,5 +73,33 @@ const format = new Intl.NumberFormat("zh-CN", {
     .to {
         margin-left: auto;
     }
+}
+
+.trans-icon {
+    font-size: 1.6em;
+}
+
+.waypoint-connector {
+    .start {
+        height: 100%;
+        border-right: 5px solid deepskyblue;
+        margin-right: 10px;
+    }
+
+    .middle {
+        height: 100%;
+        border-right: 5px solid deepskyblue;
+        margin-right: 10px;
+    }
+
+    .end {
+        height: 100%;
+        border-right: 5px solid deepskyblue;
+        margin-right: 10px;
+    }
+}
+
+.transport-content {
+    padding: 1em 0;
 }
 </style>

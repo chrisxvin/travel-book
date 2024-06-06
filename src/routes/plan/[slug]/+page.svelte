@@ -1,22 +1,22 @@
 <script lang="ts">
 import type { PageData } from "./$types";
 
-import { ScheduleEntryKind, type ScheduleItem } from "$lib/types";
+import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import { Day, ScheduleEntryEditor } from "$lib/components";
 
 export let data: PageData;
 export const plan = data.plan;
+console.log(plan);
 
-let itineraryItems = Object.entries(plan.itinerary);
 let showEditor = false;
 let editingIndex = -1;
-let editingEntry: ScheduleItem | null = null;
+let editingEntry: TimelineItem | null = null;
 
 function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
     editingEntry = {
-        kind: ScheduleEntryKind.Unknown,
-    } as ScheduleItem;
+        kind: TimelineEntryKind.Unknown,
+    } as TimelineItem;
 
     showEditor = true;
 }
@@ -30,8 +30,8 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
     <h1>{plan.title}</h1>
     <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
 
-    {#each itineraryItems as [date, schedule]}
-    <Day {date} {schedule} />
+    {#each plan.itinerary as { date, places }}
+        <Day {date} {places} />
     {/each}
 
     <div class="container">
