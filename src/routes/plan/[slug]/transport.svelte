@@ -1,8 +1,7 @@
 <script lang="ts">
 import type { ITransport } from "$lib/types";
 
-import { showTime } from "$lib/utils";
-import { TransportIcon } from "../common";
+import { TransportIcon } from "$lib/components";
 
 export let tp: ITransport;
 
@@ -30,7 +29,7 @@ const format = new Intl.NumberFormat("zh-CN", {
         </div>
         <div class="col">
             <div class="transport-content">
-                {tp.serviceId}
+                {tp.serviceId}{tp.price ? ", " + format.format(tp.price ?? 0) : ""}
             </div>
         </div>
     </div>

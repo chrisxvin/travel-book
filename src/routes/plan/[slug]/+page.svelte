@@ -3,7 +3,8 @@ import type { PageData } from "./$types";
 
 import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
-import { Day, ScheduleEntryEditor } from "$lib/components";
+import { ScheduleEntryEditor } from "$lib/components";
+import Day from "./day.svelte";
 
 export let data: PageData;
 export const plan = data.plan;

@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { IPlaceViewModel } from "$lib/types";
 
-import { Place } from ".";
+import Place from "./place.svelte";
 
 export let date: string;
 export let places: IPlaceViewModel[];

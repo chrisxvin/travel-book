@@ -2,7 +2,8 @@
 import type { IPlaceViewModel } from "$lib/types";
 
 import { TimelineEntryKind } from "$lib/types";
-import { Activity, Transport } from ".";
+import Activity from "./activity.svelte";
+import Transport from "./transport.svelte";
 
 export let place: IPlaceViewModel;
 </script>
