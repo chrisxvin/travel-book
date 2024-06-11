@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ params }) => {
                     title: p.title,
                     from: kv.length > 0 ? kv[0][0] : "",
                     to: kv.length > 0 ? kv[kv.length - 1][0] : "",
-                    itinerary: {},
+                    itinerary: [],
                     id: p._id.toHexString(),
                 };
             }),
