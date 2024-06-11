@@ -12,7 +12,8 @@
     "printWidth": 150,
     "plugins": [
         "prettier-plugin-multiline-arrays",
-        "prettier-plugin-svelte"
+        "prettier-plugin-svelte",
+        "prettier-plugin-tailwindcss"
     ],
     "overrides": [
         {
