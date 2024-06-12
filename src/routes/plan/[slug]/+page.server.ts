@@ -14,12 +14,12 @@ export const load: PageServerLoad = async ({ params }) => {
         const p = plans[0];
         return {
             plan: {
-                _id: p._id.toHexString(),
+                id: p._id.toHexString(),
                 title: p.title,
-                from: p.itinerary.length > 0 ? p.itinerary[0].date : "",
-                to: p.itinerary.length > 0 ? p.itinerary[p.itinerary.length - 1].date : "",
-                itinerary: shapeItinerary(p.itinerary),
-            } as IPlanViewModel,
+                // from: p.itinerary.length > 0 ? p.itinerary[0].date : "",
+                // to: p.itinerary.length > 0 ? p.itinerary[p.itinerary.length - 1].date : "",
+                itinerary: p.itinerary,
+            } as IPlan,
         };
     }
 

@@ -1,8 +1,6 @@
 export interface IPlan {
     id: string;
     title: string;
-    from: string;
-    to: string;
     itinerary: IItineraryItem[];
 }
 

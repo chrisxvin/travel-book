@@ -31,15 +31,29 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
 
 <section>
     <h1>{plan.title}</h1>
-    <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
+    <!-- <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p> -->
 
-    <Tabs tabs={plan.itinerary}>
-        <svelte:fragment slot="header" let:item={{date}}>
-            <span class="mdi mdi-calendar-today">&nbsp;{date}</span>
+    <!-- <div role="tablist" class="tabs tabs-bordered">
+        {#each plan.itinerary as { date }, i}
+            <a role="tab" class="tab" class:tab-active={tabIndex === i} on:click={e => (tabIndex = i)}>
+                <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
+            </a>
+        {/each}
+    </div>
+
+    {#each plan.itinerary as { timeline }, i}
+        {#if tabIndex === i}
+            <Day {timeline} />
+        {/if}
+    {/each} -->
+
+    <Tabs tabs={plan.itinerary} useTabPanel={false}>
+        <svelte:fragment slot="header" let:item={{ date }}>
+            <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
         </svelte:fragment>
 
-        <svelte:fragment let:item={{date, places}}>
-            <Day {date} {places} />
+        <svelte:fragment let:item={{ date, timeline }}>
+            <Day {timeline} />
         </svelte:fragment>
     </Tabs>
 
