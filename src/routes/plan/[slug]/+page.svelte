@@ -9,7 +9,6 @@ import type { PageData } from "./$types";
 import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import { ScheduleEntryEditor } from "$lib/components";
-import { Tabs } from "$lib/components/daisy-ui";
 import Day from "./day.svelte";
 
 export let data: PageData;
@@ -54,16 +53,6 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
             <Day {timeline} />
         {/if}
     {/each}
-
-    <!-- <Tabs tabs={plan.itinerary} useTabPanel={false}>
-        <svelte:fragment slot="header" let:item={{ date }}>
-            <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
-        </svelte:fragment>
-
-        <svelte:fragment let:item={{ date, timeline }}>
-            <Day {timeline} />
-        </svelte:fragment>
-    </Tabs> -->
 
     <div class="container">
         <button on:click={handleBtnAddClick}>Add</button>
