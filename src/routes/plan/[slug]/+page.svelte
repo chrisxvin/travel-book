@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+import "./styles.less";
+</script>
+
 <script lang="ts">
 import type { PageData } from "./$types";
 
@@ -29,25 +33,29 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
     <title>Plan: {plan.title}</title>
 </svelte:head>
 
-<section>
+<section class="plan">
     <h1>{plan.title}</h1>
     <!-- <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p> -->
 
-    <!-- <div role="tablist" class="tabs tabs-bordered">
+    <div role="tablist" class="tabs tabs-bordered">
         {#each plan.itinerary as { date }, i}
+            <!-- svelte-ignore a11y-interactive-supports-focus -->
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-missing-attribute -->
             <a role="tab" class="tab" class:tab-active={tabIndex === i} on:click={e => (tabIndex = i)}>
                 <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
             </a>
         {/each}
     </div>
 
+    <!-- 用 teleport 优化一下？减少循环次数。-->
     {#each plan.itinerary as { timeline }, i}
         {#if tabIndex === i}
             <Day {timeline} />
         {/if}
-    {/each} -->
+    {/each}
 
-    <Tabs tabs={plan.itinerary} useTabPanel={false}>
+    <!-- <Tabs tabs={plan.itinerary} useTabPanel={false}>
         <svelte:fragment slot="header" let:item={{ date }}>
             <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
         </svelte:fragment>
@@ -55,7 +63,7 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         <svelte:fragment let:item={{ date, timeline }}>
             <Day {timeline} />
         </svelte:fragment>
-    </Tabs>
+    </Tabs> -->
 
     <div class="container">
         <button on:click={handleBtnAddClick}>Add</button>

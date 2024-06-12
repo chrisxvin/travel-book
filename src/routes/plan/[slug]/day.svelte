@@ -2,24 +2,34 @@
 import type { TimelineItem } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
-import { Timeline } from "$lib/components/daisy-ui";
 import { TimelineEntryKind } from "$lib/types";
 import Place from "./place.svelte";
+import Transport from "./transport.svelte";
+import Activity from "./activity.svelte";
 
 export let timeline: TimelineItem[];
 </script>
 
 <ul class="timeline timeline-vertical">
     {#each timeline as item, i}
-        <li>
+        <li class="border">
             {#if i !== 0}<hr />{/if}
+
+            {#if item.kind === TimelineEntryKind.Place}
+                <Place {item} />
+            {:else if item.kind === TimelineEntryKind.Transport}
+                <Transport {item} />
+            {:else if item.kind === TimelineEntryKind.Activity}
+                <Activity {item} />
+            {/if}
+            <!-- 
             <div class="timeline-start">
                 <span>{item.leaveAt ?? ""}</span>
             </div>
 
-            <div class="timeline-middle">
+            <div class="bg-circle timeline-middle">
                 {#if item.kind === TimelineEntryKind.Place}
-                    <span class="mdi mdi-map-marker"></span>
+                    <span class="mdi mdi-map-marker text-lg"></span>
                 {:else if item.kind === TimelineEntryKind.Transport}
                     <TransportIcon type={item.travelBy} />
                 {:else}
@@ -31,15 +41,20 @@ export let timeline: TimelineItem[];
 
             <div class="timeline-end">
                 {#if item.kind === TimelineEntryKind.Place}
-                    <span>{item.city}{item.place == null ? "" : ", " + item.place}</span>
+                    <span class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</span>
                 {:else if item.kind === TimelineEntryKind.Transport}
-                    <div>{item.serviceId}</div>
-                    <p>{item.price}</p>
-                    <p>{item.arriveTo}</p>
+                    <div>
+                        <span>{item.leaveFrom}</span>
+
+                        <div>{item.serviceId}</div>
+                        <p>{item.price}</p>
+                        <p>{item.arriveTo}</p>
+                    </div>
                 {:else if item.kind === TimelineEntryKind.Activity}
                     <p>Activity: {item.act}</p>
                 {/if}
-            </div>
+            </div> -->
+
             {#if i !== timeline.length}<hr />{/if}
         </li>
     {/each}
@@ -85,27 +100,3 @@ export let timeline: TimelineItem[];
     <Place {place} />
 {/each}
  -->
-
-<style lang="less" scoped>
-p {
-    margin-top: 1rem;
-}
-
-.timeline-start {
-    align-self: start;
-}
-
-.timeline-middle {
-    align-self: start;
-    grid-row-start: 1;
-    margin: 4px;
-}
-
-.timeline-end {
-    align-self: start;
-}
-
-:where(.timeline > li) {
-    grid-template-columns: var(--timeline-col-start, minmax(0, 0.25fr)) auto var(--timeline-col-end, minmax(0, 1fr) );
-}
-</style>
