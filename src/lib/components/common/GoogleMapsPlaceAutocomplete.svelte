@@ -13,7 +13,7 @@ export let styleClass: string = "";
 export let value: any = null;
 export let viewValue: any = null;
 export let viewLabel: keyof google.maps.places.PlaceResult = "formatted_address";
-export let fields = ["geometry", "plus_code", viewLabel];
+export let fields = ["address_components", "geometry", "place_id", "plus_code", viewLabel];
 export let types: string[] = [];
 export let options = {};
 
@@ -44,7 +44,7 @@ function autocompleteKeydown(e: KeyboardEvent) {
 
 function blur() {
     dispatch("blur");
-    if (viewValue !== (currentPlace && currentPlace[viewLabel])) {
+    if (viewValue !== (currentPlace && /*currentPlace[viewLabel]*/ search.value)) {
         clear();
     }
 }
@@ -64,7 +64,8 @@ function init() {
         const place = autocomplete.getPlace();
 
         if (place.geometry) {
-            viewValue = place[viewLabel];
+            // viewValue = place[viewLabel];
+            viewValue = search.value;
             value = viewValue;
             currentPlace = place;
             dispatch("placeChanged", {
