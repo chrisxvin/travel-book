@@ -1,13 +1,10 @@
 <script lang="ts">
 import { loadScriptAsync } from "$lib/utils";
 import { onMount, createEventDispatcher } from "svelte";
-import { writable } from "svelte/store";
+import { mapsLoaded, mapsLoading } from "./GoogleMapsStore";
 
 export let apiKey;
 export let version: "a" | "beta" | undefined = undefined;
-
-export const mapsLoaded = writable(false);
-export const mapsLoading = writable(false);
 
 const dispatch = createEventDispatcher();
 $: $mapsLoaded && dispatch("ready");
