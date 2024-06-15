@@ -32,8 +32,6 @@ function gma_PlaceChanged(e: CustomEvent) {
 }
 </script>
 
-<hr />
-
 <!--
 <div class="edit-btn-fix timeline-end">
     {#if isEditing}
@@ -75,5 +73,3 @@ function gma_PlaceChanged(e: CustomEvent) {
 <div class="timeline-end">
     <span class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</span>
 </div>
-
-<hr />

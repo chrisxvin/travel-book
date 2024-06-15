@@ -35,8 +35,6 @@ function btnSave_Click() {
 }
 </script>
 
-<hr />
-
 <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
 
 {#if isEditing}
@@ -114,8 +112,6 @@ function btnSave_Click() {
         </div>
     </div>
 </div>
-
-<hr />
 
 <style lang="less" scoped>
 .transport-content {

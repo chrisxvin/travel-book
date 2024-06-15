@@ -8,7 +8,6 @@ import type { PageData } from "./$types";
 // import { Card, Collapse } from "svelte-ux";
 import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
-import { ScheduleEntryEditor } from "$lib/components";
 import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
 

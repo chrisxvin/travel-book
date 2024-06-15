@@ -24,8 +24,6 @@ function btnSave_Click() {
 }
 </script>
 
-<hr />
-
 <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
 
 {#if isEditing}
@@ -46,5 +44,3 @@ function btnSave_Click() {
 <div class="timeline-end">
     <span>Activity: {item.activity}</span>
 </div>
-
-<hr />
