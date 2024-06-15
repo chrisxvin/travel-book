@@ -27,7 +27,7 @@
     }
 
     .bg-circle {
-        border: 1px solid #f0f0f0;      // debugging
+        border: 1px solid #f0f0f0; // debugging
         border-radius: 50%;
         background-color: white;
     }
@@ -37,7 +37,32 @@
     }
 
     .edit-btn-fix {
+        display: none;
         justify-self: end !important;
         z-index: 10;
+    }
+
+    .add-btn-fix {
+        display: none;
+        --font-size: 1.5rem;
+        font-size: var(--font-size);
+        margin-bottom: calc(-1 * var(--font-size));
+        align-self: end !important;
+        justify-self: center !important;
+        grid-column-start: 2;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        z-index: 5;
+    }
+
+    .timeline-item:hover {
+        .add-btn-fix {
+            display: flex;
+        }
+
+        .edit-btn-fix {
+            display: block;
+        }
     }
 }

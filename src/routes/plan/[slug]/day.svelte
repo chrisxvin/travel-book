@@ -19,7 +19,7 @@ export let timeline: TimelineItem[];
 
 <ul class="timeline timeline-vertical">
     {#each timeline as item, i}
-        <li class="border">
+        <li class="timeline-item border">
             {#if i !== 0}<hr />{/if}
 
             {#if item.kind === TimelineEntryKind.Place}
@@ -29,6 +29,10 @@ export let timeline: TimelineItem[];
             {:else if item.kind === TimelineEntryKind.Activity}
                 <Activity {item} />
             {/if}
+
+            <button class="btn btn-circle text-3xl add-btn-fix">
+                <span class="mdi mdi-plus"></span>
+            </button>
 
             {#if i !== timeline.length}<hr />{/if}
         </li>
