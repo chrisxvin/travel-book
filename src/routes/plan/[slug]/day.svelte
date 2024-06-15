@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { TimelineItem } from "$lib/types";
+import type { TimelineViewModel, } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 import { TimelineEntryKind } from "$lib/types";
@@ -7,13 +7,20 @@ import Place from "./place.svelte";
 import Transport from "./transport.svelte";
 import Activity from "./activity.svelte";
 
-export let timeline: TimelineItem[];
+export let timeline: TimelineViewModel[];
+
+function editItem(item: TimelineViewModel) {
+    item.isEditing = true;
+    timeline = timeline;
+    console.log("Edit", item);
+}
+
 </script>
 
 <ul class="timeline timeline-vertical">
     {#each timeline as item, i}
         <li class="border">
-            {#if i !== 0}<hr />{/if}
+            <!-- {#if i !== 0}<hr />{/if} -->
 
             {#if item.kind === TimelineEntryKind.Place}
                 <Place {item} />
@@ -55,15 +62,9 @@ export let timeline: TimelineItem[];
                 {/if}
             </div> -->
 
-            <button class="btn btn-xs edit-btn-fix timeline-end">Edit</button>
+            <!-- <button class="btn btn-xs edit-btn-fix timeline-end" on:click={() => editItem(item)}>Edit</button> -->
 
-            {#if i !== timeline.length}<hr />{/if}
+            <!-- {#if i !== timeline.length}<hr />{/if} -->
         </li>
     {/each}
 </ul>
-
-<style lang="less">
-.edit-btn-fix {
-    justify-self: end !important;
-}
-</style>

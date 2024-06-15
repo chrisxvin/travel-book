@@ -15,6 +15,13 @@
         align-self: start;
     }
 
+    .timeline-whole-row {
+        grid-row-start: 1;
+        grid-row-end: 4;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+
     :where(.timeline > li) {
         grid-template-columns: var(--timeline-col-start, minmax(0, 0.25fr)) auto var(--timeline-col-end, minmax(0, 1fr));
     }
@@ -27,5 +34,9 @@
 
     p {
         margin-top: 1rem;
+    }
+
+    .edit-btn-fix {
+        justify-self: end !important;
     }
 }
