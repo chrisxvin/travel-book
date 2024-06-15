@@ -3,6 +3,7 @@ import type { IPlace } from "$lib/types";
 
 import { GoogleMapsPlacesAutocomplete } from "$lib/components";
 import { GOOGLE_API_KEY } from "$lib/consts";
+import EditToggleButton from "./edit-toggle-button.svelte";
 
 export let item: IPlace;
 
@@ -34,14 +35,8 @@ function gma_PlaceChanged(e: CustomEvent) {
 {#if !isEditing}
     <hr />
 {/if}
-<!-- 
-<label class="edit-btn-fix swap timeline-end">
-    <input type="checkbox" bind:checked={isEditing} />
-    <span class="mdi mdi-close swap-on"></span>
-    <span class=" mdi mdi-pencil swap-off"></span>
-</label>
- -->
 
+<!--
 <div class="edit-btn-fix timeline-end">
     {#if isEditing}
         <button class="btn btn-xs" on:click={() => (isEditing = false)}>
@@ -53,9 +48,11 @@ function gma_PlaceChanged(e: CustomEvent) {
         </button>
     {/if}
 </div>
+-->
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={isEditing} />
 
 {#if isEditing}
-    <div class="timeline-whole-row card w-full bg-base-100 shadow-lg">
+    <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
         <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
         <div class="card-body">
             <!-- <h2 class="card-title">Place</h2> -->
