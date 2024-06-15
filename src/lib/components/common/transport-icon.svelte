@@ -1,5 +1,6 @@
 <script lang="ts">
 import { TransportType } from "$lib/types";
+import {MDIcon} from "./";
 
 export let type: TransportType = TransportType.Other;
 const map = {
@@ -16,3 +17,4 @@ const map = {
 </script>
 
 <span class={`mdi mdi-${map[type] ?? map[TransportType.Other]}`}></span>
+<!-- <MDIcon icon={map[type] ?? map[TransportType.Other]} /> -->

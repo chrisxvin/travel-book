@@ -9,6 +9,7 @@ import type { PageData } from "./$types";
 import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import { ScheduleEntryEditor } from "$lib/components";
+import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
 
 export let data: PageData;
@@ -54,11 +55,13 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         {/if}
     {/each}
 
-    <div class="container">
+    <!-- <div class="container">
         <button on:click={handleBtnAddClick}>Add</button>
 
         {#if showEditor}
             <ScheduleEntryEditor index={editingIndex} entry={editingEntry} />
         {/if}
-    </div>
+    </div> -->
 </section>
+
+<AddNewItem />

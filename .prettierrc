@@ -9,7 +9,7 @@
     "tabWidth": 4,
     "singleQuote": false,
     "trailingComma": "all",
-    "printWidth": 150,
+    "printWidth": 750,
     "plugins": [
         "prettier-plugin-multiline-arrays",
         "prettier-plugin-svelte",

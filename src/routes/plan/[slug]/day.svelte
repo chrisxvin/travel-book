@@ -55,7 +55,15 @@ export let timeline: TimelineItem[];
                 {/if}
             </div> -->
 
+            <button class="btn btn-xs edit-btn-fix timeline-end">Edit</button>
+
             {#if i !== timeline.length}<hr />{/if}
         </li>
     {/each}
 </ul>
+
+<style lang="less">
+.edit-btn-fix {
+    justify-self: end !important;
+}
+</style>
