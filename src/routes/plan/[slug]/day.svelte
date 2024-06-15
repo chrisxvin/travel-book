@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { TimelineViewModel, } from "$lib/types";
+import type { TimelineViewModel, TimelineItem } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 import { TimelineEntryKind } from "$lib/types";
@@ -7,13 +7,13 @@ import Place from "./place.svelte";
 import Transport from "./transport.svelte";
 import Activity from "./activity.svelte";
 
-export let timeline: TimelineViewModel[];
+export let timeline: TimelineItem[];
 
-function editItem(item: TimelineViewModel) {
-    item.isEditing = true;
-    timeline = timeline;
-    console.log("Edit", item);
-}
+// function editItem(item: TimelineViewModel) {
+//     item.isEditing = true;
+//     timeline = timeline;
+//     console.log("Edit", item);
+// }
 
 </script>
 
