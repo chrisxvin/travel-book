@@ -32,9 +32,7 @@ function gma_PlaceChanged(e: CustomEvent) {
 }
 </script>
 
-{#if !isEditing}
-    <hr />
-{/if}
+<hr />
 
 <!--
 <div class="edit-btn-fix timeline-end">
@@ -49,7 +47,7 @@ function gma_PlaceChanged(e: CustomEvent) {
     {/if}
 </div>
 -->
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={isEditing} />
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
 
 {#if isEditing}
     <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
@@ -58,26 +56,24 @@ function gma_PlaceChanged(e: CustomEvent) {
             <!-- <h2 class="card-title">Place</h2> -->
 
             <div class="join">
-                <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} />
-                <!-- <input class="input input-bordered join-item" placeholder="Search"/> -->
-                <!-- <input type="text" class="grow" placeholder="Search" /> -->
+                <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
+                <input class="input join-item input-bordered w-1/3" placeholder="City" bind:value={editingItem.city} />
+                <input class="input join-item input-bordered w-1/2" placeholder="Place" bind:value={editingItem.place} />
 
                 <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
             </div>
         </div>
     </div>
-{:else}
-    <!-- 图标 -->
-    <div class="bg-circle timeline-middle">
-        <span class="mdi mdi-map-marker text-lg"></span>
-    </div>
-
-    <!-- 城市和地点 -->
-    <div class="timeline-end">
-        <span class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</span>
-    </div>
 {/if}
 
-{#if !isEditing}
-    <hr />
-{/if}
+<!-- 图标 -->
+<div class="bg-circle timeline-middle">
+    <span class="mdi mdi-map-marker text-lg"></span>
+</div>
+
+<!-- 城市和地点 -->
+<div class="timeline-end">
+    <span class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</span>
+</div>
+
+<hr />

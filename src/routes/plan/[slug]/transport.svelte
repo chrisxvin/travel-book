@@ -1,8 +1,9 @@
 <script lang="ts">
-import type { ITransport, ITransportViewModel } from "$lib/types";
+import { TransportType, type ITransport, type ITransportViewModel } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 import EditToggleButton from "./edit-toggle-button.svelte";
+import config from "$lib/utils/config";
 
 export let item: ITransport;
 
@@ -15,6 +16,8 @@ const format = new Intl.NumberFormat("zh-CN", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
 });
+
+const transTypes = Object.keys(TransportType);
 
 function btnEdit_Click() {
     editingItem = {
@@ -32,49 +35,87 @@ function btnSave_Click() {
 }
 </script>
 
-{#if !isEditing}
-    <hr />
-{/if}
+<hr />
 
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={isEditing}   />
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
 
 {#if isEditing}
-<div class="timeline-whole-row card w-full bg-base-100 shadow-md">
-    <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
-    <div class="card-body">
-        <!-- <h2 class="card-title">Place</h2> -->
+    <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
+        <div class="card-body">
+            <!-- <h2 class="card-title">Place</h2> -->
 
-        <div class="join">
-            <input class="input input-bordered join-item" placeholder="Search"/>
-            <!-- <input type="text" class="grow" placeholder="Search" /> -->
+            Leave:
+            <div class="join">
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <span class="mdi mdi-map-marker"></span>
+                    <input type="text" class="grow" placeholder="From" bind:value={editingItem.leaveFrom} />
+                </label>
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <input type="time" class="grow" placeholder="At" bind:value={editingItem.leaveAt} />
+                </label>
+            </div>
 
-            <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
+            Arrive:
+            <div class="join">
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <span class="mdi mdi-map-marker"></span>
+                    <input type="text" class="grow" placeholder="To" bind:value={editingItem.arriveTo} />
+                </label>
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <input type="time" class="grow" placeholder="At" bind:value={editingItem.arriveAt} />
+                </label>
+            </div>
+
+            Travel By:
+            <div class="join">
+                <select class="join-item select select-bordered max-w-xs" bind:value={editingItem.travelBy}>
+                    {#each transTypes as type}
+                        <option>{type}</option>
+                    {/each}
+                </select>
+
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <input type="text" class="grow" placeholder="Service Id" bind:value={editingItem.serviceId} />
+                </label>
+            </div>
+
+            Price:
+            <div class="join">
+                <select class="join-item select select-bordered max-w-xs" bind:value={editingItem.currency}>
+                    {#each config.currencies as c}
+                        <option>{c}</option>
+                    {/each}
+                </select>
+
+                <label class="input join-item input-bordered flex items-center gap-2">
+                    <input type="number" class="grow" placeholder="Price" bind:value={editingItem.price} />
+                </label>
+            </div>
+
+            <button class="btn w-24" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
+        </div>
+    </div>
+{/if}
+
+<div class="timeline-start">
+    <!-- todo: 给 ITimelineEntry 加上时间属性，代替 leaveAt -->
+    <span>{item.leaveAt ?? ""}</span>
+</div>
+
+<div class="bg-circle timeline-middle">
+    <TransportIcon type={item.travelBy} />
+</div>
+
+<div class="timeline-end">
+    <div>
+        <span>{item.leaveFrom}</span>
+        <div class="transport-content">
+            {item.serviceId}{item.price ? ", " + format.format(item.price ?? 0) : ""}
         </div>
     </div>
 </div>
-{:else}
-    <div class="timeline-start">
-        <!-- todo: 给 ITimelineEntry 加上时间属性，代替 leaveAt -->
-        <span>{item.leaveAt ?? ""}</span>
-    </div>
 
-    <div class="bg-circle timeline-middle">
-        <TransportIcon type={item.travelBy} />
-    </div>
-
-    <div class="timeline-end">
-        <div>
-            <span>{item.leaveFrom}</span>
-            <div class="transport-content">
-                {item.serviceId}{item.price ? ", " + format.format(item.price ?? 0) : ""}
-            </div>
-        </div>
-    </div>
-{/if}
-
-{#if !isEditing}
-    <hr />
-{/if}
+<hr />
 
 <style lang="less" scoped>
 .transport-content {

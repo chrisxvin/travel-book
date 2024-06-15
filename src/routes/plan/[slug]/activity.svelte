@@ -1,24 +1,50 @@
 <script lang="ts">
 import type { IActivity, IActivityViewModel } from "$lib/types";
 
-export let item: IActivityViewModel;
+import EditToggleButton from "./edit-toggle-button.svelte";
+
+export let item: IActivity;
+
+let editingItem: IActivity;
+let isEditing = false;
+
+function btnEdit_Click() {
+    editingItem = {
+        ...item,
+    };
+    isEditing = true;
+}
+
+function btnSave_Click() {
+    console.log("Saving place", editingItem);
+    item = {
+        ...editingItem,
+    };
+    isEditing = false;
+}
 </script>
 
-{#if item.isEditing}
-    <p>is editing</p>
-{:else}
-    <hr />
-    <div class="bg-circle timeline-middle">
-        <span class="mdi mdi-check-circle"></span>
-        <!--
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-    </svg>
-    -->
-    </div>
+<hr />
 
-    <div class="timeline-end">
-        <span>Activity: {item.activity}</span>
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
+
+{#if isEditing}
+    <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
+        <div class="card-body">
+            <!-- <h2 class="card-title">Place</h2> -->
+
+            <textarea class="textarea textarea-bordered" placeholder="Activity" bind:value={editingItem.activity}></textarea>
+            <button class="btn w-24" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
+        </div>
     </div>
-    <hr />
 {/if}
+
+<div class="bg-circle timeline-middle">
+    <span class="mdi mdi-check-circle"></span>
+</div>
+
+<div class="timeline-end">
+    <span>Activity: {item.activity}</span>
+</div>
+
+<hr />
