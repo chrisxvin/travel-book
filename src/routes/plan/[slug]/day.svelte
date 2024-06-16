@@ -1,24 +1,36 @@
 <script lang="ts">
-import type { TimelineViewModel, TimelineItem } from "$lib/types";
+import type { TimelineViewModel, TimelineItem, ITimelineEntry } from "$lib/types";
 
-import { TimelineEntryKind } from "$lib/types";
+import { TimelineEntryKind, TransportType } from "$lib/types";
 import Place from "./place.svelte";
 import Transport from "./transport.svelte";
 import Activity from "./activity.svelte";
 import AddNewItem from "./add-new-item.svelte";
+import type { AddNewItemEventArgs } from "./types";
 
-export let timeline: TimelineItem[];
+export let timeline: TimelineViewModel[];
 
 // function editItem(item: TimelineViewModel) {
 //     item.isEditing = true;
 //     timeline = timeline;
 //     console.log("Edit", item);
 // }
-function doAddNewItem(e: CustomEvent<TimelineEntryKind>, index: number) {
-    log(e, index);
-    timeline.splice(index + 1, 0, {
-        kind: e.detail,
-    } as any);
+function doAddNewItem(e: CustomEvent<AddNewItemEventArgs>) {
+    log(e);
+    const kind = e.detail.kind;
+    const newItem = {
+        kind: kind,
+        isEditing: true,
+        // prettier-ignore
+        ...(
+            kind === TimelineEntryKind.Place ? { city: "NEW CITY", } :
+            kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Walk, currency: "GBP", } :
+            kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
+            {}
+        ),
+    } as TimelineViewModel;
+
+    timeline.splice(e.detail.index + 1, 0, newItem);
     timeline = timeline;
 }
 </script>
@@ -37,7 +49,7 @@ function doAddNewItem(e: CustomEvent<TimelineEntryKind>, index: number) {
             {/if}
 
             <!-- TODO: 这个添加按钮，能否做成单独的，根据 hover 的 item 来显示 -->
-            <AddNewItem on:add={e => doAddNewItem(e, i)} />
+            <AddNewItem index={i} on:add={doAddNewItem} />
             <!--
             <button class="btn btn-circle text-3xl add-btn-fix">
                 <span class="mdi mdi-plus"></span>

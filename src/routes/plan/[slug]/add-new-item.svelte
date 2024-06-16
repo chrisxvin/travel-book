@@ -1,9 +1,15 @@
 <script lang="ts">
+import type { AddNewItemEventArgs } from "./types";
+
 import { pascalCase } from "change-case";
 import { TimelineEntryKind } from "$lib/types";
 import { createEventDispatcher } from "svelte";
 
-const dispatch = createEventDispatcher();
+export let index = 0;
+
+const dispatch = createEventDispatcher<{
+    "add": AddNewItemEventArgs,
+}>();
 let isOpen = false;
 
 const items = [
@@ -21,8 +27,11 @@ const items = [
     },
 ];
 
-function doAdd(type: TimelineEntryKind) {
-    dispatch("add", type);
+function doAdd(kind: TimelineEntryKind) {
+    dispatch("add", {
+        kind,
+        index,
+    });
     isOpen = false;
     // TODO: 下次再打开菜单，会看到状态变化动画
 }

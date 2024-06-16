@@ -3,16 +3,17 @@ import type { IActivity, IActivityViewModel } from "$lib/types";
 
 import EditToggleButton from "./edit-toggle-button.svelte";
 
-export let item: IActivity;
+export let item: IActivityViewModel;
 
-let editingItem: IActivity;
-let isEditing = false;
+let editingItem: IActivityViewModel;
+
+if (item.isEditing) editingItem = { ...item };
 
 function btnEdit_Click() {
     editingItem = {
         ...item,
     };
-    isEditing = true;
+    item.isEditing = true;
 }
 
 function btnSave_Click() {
@@ -20,13 +21,13 @@ function btnSave_Click() {
     item = {
         ...editingItem,
     };
-    isEditing = false;
+    item.isEditing = false;
 }
 </script>
 
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
 
-{#if isEditing}
+{#if item.isEditing}
     <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
         <div class="card-body">
             <!-- <h2 class="card-title">Place</h2> -->

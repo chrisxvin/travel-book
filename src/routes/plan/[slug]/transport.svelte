@@ -5,10 +5,11 @@ import { TransportIcon } from "$lib/components";
 import EditToggleButton from "./edit-toggle-button.svelte";
 import config from "$lib/utils/config";
 
-export let item: ITransport;
+export let item: ITransportViewModel;
 
-let editingItem: ITransport;
-let isEditing = false;
+let editingItem: ITransportViewModel;
+
+if (item.isEditing) editingItem = { ...item };
 
 const format = new Intl.NumberFormat("zh-CN", {
     style: "currency",
@@ -23,21 +24,21 @@ function btnEdit_Click() {
     editingItem = {
         ...item,
     };
-    isEditing = true;
+    item.isEditing = true;
 }
 
 function btnSave_Click() {
-    console.log("Saving place", editingItem);
+    console.log("Saving transport", editingItem);
     item = {
         ...editingItem,
     };
-    isEditing = false;
+    item.isEditing = false;
 }
 </script>
 
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
 
-{#if isEditing}
+{#if item.isEditing}
     <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
         <div class="card-body">
             <!-- <h2 class="card-title">Place</h2> -->
@@ -110,6 +111,6 @@ function btnSave_Click() {
 
 <div class="timeline-end">
     <p class="">{item.leaveFrom}</p>
-    <p class="text-sm leading-8">{item.serviceId}{item.price ? ", " + format.format(item.price ?? 0) : ""}</p>
+    <p class="text-sm leading-8">{item.serviceId}{item.price ? ", " + format.format(item.price) : ""}</p>
     <p class="text-sm text-slate-400">{item.arriveTo ?? ""}</p>
 </div>

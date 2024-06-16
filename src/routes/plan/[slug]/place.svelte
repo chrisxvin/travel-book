@@ -1,20 +1,22 @@
 <script lang="ts">
-import type { IPlace } from "$lib/types";
+import type { IPlace, IPlaceViewModel } from "$lib/types";
 
 import { GoogleMapsPlacesAutocomplete } from "$lib/components";
 import { GOOGLE_API_KEY } from "$lib/consts";
 import EditToggleButton from "./edit-toggle-button.svelte";
 
-export let item: IPlace;
+export let item: IPlaceViewModel;
 
-let editingItem: IPlace;
-let isEditing = false;
+let editingItem: IPlaceViewModel;
+
+// 如果传入的 item 正在编辑状态，那么拷贝一份到 editingItem
+if (item.isEditing) editingItem = { ...item };
 
 function btnEdit_Click() {
     editingItem = {
         ...item,
     };
-    isEditing = true;
+    item.isEditing = true;
 }
 
 function btnSave_Click() {
@@ -22,7 +24,7 @@ function btnSave_Click() {
     item = {
         ...editingItem,
     };
-    isEditing = false;
+    item.isEditing = false;
 }
 
 function gma_PlaceChanged(e: CustomEvent) {
@@ -45,9 +47,9 @@ function gma_PlaceChanged(e: CustomEvent) {
     {/if}
 </div>
 -->
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing />
+<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
 
-{#if isEditing}
+{#if item.isEditing}
     <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
         <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
         <div class="card-body">
