@@ -2,13 +2,20 @@
 import type { TimelineViewModel, TimelineItem, ITimelineEntry } from "$lib/types";
 
 import { TimelineEntryKind, TransportType } from "$lib/types";
-import Place from "./place.svelte";
-import Transport from "./transport.svelte";
-import Activity from "./activity.svelte";
+import ShowPlace from "./show-place.svelte";
+import ShowTransport from "./show-transport.svelte";
+import ShowActivity from "./show-activity.svelte";
 import AddNewItem from "./add-new-item.svelte";
 import type { AddNewItemEventArgs } from "./types";
 
 export let timeline: TimelineViewModel[];
+
+const displayComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
+    [TimelineEntryKind.Unknown]:ShowPlace,
+    [TimelineEntryKind.Place]: ShowPlace,
+    [TimelineEntryKind.Transport]: ShowTransport,
+    [TimelineEntryKind.Activity]: ShowActivity,
+}
 
 // function editItem(item: TimelineViewModel) {
 //     item.isEditing = true;
@@ -40,12 +47,14 @@ function doAddNewItem(e: CustomEvent<AddNewItemEventArgs>) {
         <li class="timeline-item border">
             {#if i !== 0}<hr />{/if}
 
+            <!-- <svelte:component this={displayComps[item.kind]} {item} /> -->
+
             {#if item.kind === TimelineEntryKind.Place}
-                <Place {item} />
+                <ShowPlace {item} />
             {:else if item.kind === TimelineEntryKind.Transport}
-                <Transport {item} />
+                <ShowTransport {item} />
             {:else if item.kind === TimelineEntryKind.Activity}
-                <Activity {item} />
+                <ShowActivity {item} />
             {/if}
 
             <!-- TODO: 这个添加按钮，能否做成单独的，根据 hover 的 item 来显示 -->
