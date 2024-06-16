@@ -1,9 +1,7 @@
 <script lang="ts">
 import { pascalCase } from "change-case";
-import { TimelineEntryKind, type ITimelineEntry, type ITransport, type TimelineItem } from "$lib/types";
-import { createEventDispatcher, tick } from "svelte";
-
-export let index = 0;
+import { TimelineEntryKind } from "$lib/types";
+import { createEventDispatcher } from "svelte";
 
 const dispatch = createEventDispatcher();
 let isOpen = false;
@@ -12,18 +10,14 @@ const items = [
     {
         type: TimelineEntryKind.Place,
         caption: pascalCase(TimelineEntryKind.Place),
-        // component: EditPlace,
-        onClick: () => {},
     },
     {
         type: TimelineEntryKind.Transport,
         caption: pascalCase(TimelineEntryKind.Transport),
-        onClick: () => {},
     },
     {
         type: TimelineEntryKind.Activity,
         caption: pascalCase(TimelineEntryKind.Activity),
-        onClick: () => {},
     },
 ];
 

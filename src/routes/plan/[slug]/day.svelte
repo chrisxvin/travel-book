@@ -14,8 +14,12 @@ export let timeline: TimelineItem[];
 //     timeline = timeline;
 //     console.log("Edit", item);
 // }
-function doAddNewItem(e: CustomEvent<TimelineEntryKind>) {
-    console.log(e);
+function doAddNewItem(e: CustomEvent<TimelineEntryKind>, index: number) {
+    log(e, index);
+    timeline.splice(index + 1, 0, {
+        kind: e.detail,
+    } as any);
+    timeline = timeline;
 }
 </script>
 
@@ -33,7 +37,7 @@ function doAddNewItem(e: CustomEvent<TimelineEntryKind>) {
             {/if}
 
             <!-- TODO: 这个添加按钮，能否做成单独的，根据 hover 的 item 来显示 -->
-            <AddNewItem index={i} on:add={doAddNewItem} />
+            <AddNewItem on:add={e => doAddNewItem(e, i)} />
             <!--
             <button class="btn btn-circle text-3xl add-btn-fix">
                 <span class="mdi mdi-plus"></span>
