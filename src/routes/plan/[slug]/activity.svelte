@@ -37,7 +37,7 @@ function btnSave_Click() {
     </div>
 {/if}
 
-<div class="bg-circle timeline-middle">
+<div class="timeline-middle">
     <span class="mdi mdi-check-circle"></span>
 </div>
 

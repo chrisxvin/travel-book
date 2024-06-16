@@ -95,26 +95,21 @@ function btnSave_Click() {
     </div>
 {/if}
 
-<div class="timeline-start">
+<div class="timeline-start text-right">
     <!-- todo: 给 ITimelineEntry 加上时间属性，代替 leaveAt -->
-    <span>{item.leaveAt ?? ""}</span>
+    <p class="">{item.leaveAt ?? ""}</p>
+    <p class="text-sm leading-8">&nbsp;</p>
+    <p class="text-sm text-slate-300">{item.arriveAt ?? ""}</p>
 </div>
 
-<div class="bg-circle timeline-middle">
-    <TransportIcon type={item.travelBy} />
-</div>
-
-<div class="timeline-end">
+<div class="timeline-middle">
     <div>
-        <span>{item.leaveFrom}</span>
-        <div class="transport-content">
-            {item.serviceId}{item.price ? ", " + format.format(item.price ?? 0) : ""}
-        </div>
+        <TransportIcon type={item.travelBy} />
     </div>
 </div>
 
-<style lang="less" scoped>
-.transport-content {
-    padding: 1em 0;
-}
-</style>
+<div class="timeline-end">
+    <p class="">{item.leaveFrom}</p>
+    <p class="text-sm leading-8">{item.serviceId}{item.price ? ", " + format.format(item.price ?? 0) : ""}</p>
+    <p class="text-sm text-slate-400">{item.arriveTo ?? ""}</p>
+</div>

@@ -32,10 +32,6 @@
         background-color: white;
     }
 
-    p {
-        margin-top: 1rem;
-    }
-
     .edit-btn-fix {
         display: none;
         justify-self: end !important;
@@ -54,6 +50,22 @@
         grid-row-start: 1;
         grid-row-end: 4;
         z-index: 5;
+    }
+
+    .timeline-item {
+        .timeline-start, .timeline-middle, .timeline-end {
+            :first-child {
+                margin-top: 0.5em;
+            }
+
+            :not(:first-child):not(:last-child) {
+                line-height: 3em;
+            }
+
+            :last-child {
+                margin-bottom: 0.5em;
+            }
+        }
     }
 
     .timeline-item:hover {

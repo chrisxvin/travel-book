@@ -65,11 +65,13 @@ function gma_PlaceChanged(e: CustomEvent) {
 {/if}
 
 <!-- 图标 -->
-<div class="bg-circle timeline-middle">
-    <span class="mdi mdi-map-marker text-lg"></span>
+<div class="timeline-middle">
+    <p>
+        <span class="mdi mdi-map-marker text-lg"></span>
+    </p>
 </div>
 
 <!-- 城市和地点 -->
 <div class="timeline-end">
-    <span class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</span>
+    <p class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</p>
 </div>
