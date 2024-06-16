@@ -19,6 +19,14 @@ function btnEdit_Click() {
     item.isEditing = true;
 }
 
+function btnSave_Click() {
+    console.log("Saving place", editingItem);
+    item = {
+        ...editingItem,
+    };
+    item.isEditing = false;
+}
+
 function gma_PlaceChanged(e: CustomEvent) {
     console.log(e);
     // transport && (transport.leaveFrom = e.detail.selectedPrediction);
@@ -40,6 +48,23 @@ function gma_PlaceChanged(e: CustomEvent) {
 </div>
 -->
 <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
+
+{#if item.isEditing}
+    <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
+        <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
+        <div class="card-body">
+            <!-- <h2 class="card-title">Place</h2> -->
+
+            <div class="join">
+                <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
+                <input class="input join-item input-bordered w-1/3" placeholder="City" bind:value={editingItem.city} />
+                <input class="input join-item input-bordered w-1/2" placeholder="Place" bind:value={editingItem.place} />
+
+                <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
+            </div>
+        </div>
+    </div>
+{/if}
 
 <!-- 图标 -->
 <div class="timeline-middle">
