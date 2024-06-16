@@ -62,5 +62,3 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         {/if}
     </div> -->
 </section>
-
-<AddNewItem />

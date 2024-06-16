@@ -1,11 +1,11 @@
 <script lang="ts">
 import type { TimelineViewModel, TimelineItem } from "$lib/types";
 
-import { TransportIcon } from "$lib/components";
 import { TimelineEntryKind } from "$lib/types";
 import Place from "./place.svelte";
 import Transport from "./transport.svelte";
 import Activity from "./activity.svelte";
+import AddNewItem from "./add-new-item.svelte";
 
 export let timeline: TimelineItem[];
 
@@ -14,7 +14,9 @@ export let timeline: TimelineItem[];
 //     timeline = timeline;
 //     console.log("Edit", item);
 // }
-
+function doAddNewItem(e: CustomEvent<TimelineEntryKind>) {
+    console.log(e);
+}
 </script>
 
 <ul class="timeline timeline-vertical">
@@ -30,9 +32,13 @@ export let timeline: TimelineItem[];
                 <Activity {item} />
             {/if}
 
+            <!-- TODO: 这个添加按钮，能否做成单独的，根据 hover 的 item 来显示 -->
+            <AddNewItem index={i} on:add={doAddNewItem} />
+            <!--
             <button class="btn btn-circle text-3xl add-btn-fix">
                 <span class="mdi mdi-plus"></span>
             </button>
+            -->
 
             {#if i !== timeline.length}<hr />{/if}
         </li>
