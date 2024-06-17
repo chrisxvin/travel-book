@@ -26,7 +26,7 @@ function btnEdit_Click() {
 
 </script>
 
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
+<!-- <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} /> -->
 
 <div class="timeline-start text-right">
     <!-- todo: 给 ITimelineEntry 加上时间属性，代替 leaveAt -->

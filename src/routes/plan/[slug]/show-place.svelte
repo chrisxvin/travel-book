@@ -39,7 +39,7 @@ function gma_PlaceChanged(e: CustomEvent) {
     {/if}
 </div>
 -->
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
+<!-- <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} /> -->
 
 <!-- 图标 -->
 <div class="timeline-middle">

@@ -18,7 +18,7 @@ function btnEdit_Click() {
 
 </script>
 
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
+<!-- <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} /> -->
 
 <div class="timeline-middle">
     <span class="mdi mdi-check-circle"></span>

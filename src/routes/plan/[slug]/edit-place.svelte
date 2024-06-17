@@ -5,32 +5,20 @@ import { GoogleMapsPlacesAutocomplete } from "$lib/components";
 import { GOOGLE_API_KEY } from "$lib/consts";
 import EditToggleButton from "./edit-toggle-button.svelte";
 
-export let item: IPlaceViewModel;
-
-let editingItem: IPlaceViewModel;
-
-// 如果传入的 item 正在编辑状态，那么拷贝一份到 editingItem
-if (item.isEditing) editingItem = { ...item };
-
-function btnEdit_Click() {
-    editingItem = {
-        ...item,
-    };
-    item.isEditing = true;
-}
+export let item: IPlace;
 
 function btnSave_Click() {
-    console.log("Saving place", editingItem);
-    item = {
-        ...editingItem,
-    };
-    item.isEditing = false;
+    // console.log("Saving place", editingItem);
+    // item = {
+    //     ...editingItem,
+    // };
+    // item.isEditing = false;
 }
 
 function gma_PlaceChanged(e: CustomEvent) {
     console.log(e);
     // transport && (transport.leaveFrom = e.detail.selectedPrediction);
-    editingItem.place = e.detail.selectedPrediction;
+    item.place = e.detail.selectedPrediction;
 }
 </script>
 
@@ -47,33 +35,19 @@ function gma_PlaceChanged(e: CustomEvent) {
     {/if}
 </div>
 -->
-<EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} />
+<!-- <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} /> -->
 
-{#if item.isEditing}
-    <div class="timeline-whole-row card w-full bg-base-100 shadow-md">
-        <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
-        <div class="card-body">
-            <!-- <h2 class="card-title">Place</h2> -->
+<div class="timeline-whole-row card w-full bg-base-100 shadow-md">
+    <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
+    <div class="card-body">
+        <!-- <h2 class="card-title">Place</h2> -->
 
-            <div class="join">
-                <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
-                <input class="input join-item input-bordered w-1/3" placeholder="City" bind:value={editingItem.city} />
-                <input class="input join-item input-bordered w-1/2" placeholder="Place" bind:value={editingItem.place} />
+        <div class="join">
+            <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
+            <input class="input join-item input-bordered w-1/3" placeholder="City" bind:value={item.city} />
+            <input class="input join-item input-bordered w-1/2" placeholder="Place" bind:value={item.place} />
 
-                <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
-            </div>
+            <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
         </div>
     </div>
-{/if}
-
-<!-- 图标 -->
-<div class="timeline-middle">
-    <p>
-        <span class="mdi mdi-map-marker text-lg"></span>
-    </p>
-</div>
-
-<!-- 城市和地点 -->
-<div class="timeline-end">
-    <p class="text-lg">{item.city}{item.place == null ? "" : ", " + item.place}</p>
 </div>
