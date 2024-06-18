@@ -1,19 +1,10 @@
 <script lang="ts">
-import type { IPlace, IPlaceViewModel } from "$lib/types";
+import type { IPlace } from "$lib/types";
 
 import { GoogleMapsPlacesAutocomplete } from "$lib/components";
 import { GOOGLE_API_KEY } from "$lib/consts";
-import EditToggleButton from "./edit-toggle-button.svelte";
 
 export let item: IPlace;
-
-function btnSave_Click() {
-    // console.log("Saving place", editingItem);
-    // item = {
-    //     ...editingItem,
-    // };
-    // item.isEditing = false;
-}
 
 function gma_PlaceChanged(e: CustomEvent) {
     console.log(e);
@@ -22,32 +13,16 @@ function gma_PlaceChanged(e: CustomEvent) {
 }
 </script>
 
-<!--
-<div class="edit-btn-fix timeline-end">
-    {#if isEditing}
-        <button class="btn btn-xs" on:click={() => (isEditing = false)}>
-            <span class="mdi mdi-close"></span>
-        </button>
-    {:else}
-        <button class="btn btn-xs" on:click={btnEdit_Click}>
-            <span class="mdi mdi-pencil"></span>
-        </button>
-    {/if}
-</div>
--->
-<!-- <EditToggleButton on:prepare={btnEdit_Click} bind:isEditing={item.isEditing} /> -->
-
-<div class="timeline-whole-row card w-full bg-base-100 shadow-md">
-    <!-- <figure><img src="/images/Palace_of_Westminster_from_the_dome_on_Methodist_Central_Hall_%28cropped%29.jpg" alt="Place" /></figure> -->
-    <div class="card-body">
-        <!-- <h2 class="card-title">Place</h2> -->
-
-        <div class="join">
-            <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
-            <input class="input join-item input-bordered w-1/3" placeholder="City" bind:value={item.city} />
-            <input class="input join-item input-bordered w-1/2" placeholder="Place" bind:value={item.place} />
-
-            <button class="btn join-item" on:click={btnSave_Click}><span class="mdi mdi-check"></span></button>
-        </div>
-    </div>
+<div class="w-full bg-base-100">
+    <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" on:placeChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
+    &nbsp;
+    <label class="input input-bordered flex items-center gap-2">
+        <span class="mdi mdi-city join-item"></span>
+        <input type="text" class="grow" placeholder="City" bind:value={item.city} />
+    </label>
+    &nbsp;
+    <label class="input input-bordered flex items-center gap-2">
+        <span class="mdi mdi-map-marker"></span>
+        <input type="text" class="grow" placeholder="Place" bind:value={item.place} />
+    </label>
 </div>
