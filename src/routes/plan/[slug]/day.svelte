@@ -15,14 +15,17 @@ import { EditMode } from "./types";
 import { tracking } from "./stores";
 import { stringToTime } from "$lib/utils";
 
-export let date: string;
-export let timeline: TimelineItem[];
+interface IProps {
+    date: string;
+    timeline: TimelineItem[];
+}
+let { date, timeline }: IProps = $props();
 
 const dateObj = DateTime.fromFormat(date, "yyyy-MM-dd");
 let editMode: EditMode = EditMode.None;
-let editingItem: TimelineItem | undefined;
+let editingItem: TimelineItem | undefined = $state();
 let editingIndex = -1;
-let editingType: TimelineEntryKind = TimelineEntryKind.Unknown;
+let editingType: TimelineEntryKind = $state(TimelineEntryKind.Unknown);
 let dlgEdit: HTMLDialogElement;
 
 const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
@@ -35,16 +38,16 @@ const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> =
 function EditItem(index: number, item: TimelineItem) {
     editingType = item.kind;
     editingIndex = index;
-    editingItem = {...item};
+    editingItem = { ...item };
     editMode = EditMode.Edit;
     dlgEdit.showModal();
 }
 
-function btnAddNewItem_Click(e: CustomEvent<AddNewItemEventArgs>) {
-    // log(e);
+function btnAddNewItem_Click(args: AddNewItemEventArgs) {
+    // log(args);
     editMode = EditMode.Add;
-    editingIndex = e.detail.index;
-    editingType = e.detail.kind;
+    editingIndex = args.index;
+    editingType = args.kind;
     editingItem = {
         kind: editingType,
         // isEditing: true,
@@ -108,11 +111,11 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
             {/if}
 
             <!-- TODO: 这个编辑和下面的添加按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
-            <button class="btn btn-xs edit-btn-fix timeline-end" on:click={() => EditItem(i, item)}>
+            <button class="edit-btn-fix btn timeline-end btn-xs" onclick={() => EditItem(i, item)}>
                 <span class="mdi mdi-pencil"></span>
             </button>
 
-            <AddNewItem index={i} on:add={btnAddNewItem_Click} />
+            <AddNewItem index={i} add={btnAddNewItem_Click} />
 
             {#if i !== timeline.length}<hr />{/if}
         </li>
@@ -130,8 +133,8 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
         {/if}
 
         <div class="modal-action">
-            <button class="btn" on:click={btnEditSave_Click}>Save</button>
-            <button class="btn" on:click={btnEditCancel_Click}>Cancel</button>
+            <button class="btn" onclick={btnEditSave_Click}>Save</button>
+            <button class="btn" onclick={btnEditCancel_Click}>Cancel</button>
         </div>
     </div>
 </dialog>

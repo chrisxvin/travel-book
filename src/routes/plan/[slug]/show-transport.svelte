@@ -3,9 +3,12 @@ import type { ITransport } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 
-export let item: ITransport;
+interface IProps {
+    item: ITransport;
+}
+let { item }: IProps = $props();
 
-$: format = new Intl.NumberFormat("zh-CN", {
+let format = new Intl.NumberFormat("zh-CN", {
     style: "currency",
     currency: item.currency,
     minimumFractionDigits: 2,

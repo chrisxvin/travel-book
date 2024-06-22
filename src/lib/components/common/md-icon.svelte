@@ -1,7 +1,10 @@
-<script>
-export let className = "";
-export let icon = "emoticon-wink-outline";
-export let square = true;
+<script lang="ts">
+interface IProps {
+    className: string;
+    icon: string;
+    square: boolean;
+}
+let { className = "", icon = "emoticon-wink-outline", square = true }: IProps = $props();
 </script>
 
 <div class={className} class:md-icon-square={square}>

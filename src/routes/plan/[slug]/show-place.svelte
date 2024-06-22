@@ -1,8 +1,10 @@
 <script lang="ts">
 import type { IPlace } from "$lib/types";
 
-export let item: IPlace;
-
+interface IProps {
+    item: IPlace;
+}
+let { item }: IProps = $props();
 </script>
 
 <!-- 图标 -->

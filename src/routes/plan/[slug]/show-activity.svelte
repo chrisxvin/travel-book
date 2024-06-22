@@ -1,8 +1,10 @@
 <script lang="ts">
 import type { IActivity } from "$lib/types";
 
-export let item: IActivity;
-
+interface IProps {
+    item: IActivity;
+}
+let { item }: IProps = $props();
 </script>
 
 <div class="timeline-middle">

@@ -5,6 +5,7 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 const config = {
     compilerOptions: {
         dev: true,
+        runes: true,
     },
 
     // Consult https://kit.svelte.dev/docs/integrations#preprocessors

@@ -6,10 +6,13 @@ import { TransportType } from "$lib/types";
 import { TransportIconMap } from "$lib/utils";
 import config from "$lib/utils/config";
 
-export let item: ITransport;
+interface IProps {
+    item: ITransport;
+}
+let { item }: IProps = $props();
 
 const transTypes = Object.keys(TransportIconMap) as TransportType[];
-log(transTypes)
+log(transTypes);
 </script>
 
 Leave:

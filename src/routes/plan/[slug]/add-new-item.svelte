@@ -3,14 +3,14 @@ import type { AddNewItemEventArgs } from "./types";
 
 import { pascalCase } from "change-case";
 import { TimelineEntryKind } from "$lib/types";
-import { createEventDispatcher } from "svelte";
 
-export let index = 0;
+interface IProps {
+    index: number;
+    add: Action1<AddNewItemEventArgs>;
+}
+let { index = 0, add }: IProps = $props();
 
-const dispatch = createEventDispatcher<{
-    "add": AddNewItemEventArgs,
-}>();
-let isOpen = false;
+let isOpen = $state(false);
 
 const items = [
     {
@@ -28,7 +28,7 @@ const items = [
 ];
 
 function doAdd(kind: TimelineEntryKind) {
-    dispatch("add", {
+    add({
         kind,
         index,
     });
@@ -43,7 +43,7 @@ function doAdd(kind: TimelineEntryKind) {
     </summary>
     <ul tabindex="0" class="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
         {#each items as item}
-            <li><a class="dropdown-item" on:click={() => doAdd(item.type)}>{item.caption}</a></li>
+            <li><a class="dropdown-item" onclick={() => doAdd(item.type)}>{item.caption}</a></li>
         {/each}
     </ul>
 </details>

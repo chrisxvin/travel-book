@@ -2,25 +2,40 @@
 import GoogleMapsSdk from "./GoogleMapsSdk.svelte";
 import { createEventDispatcher } from "svelte";
 
-export let id = `gm-autocomplete-${Math.random()
-    .toString(36)
-    .replace(/[^a-z]+/g, "")
-    .substr(0, 5)}`;
-export let apiKey: string;
-export let ariaLabel: string = "location";
-export let placeholder: string = "Location";
-export let styleClass: string = "";
-export let value: any = null;
-export let viewValue: any = null;
-export let viewLabel: keyof google.maps.places.PlaceResult = "formatted_address";
-export let fields = ["address_components", "geometry", "place_id", "plus_code", viewLabel];
-export let types: string[] = [];
-export let options = {};
+interface IProps {
+    id: string;
+    apiKey: string;
+    ariaLabel: string;
+    placeholder: string;
+    styleClass: string;
+    value: any;
+    viewValue: any;
+    viewLabel: keyof google.maps.places.PlaceResult;
+    fields: string[];
+    types: string[];
+    options: any;
+}
+let {
+    id = `gm-autocomplete-${Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, "")
+        .substr(0, 5)}`,
+    apiKey,
+    ariaLabel = "location",
+    placeholder = "Location",
+    styleClass = "",
+    value = null,
+    viewValue = null,
+    viewLabel = "formatted_address",
+    fields = ["address_components", "geometry", "place_id", "plus_code", viewLabel],
+    types = [],
+    options = {},
+}: IProps = $props();
 
 let search: HTMLInputElement;
 let autocomplete: google.maps.places.Autocomplete;
 let currentPlace: google.maps.places.PlaceResult | null;
-let disabled = true;
+let disabled = $state(true);
 
 const dispatch = createEventDispatcher();
 
@@ -79,15 +94,5 @@ function init() {
 }
 </script>
 
-<GoogleMapsSdk {apiKey} on:ready={init} />
-<input
-    {id}
-    aria-label={ariaLabel}
-    class={styleClass}
-    {placeholder}
-    bind:this={search}
-    type="text"
-    {disabled}
-    bind:value={viewValue}
-    on:blur={blur}
-    on:keydown={autocompleteKeydown} />
+<GoogleMapsSdk {apiKey} ready={init} />
+<input {id} aria-label={ariaLabel} class={styleClass} {placeholder} bind:this={search} type="text" {disabled} bind:value={viewValue} onblur={blur} onkeydown={autocompleteKeydown} />

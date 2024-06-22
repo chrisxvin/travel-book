@@ -3,11 +3,16 @@ import { loadScriptAsync } from "$lib/utils";
 import { onMount, createEventDispatcher } from "svelte";
 import { mapsLoaded, mapsLoading } from "./GoogleMapsStore";
 
-export let apiKey;
-export let version: "a" | "beta" | undefined = undefined;
+interface IProps {
+    apiKey: string;
+    version?: "a" | "beta" | undefined;
+    ready: Action;
+}
+let { apiKey, version, ready }: IProps = $props();
 
-const dispatch = createEventDispatcher();
-$: $mapsLoaded && dispatch("ready");
+$effect(() => {
+     $mapsLoaded && ready();
+});
 
 onMount(() => {
     window.GMapsReady = () => {
@@ -16,7 +21,7 @@ onMount(() => {
     };
 
     if ($mapsLoaded) {
-        dispatch("ready");
+        ready();
     }
 
     if (!$mapsLoading) {
@@ -30,9 +35,7 @@ onMount(() => {
         mapsLoading.set(true);
 
         loadScriptAsync(
-            [
-                { type: "script", url: url.toString() },
-            ],
+            [{ type: "script", url: url.toString() }],
             () => {
                 return $mapsLoaded;
             },

@@ -48,7 +48,10 @@ export function teleport(el: HTMLElement, target: HTMLElement | string = "body")
  * DOM Element or CSS Selector
  * @type { HTMLElement|string}
  */
-export let target: HTMLElement | string = "body";
+interface IProps {
+    target: HTMLElement | string;
+}
+let { target = "body" }: IProps = $props();
 </script>
 
 <div use:teleport={target} hidden>
