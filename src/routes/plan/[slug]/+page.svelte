@@ -10,6 +10,7 @@ import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
+import { tracking } from "./stores";
 
 export let data: PageData;
 export const plan = data.plan;
@@ -33,8 +34,15 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
 </svelte:head>
 
 <section class="plan">
-    <h1>{plan.title}</h1>
-    <!-- <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p> -->
+    <div class="flex flex-row justify-between">
+        <h1>{plan.title}</h1>
+        <!-- <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p> -->
+        <span>&nbsp;</span>
+        <label class="label cursor-pointer">
+            <span class="label-text">Tracking&nbsp;</span>
+            <input type="checkbox" class="toggle toggle-info" bind:checked={$tracking} />
+        </label>
+    </div>
 
     <div role="tablist" class="tabs tabs-bordered">
         {#each plan.itinerary as { date }, i}
@@ -48,9 +56,9 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
     </div>
 
     <!-- 用 teleport 优化一下？减少循环次数。-->
-    {#each plan.itinerary as { timeline }, i}
+    {#each plan.itinerary as { date, timeline }, i}
         {#if tabIndex === i}
-            <Day {timeline} />
+            <Day {date} {timeline} />
         {/if}
     {/each}
 

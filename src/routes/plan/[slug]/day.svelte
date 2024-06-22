@@ -2,6 +2,7 @@
 import type { TimelineViewModel, TimelineItem, ITimelineEntry, IPlaceViewModel, ITransportViewModel, IActivityViewModel } from "$lib/types";
 import type { AddNewItemEventArgs } from "./types";
 
+import { DateTime } from "luxon";
 import { TimelineEntryKind, TransportType } from "$lib/types";
 import ShowPlace from "./show-place.svelte";
 import ShowTransport from "./show-transport.svelte";
@@ -11,9 +12,13 @@ import EditPlace from "./edit-place.svelte";
 import EditTransport from "./edit-transport.svelte";
 import EditActivity from "./edit-activity.svelte";
 import { EditMode } from "./types";
+import { tracking } from "./stores";
+import { stringToTime } from "$lib/utils";
 
+export let date: string;
 export let timeline: TimelineItem[];
 
+const dateObj = DateTime.fromFormat(date, "yyyy-MM-dd");
 let editMode: EditMode = EditMode.None;
 let editingItem: TimelineItem | undefined;
 let editingIndex = -1;
@@ -73,11 +78,23 @@ function btnEditSave_Click() {
 function btnEditCancel_Click() {
     dlgEdit.close();
 }
+
+function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
+    let item = timeline[index];
+    if (isTracking && dateObj.isValid && item.kind === TimelineEntryKind.Transport) {
+        const now = DateTime.now();
+        let result = stringToTime(item.leaveAt) <= now && stringToTime(item.arriveAt) >= now;
+        return result;
+    } else {
+        return false;
+    }
+}
 </script>
 
 <ul class="timeline timeline-vertical">
     {#each timeline as item, i}
-        <li class="timeline-item border">
+        <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
+        <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, $tracking)}>
             {#if i !== 0}<hr />{/if}
 
             <!-- <svelte:component this={displayComps[item.kind]} {item} /> -->
