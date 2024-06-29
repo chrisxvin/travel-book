@@ -13,7 +13,7 @@ import EditPlace from "./edit-place.svelte";
 import EditTransport from "./edit-transport.svelte";
 import EditActivity from "./edit-activity.svelte";
 import { EditMode } from "./types";
-import { tracking } from "./stores";
+import { getTracking } from "./stores.svelte";
 import { stringToTime } from "$lib/utils";
 
 interface IProps {
@@ -31,6 +31,7 @@ let dlgEdit: HTMLDialogElement;
 let ulTimeline: HTMLUListElement;
 let sortable: Sortable;
 let dragging = $state(false);
+let tracking = getTracking();
 
 $effect(() => {
     sortable = Sortable.create(ulTimeline, {
@@ -116,7 +117,7 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
 <ul class="timeline timeline-vertical" bind:this={ulTimeline}>
     {#each timeline as item, i}
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
-        <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, $tracking)}>
+        <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, tracking.value)}>
             {#if i !== 0}<hr />{/if}
             <span class="timeline-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 

@@ -10,7 +10,7 @@ import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
-import { tracking } from "./stores";
+import { getTracking } from "./stores.svelte";
 
 let { data }: {
     data: PageData,
@@ -21,6 +21,7 @@ let showEditor = false;
 let editingIndex = -1;
 let editingEntry: TimelineItem | null = null;
 let tabIndex = $state(0);
+let tracking = getTracking();
 
 function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
     editingEntry = {
@@ -42,7 +43,7 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         <span>&nbsp;</span>
         <label class="label cursor-pointer">
             <span class="label-text">Tracking&nbsp;</span>
-            <input type="checkbox" class="toggle toggle-info" bind:checked={$tracking} />
+            <input type="checkbox" class="toggle toggle-info" bind:checked={tracking.value} />
         </label>
     </div>
 
