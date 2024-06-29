@@ -118,7 +118,7 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
         <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, $tracking)}>
             {#if i !== 0}<hr />{/if}
-            <span class="timeline-handle mdi mdi-drag-vertical mx-3 justify-self-start text-3xl"></span>
+            <span class="timeline-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 
             <!-- <svelte:component this={displayComps[item.kind]} {item} /> -->
 
