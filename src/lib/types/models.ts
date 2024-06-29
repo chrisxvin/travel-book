@@ -4,6 +4,11 @@ export interface IPlan {
     itinerary: IItineraryItem[];
 }
 
+export interface IPlanEx extends IPlan {
+    from: string;
+    to: string;
+}
+
 export interface IItineraryItem {
     date: string;
     timeline: TimelineItem[];

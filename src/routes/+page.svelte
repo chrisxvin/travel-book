@@ -3,8 +3,11 @@ import type { PageData } from "./$types";
 
 import { showDate } from "$lib/utils";
 
-export let data: PageData;
-export const plans = data.plans;
+interface IProps {
+    data: PageData;
+}
+let { data }: IProps  = $props();
+const plans = data.plans;
 </script>
 
 <svelte:head>

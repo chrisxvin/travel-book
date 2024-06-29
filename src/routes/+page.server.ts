@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import type { IPlan } from "$lib/types";
+import type { IPlan, IPlanEx } from "$lib/types";
 
 import { error } from "@sveltejs/kit";
 // import { prisma } from "$lib/server/db";
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ params }) => {
 
     if (plans) {
         return {
-            plans: plans.map<Exclude<IPlan, "itinerary">>(p => {
+            plans: plans.map<Exclude<IPlanEx, "itinerary">>(p => {
                 const kv = Object.entries(p.itinerary);
 
                 return {
