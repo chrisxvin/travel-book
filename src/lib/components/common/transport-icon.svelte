@@ -9,7 +9,7 @@ interface IProps {
 let { type = TransportType.Other, children }: IProps = $props();
 </script>
 
-<span class={`mdi mdi-${TransportIconMap[type]}`}>
+<span class={`mdi mdi-${TransportIconMap[type]} text-2xl`}>
     <!-- <slot /> -->
     {@render children?.()}
 </span>

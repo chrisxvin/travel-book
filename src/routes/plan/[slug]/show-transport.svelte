@@ -24,9 +24,9 @@ let format = new Intl.NumberFormat("zh-CN", {
 </div>
 
 <div class="timeline-middle">
-    <div>
-        <TransportIcon type={item.travelBy} />
-    </div>
+    <p><TransportIcon type={item.travelBy} /></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
 </div>
 
 <div class="timeline-end">
