@@ -82,4 +82,21 @@
         // todo: 优化这个边框，避免激活时内部元素移位
         @apply border-2 border-sky-200 rounded-lg;
     }
+
+    .timeline-handle {
+        cursor: pointer;
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 4;
+    }
+    
+    .timeline-item-drag {
+        @apply border-2 border-purple-200;
+    }
+    
+    .timeline-item-ghost {
+        @apply border-2 border-sky-200;
+    }
+    
 }

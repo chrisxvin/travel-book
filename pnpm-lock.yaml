@@ -26,6 +26,9 @@ importers:
       mongodb:
         specifier: ^6.6.2
         version: 6.6.2
+      sortablejs:
+        specifier: ^1.15.2
+        version: 1.15.2
     devDependencies:
       '@neoconfetti/svelte':
         specifier: ^1.0.0
@@ -51,6 +54,9 @@ importers:
       '@types/luxon':
         specifier: ^3.4.2
         version: 3.4.2
+      '@types/sortablejs':
+        specifier: ^1.15.8
+        version: 1.15.8
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.0.0
         version: 7.7.1(@typescript-eslint/parser@7.7.1(eslint@9.5.0)(typescript@5.4.5))(eslint@9.5.0)(typescript@5.4.5)
@@ -507,6 +513,9 @@ packages:
 
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
+
+  '@types/sortablejs@1.15.8':
+    resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
 
   '@types/webidl-conversions@7.0.3':
     resolution: {integrity: sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA==}
@@ -1736,6 +1745,9 @@ packages:
     resolution: {integrity: sha512-J69LQ22xrQB1cIFJhPfgtLuI6BpWRiWu1Y3vSsIwK/eAScqJxd/+CJlUuHQRdX2C9NGFamq+KqNywGgaThwfHw==}
     hasBin: true
 
+  sortablejs@1.15.2:
+    resolution: {integrity: sha512-FJF5jgdfvoKn1MAKSdGs33bIqLi3LmsgVTliuX6iITj834F+JRQZN90Z93yql8h0K2t0RwDPBmxwlbZfDcxNZA==}
+
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
@@ -2387,6 +2399,8 @@ snapshots:
   '@types/pug@2.0.10': {}
 
   '@types/semver@7.5.8': {}
+
+  '@types/sortablejs@1.15.8': {}
 
   '@types/webidl-conversions@7.0.3': {}
 
@@ -3599,6 +3613,8 @@ snapshots:
       buffer-crc32: 0.2.13
       minimist: 1.2.8
       sander: 0.5.1
+
+  sortablejs@1.15.2: {}
 
   source-map-js@1.2.0: {}
 

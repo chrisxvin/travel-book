@@ -3,6 +3,7 @@ import type { TimelineViewModel, TimelineItem, ITimelineEntry, IPlaceViewModel, 
 import type { AddNewItemEventArgs } from "./types";
 
 import { DateTime } from "luxon";
+import Sortable from "sortablejs";
 import { TimelineEntryKind, TransportType } from "$lib/types";
 import ShowPlace from "./show-place.svelte";
 import ShowTransport from "./show-transport.svelte";
@@ -27,6 +28,18 @@ let editingItem: TimelineItem | undefined = $state();
 let editingIndex = -1;
 let editingType: TimelineEntryKind = $state(TimelineEntryKind.Unknown);
 let dlgEdit: HTMLDialogElement;
+let ulTimeline: HTMLUListElement;
+let sortable: Sortable;
+let dragging = $state(false);
+
+$effect(() => {
+    sortable = Sortable.create(ulTimeline, {
+        animation: 150,
+        dragClass: "timeline-item-drag",
+        ghostClass: "timeline-item-ghost",
+        handle: ".timeline-handle",
+    });
+});
 
 const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
     [TimelineEntryKind.Unknown]: EditPlace,
@@ -94,11 +107,12 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
 }
 </script>
 
-<ul class="timeline timeline-vertical">
+<ul class="timeline timeline-vertical" bind:this={ulTimeline}>
     {#each timeline as item, i}
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
         <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, $tracking)}>
             {#if i !== 0}<hr />{/if}
+            <span class="timeline-handle mdi mdi-drag-vertical mx-3 justify-self-start text-3xl"></span>
 
             <!-- <svelte:component this={displayComps[item.kind]} {item} /> -->
 
