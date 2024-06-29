@@ -6,9 +6,10 @@ import { TimelineEntryKind } from "$lib/types";
 
 interface IProps {
     index: number;
+    hidden?: boolean;
     add: Action1<AddNewItemEventArgs>;
 }
-let { index = 0, add }: IProps = $props();
+let { index = 0, add, ...props }: IProps = $props();
 
 let isOpen = $state(false);
 
@@ -37,7 +38,7 @@ function doAdd(kind: TimelineEntryKind) {
 }
 </script>
 
-<details class="add-btn-fix dropdown dropdown-end dropdown-top dropdown-hover" bind:open={isOpen}>
+<details class="add-btn-fix dropdown dropdown-end dropdown-top dropdown-hover" {...props} bind:open={isOpen}>
     <summary tabindex="0" class="btn btn-circle text-3xl">
         <span class="mdi mdi-plus"></span>
     </summary>

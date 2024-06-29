@@ -38,6 +38,12 @@ $effect(() => {
         dragClass: "timeline-item-drag",
         ghostClass: "timeline-item-ghost",
         handle: ".timeline-handle",
+        onStart: e => {
+            dragging = true;
+        },
+        onEnd: e => {
+            dragging = false;
+        },
     });
 });
 
@@ -125,11 +131,11 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
             {/if}
 
             <!-- TODO: 这个编辑和下面的添加按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
-            <button class="edit-btn-fix btn timeline-end btn-xs" onclick={() => EditItem(i, item)}>
+            <button class="edit-btn-fix btn timeline-end btn-xs" hidden={dragging} onclick={() => EditItem(i, item)}>
                 <span class="mdi mdi-pencil"></span>
             </button>
 
-            <AddNewItem index={i} add={btnAddNewItem_Click} />
+            <AddNewItem index={i} hidden={dragging} add={btnAddNewItem_Click} />
 
             {#if i !== timeline.length}<hr />{/if}
         </li>
