@@ -54,12 +54,15 @@ function EditItem(index: number, item: TimelineItem) {
     dlgEdit.showModal();
     */
 
+    /*
     editingItem.value = {
         index,
         item: { ...item },
         isEditing: true,
         mode: EditMode.Edit,
     };
+    */
+    editingItem.edit(index, item, timeline);
 }
 
 function btnAddNewItem_Click(args: AddNewItemEventArgs) {
@@ -83,6 +86,7 @@ function btnAddNewItem_Click(args: AddNewItemEventArgs) {
     dlgEdit.showModal();
     */
 
+    /*
     const item = {
         kind: args.kind,
         // isEditing: true,
@@ -101,7 +105,9 @@ function btnAddNewItem_Click(args: AddNewItemEventArgs) {
         isEditing: true,
         mode: EditMode.Add,
     };
+    */
 
+    editingItem.add(args.index, args.kind, timeline);
 }
 
 function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {

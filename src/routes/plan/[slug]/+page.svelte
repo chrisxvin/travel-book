@@ -8,7 +8,6 @@ import type { PageData } from "./$types";
 // import { Card, Collapse } from "svelte-ux";
 import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
-import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
 import EditPlace from "./edit-place.svelte";
 import EditTransport from "./edit-transport.svelte";
@@ -22,9 +21,6 @@ let { data }: {
 export const plan = data.plan;
 
 let dlgEdit: HTMLDialogElement;
-let showEditor = false;
-let editingIndex = -1;
-let editingEntry: TimelineItem | null = null;
 let tabIndex = $state(0);
 let tracking = getTracking();
 let editingItem = getEditingItem();
@@ -47,31 +43,11 @@ $effect(() => {
 });
 
 function btnEditSave_Click() {
-    // if (!editingItem) return;
     editingItem.save();
-    /*
-    if (editingItem.value.mode === EditMode.Add) {
-        timeline.splice(editingIndex + 1, 0, editingItem);
-    } else if (editMode === EditMode.Edit && editingIndex != -1) {
-        timeline[editingIndex] = editingItem;
-        editingItem = undefined;
-    }
-
-    timeline = timeline;
-    editMode = EditMode.None;
-    dlgEdit.close();
-    */
 }
 
 function btnEditCancel_Click() {
-    dlgEdit.close();
-}
-function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
-    editingEntry = {
-        kind: TimelineEntryKind.Unknown,
-    } as TimelineItem;
-
-    showEditor = true;
+    editingItem.close();
 }
 </script>
 
@@ -107,14 +83,6 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
             <Day {date} {timeline} />
         {/if}
     {/each}
-
-    <!-- <div class="container">
-        <button onclick={handleBtnAddClick}>Add</button>
-
-        {#if showEditor}
-            <ScheduleEntryEditor index={editingIndex} entry={editingEntry} />
-        {/if}
-    </div> -->
 </section>
 
 <!-- Open the modal using ID.showModal() method. can be closed using ID.close() method -->
@@ -128,8 +96,8 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         {/if}
 
         <div class="modal-action">
-            <button class="btn" onclick={btnEditSave_Click}>Save</button>
-            <button class="btn" onclick={btnEditCancel_Click}>Cancel</button>
+            <button class="btn" onclick={editingItem.save}>Save</button>
+            <button class="btn" onclick={editingItem.close}>Cancel</button>
         </div>
     </div>
 </dialog>
