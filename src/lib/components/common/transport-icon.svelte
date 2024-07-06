@@ -3,13 +3,14 @@ import { TransportType } from "$lib/types";
 import { TransportIconMap } from "$lib/utils";
 
 interface IProps {
+    className?: string;
     type: TransportType;
     children?: any;
 }
-let { type = TransportType.Other, children }: IProps = $props();
+let { className, type = TransportType.Other, children }: IProps = $props();
 </script>
 
-<span class={`mdi mdi-${TransportIconMap[type]} text-2xl`}>
+<span class={`mdi mdi-${TransportIconMap[type]} ${className}`}>
     <!-- <slot /> -->
     {@render children?.()}
 </span>
