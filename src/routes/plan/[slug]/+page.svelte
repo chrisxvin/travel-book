@@ -5,15 +5,12 @@ import "./styles.less";
 <script lang="ts">
 import type { PageData } from "./$types";
 
-// import { Card, Collapse } from "svelte-ux";
-import { TimelineEntryKind, type TimelineItem } from "$lib/types";
-import { showDate } from "$lib/utils";
+import { TimelineEntryKind, } from "$lib/types";
 import Day from "./day.svelte";
 import EditPlace from "./edit-place.svelte";
 import EditTransport from "./edit-transport.svelte";
 import EditActivity from "./edit-activity.svelte";
 import { getTracking, getEditingItem } from "./stores.svelte";
-import { EditMode } from "./types";
 
 let { data }: {
     data: PageData,
@@ -42,13 +39,6 @@ $effect(() => {
     }
 });
 
-function btnEditSave_Click() {
-    editingItem.save();
-}
-
-function btnEditCancel_Click() {
-    editingItem.close();
-}
 </script>
 
 <svelte:head>

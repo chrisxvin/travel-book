@@ -5,11 +5,10 @@ import { pascalCase } from "change-case";
 import { TimelineEntryKind } from "$lib/types";
 
 interface IProps {
-    index: number;
     hidden?: boolean;
     add: Action1<AddNewItemEventArgs>;
 }
-let { index = 0, add, ...props }: IProps = $props();
+let { add, ...props }: IProps = $props();
 
 let isOpen = $state(false);
 
@@ -31,7 +30,6 @@ const items = [
 function doAdd(kind: TimelineEntryKind) {
     add({
         kind,
-        index,
     });
     isOpen = false;
     // TODO: 下次再打开菜单，会看到状态变化动画

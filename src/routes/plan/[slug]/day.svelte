@@ -1,6 +1,5 @@
 <script lang="ts">
-import type { TimelineViewModel, TimelineItem, ITimelineEntry, IPlaceViewModel, ITransportViewModel, IActivityViewModel } from "$lib/types";
-import type { AddNewItemEventArgs } from "./types";
+import type { TimelineItem, } from "$lib/types";
 
 import { DateTime } from "luxon";
 import Sortable from "sortablejs";
@@ -9,7 +8,6 @@ import ShowPlace from "./show-place.svelte";
 import ShowTransport from "./show-transport.svelte";
 import ShowActivity from "./show-activity.svelte";
 import AddNewItem from "./add-new-item.svelte";
-import { EditMode } from "./types";
 import { getTracking, getEditingItem } from "./stores.svelte";
 import { stringToTime } from "$lib/utils";
 
@@ -20,10 +18,6 @@ interface IProps {
 let { date, timeline }: IProps = $props();
 
 const dateObj = DateTime.fromFormat(date, "yyyy-MM-dd");
-let editMode: EditMode = EditMode.None;
-// let editingItem: TimelineItem | undefined = $state();
-let editingIndex = -1;
-let editingType: TimelineEntryKind = $state(TimelineEntryKind.Unknown);
 let ulTimeline: HTMLUListElement;
 let sortable: Sortable;
 let dragging = $state(false);
@@ -44,71 +38,6 @@ $effect(() => {
         },
     });
 });
-
-function EditItem(index: number, item: TimelineItem) {
-    /*
-    editingType = item.kind;
-    editingIndex = index;
-    editingItem = { ...item };
-    editMode = EditMode.Edit;
-    dlgEdit.showModal();
-    */
-
-    /*
-    editingItem.value = {
-        index,
-        item: { ...item },
-        isEditing: true,
-        mode: EditMode.Edit,
-    };
-    */
-    editingItem.edit(index, item, timeline);
-}
-
-function btnAddNewItem_Click(args: AddNewItemEventArgs) {
-    // log(args);
-    /*
-    editMode = EditMode.Add;
-    editingIndex = args.index;
-    editingType = args.kind;
-    const editingItem = {
-        kind: editingType,
-        // isEditing: true,
-        // prettier-ignore
-        ...(
-            editingType === TimelineEntryKind.Place ? { city: "NEW CITY", } :
-            editingType === TimelineEntryKind.Transport ? { travelBy: TransportType.Walk, currency: "GBP", } :
-            editingType === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
-            {}
-        ),
-    } as TimelineItem;
-
-    dlgEdit.showModal();
-    */
-
-    /*
-    const item = {
-        kind: args.kind,
-        // isEditing: true,
-        // prettier-ignore
-        ...(
-            args.kind === TimelineEntryKind.Place ? { city: "NEW CITY", } :
-            args.kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Walk, currency: "GBP", } :
-            args.kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
-            {}
-        ),
-    } as TimelineItem;
-    editingItem.value = {
-        index: args.index,
-        item: item,
-        list: timeline,
-        isEditing: true,
-        mode: EditMode.Add,
-    };
-    */
-
-    editingItem.add(args.index, args.kind, timeline);
-}
 
 function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
     let item = timeline[index];
@@ -140,11 +69,11 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
             {/if}
 
             <!-- TODO: 这个编辑和下面的添加按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
-            <button class="edit-btn-fix btn timeline-end btn-xs" hidden={dragging} onclick={() => EditItem(i, item)}>
+            <button class="edit-btn-fix btn timeline-end btn-xs" hidden={dragging} onclick={() => editingItem.edit(i, item, timeline)}>
                 <span class="mdi mdi-pencil"></span>
             </button>
 
-            <AddNewItem index={i} hidden={dragging} add={btnAddNewItem_Click} />
+            <AddNewItem hidden={dragging} add={args => editingItem.add(i, args.kind, timeline)} />
 
             {#if i !== timeline.length}<hr />{/if}
         </li>

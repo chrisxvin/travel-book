@@ -17,7 +17,6 @@ export function getTracking() {
 interface IEditingItem {
     isEditing: boolean;
     index: number;
-    // type: TimelineEntryKind,
     item?: TimelineItem;
     mode: EditMode;
     list?: TimelineItem[];
