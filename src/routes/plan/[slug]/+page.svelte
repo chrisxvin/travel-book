@@ -10,19 +10,62 @@ import { TimelineEntryKind, type TimelineItem } from "$lib/types";
 import { showDate } from "$lib/utils";
 import AddNewItem from "./add-new-item.svelte";
 import Day from "./day.svelte";
-import { getTracking } from "./stores.svelte";
+import EditPlace from "./edit-place.svelte";
+import EditTransport from "./edit-transport.svelte";
+import EditActivity from "./edit-activity.svelte";
+import { getTracking, getEditingItem } from "./stores.svelte";
+import { EditMode } from "./types";
 
 let { data }: {
     data: PageData,
 } = $props();
 export const plan = data.plan;
 
+let dlgEdit: HTMLDialogElement;
 let showEditor = false;
 let editingIndex = -1;
 let editingEntry: TimelineItem | null = null;
 let tabIndex = $state(0);
 let tracking = getTracking();
+let editingItem = getEditingItem();
+let editingKind: TimelineEntryKind = $state(TimelineEntryKind.Activity);
 
+const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
+    [TimelineEntryKind.Unknown]: EditPlace,
+    [TimelineEntryKind.Place]: EditPlace,
+    [TimelineEntryKind.Transport]: EditTransport,
+    [TimelineEntryKind.Activity]: EditActivity,
+};
+
+$effect(() => {
+    if (editingItem.value.isEditing && editingItem.value.item != null) {
+        editingKind = editingItem.value.item?.kind;
+        dlgEdit.showModal();
+    } else {
+        dlgEdit.close();
+    }
+});
+
+function btnEditSave_Click() {
+    // if (!editingItem) return;
+    editingItem.save();
+    /*
+    if (editingItem.value.mode === EditMode.Add) {
+        timeline.splice(editingIndex + 1, 0, editingItem);
+    } else if (editMode === EditMode.Edit && editingIndex != -1) {
+        timeline[editingIndex] = editingItem;
+        editingItem = undefined;
+    }
+
+    timeline = timeline;
+    editMode = EditMode.None;
+    dlgEdit.close();
+    */
+}
+
+function btnEditCancel_Click() {
+    dlgEdit.close();
+}
 function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
     editingEntry = {
         kind: TimelineEntryKind.Unknown,
@@ -73,3 +116,20 @@ function handleBtnAddClick(event: MouseEvent & { currentTarget: EventTarget & HT
         {/if}
     </div> -->
 </section>
+
+<!-- Open the modal using ID.showModal() method. can be closed using ID.close() method -->
+<!-- <button class="btn" onclick="dlgEdit.showModal()">open modal</button> -->
+<dialog id="dlgEdit" bind:this={dlgEdit} class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">Edit</h3>
+
+        {#if editingItem.value.item}
+            <svelte:component this={editComps[editingKind]} item={editingItem.value.item} />
+        {/if}
+
+        <div class="modal-action">
+            <button class="btn" onclick={btnEditSave_Click}>Save</button>
+            <button class="btn" onclick={btnEditCancel_Click}>Cancel</button>
+        </div>
+    </div>
+</dialog>

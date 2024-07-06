@@ -9,11 +9,8 @@ import ShowPlace from "./show-place.svelte";
 import ShowTransport from "./show-transport.svelte";
 import ShowActivity from "./show-activity.svelte";
 import AddNewItem from "./add-new-item.svelte";
-import EditPlace from "./edit-place.svelte";
-import EditTransport from "./edit-transport.svelte";
-import EditActivity from "./edit-activity.svelte";
 import { EditMode } from "./types";
-import { getTracking } from "./stores.svelte";
+import { getTracking, getEditingItem } from "./stores.svelte";
 import { stringToTime } from "$lib/utils";
 
 interface IProps {
@@ -24,14 +21,14 @@ let { date, timeline }: IProps = $props();
 
 const dateObj = DateTime.fromFormat(date, "yyyy-MM-dd");
 let editMode: EditMode = EditMode.None;
-let editingItem: TimelineItem | undefined = $state();
+// let editingItem: TimelineItem | undefined = $state();
 let editingIndex = -1;
 let editingType: TimelineEntryKind = $state(TimelineEntryKind.Unknown);
-let dlgEdit: HTMLDialogElement;
 let ulTimeline: HTMLUListElement;
 let sortable: Sortable;
 let dragging = $state(false);
 let tracking = getTracking();
+let editingItem = getEditingItem();
 
 $effect(() => {
     sortable = Sortable.create(ulTimeline, {
@@ -48,27 +45,30 @@ $effect(() => {
     });
 });
 
-const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
-    [TimelineEntryKind.Unknown]: EditPlace,
-    [TimelineEntryKind.Place]: EditPlace,
-    [TimelineEntryKind.Transport]: EditTransport,
-    [TimelineEntryKind.Activity]: EditActivity,
-};
-
 function EditItem(index: number, item: TimelineItem) {
+    /*
     editingType = item.kind;
     editingIndex = index;
     editingItem = { ...item };
     editMode = EditMode.Edit;
     dlgEdit.showModal();
+    */
+
+    editingItem.value = {
+        index,
+        item: { ...item },
+        isEditing: true,
+        mode: EditMode.Edit,
+    };
 }
 
 function btnAddNewItem_Click(args: AddNewItemEventArgs) {
     // log(args);
+    /*
     editMode = EditMode.Add;
     editingIndex = args.index;
     editingType = args.kind;
-    editingItem = {
+    const editingItem = {
         kind: editingType,
         // isEditing: true,
         // prettier-ignore
@@ -81,25 +81,27 @@ function btnAddNewItem_Click(args: AddNewItemEventArgs) {
     } as TimelineItem;
 
     dlgEdit.showModal();
-}
+    */
 
-function btnEditSave_Click() {
-    if (!editingItem) return;
+    const item = {
+        kind: args.kind,
+        // isEditing: true,
+        // prettier-ignore
+        ...(
+            args.kind === TimelineEntryKind.Place ? { city: "NEW CITY", } :
+            args.kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Walk, currency: "GBP", } :
+            args.kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
+            {}
+        ),
+    } as TimelineItem;
+    editingItem.value = {
+        index: args.index,
+        item: item,
+        list: timeline,
+        isEditing: true,
+        mode: EditMode.Add,
+    };
 
-    if (editMode === EditMode.Add) {
-        timeline.splice(editingIndex + 1, 0, editingItem);
-    } else if (editMode === EditMode.Edit && editingIndex != -1) {
-        timeline[editingIndex] = editingItem;
-        editingItem = undefined;
-    }
-
-    timeline = timeline;
-    editMode = EditMode.None;
-    dlgEdit.close();
-}
-
-function btnEditCancel_Click() {
-    dlgEdit.close();
 }
 
 function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
@@ -142,20 +144,3 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
         </li>
     {/each}
 </ul>
-
-<!-- Open the modal using ID.showModal() method. can be closed using ID.close() method -->
-<!-- <button class="btn" onclick="dlgEdit.showModal()">open modal</button> -->
-<dialog id="dlgEdit" bind:this={dlgEdit} class="modal">
-    <div class="modal-box">
-        <h3 class="text-lg font-bold">Edit</h3>
-
-        {#if editingItem}
-            <svelte:component this={editComps[editingType]} item={editingItem} />
-        {/if}
-
-        <div class="modal-action">
-            <button class="btn" onclick={btnEditSave_Click}>Save</button>
-            <button class="btn" onclick={btnEditCancel_Click}>Cancel</button>
-        </div>
-    </div>
-</dialog>
