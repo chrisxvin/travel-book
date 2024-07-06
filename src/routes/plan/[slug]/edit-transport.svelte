@@ -12,53 +12,46 @@ interface IProps {
 let { item }: IProps = $props();
 
 const transTypes = Object.keys(TransportIconMap) as TransportType[];
-log(transTypes);
 </script>
 
-Leave:
-<div class="join">
-    <label class="input join-item input-bordered flex items-center gap-2">
+<h4>Leave:</h4>
+<div class="join w-full">
+    <label class="input join-item input-bordered flex w-full items-center gap-2">
         <span class="mdi mdi-map-marker"></span>
-        <input type="text" class="grow" placeholder="From" bind:value={item.leaveFrom} />
+        <input type="text" class="" placeholder="From" bind:value={item.leaveFrom} />
     </label>
     <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="time" class="grow" placeholder="At" bind:value={item.leaveAt} />
+        <input type="time" class="" placeholder="At" bind:value={item.leaveAt} />
     </label>
 </div>
 
-Arrive:
-<div class="join">
-    <label class="input join-item input-bordered flex items-center gap-2">
+<h4>Arrive:</h4>
+<div class="join w-full">
+    <label class="input join-item input-bordered flex w-full items-center gap-2">
         <span class="mdi mdi-map-marker"></span>
-        <input type="text" class="grow" placeholder="To" bind:value={item.arriveTo} />
+        <input type="text" class="" placeholder="To" bind:value={item.arriveTo} />
     </label>
     <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="time" class="grow" placeholder="At" bind:value={item.arriveAt} />
+        <input type="time" class="" placeholder="At" bind:value={item.arriveAt} />
     </label>
 </div>
 
-Travel By:
-<div class="join">
+<h4>Travel By:</h4>
+<div class="join w-full">
     <select class="join-item select select-bordered max-w-xs" bind:value={item.travelBy}>
         {#each transTypes as type}
-            <option value={type}><TransportIcon {type}>&nbsp;{type}</TransportIcon></option>
+            <option value={type}>{type}</option>
         {/each}
     </select>
-
-    <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="text" class="grow" placeholder="Service Id" bind:value={item.serviceId} />
-    </label>
+    <input type="text" class="input join-item input-bordered w-full" placeholder="Service Id" bind:value={item.serviceId} />
 </div>
 
-Price:
-<div class="join">
-    <select class="join-item select select-bordered max-w-xs" bind:value={item.currency}>
+<h4>Price:</h4>
+<div class="join w-full">
+    <select class="join-item select select-bordered w-1/3" bind:value={item.currency}>
         {#each config.currencies as c}
             <option>{c}</option>
         {/each}
     </select>
-
-    <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="number" class="grow" placeholder="Price" bind:value={item.price} />
-    </label>
+    <input type="number" class="input join-item input-bordered w-2/3" placeholder="Price" bind:value={item.price} />
 </div>
