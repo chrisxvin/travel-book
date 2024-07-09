@@ -51,11 +51,12 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
 }
 </script>
 
+<h2><span class="mdi mdi-calendar-today">&nbsp;{date}</span></h2>
 <ul class="timeline timeline-vertical" bind:this={ulTimeline}>
     {#each timeline as item, i}
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
         <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, tracking.value)}>
-            {#if i !== 0}<hr />{/if}
+            {#if i !== 0}<hr class="bg-info-200" />{/if}
             <span class="timeline-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 
             <!-- <svelte:component this={displayComps[item.kind]} {item} /> -->
@@ -75,7 +76,7 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
 
             <AddNewItem hidden={dragging} add={args => editingItem.add(i, args.kind, timeline)} />
 
-            {#if i !== timeline.length}<hr />{/if}
+            {#if i !== timeline.length - 1}<hr class="bg-info-200" />{/if}
         </li>
     {/each}
 </ul>

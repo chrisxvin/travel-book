@@ -37,7 +37,7 @@ function doAdd(kind: TimelineEntryKind) {
 </script>
 
 <details class="add-btn-fix dropdown dropdown-end dropdown-top dropdown-hover" {...props} bind:open={isOpen}>
-    <summary tabindex="0" class="btn btn-circle text-3xl">
+    <summary tabindex="0" class="btn btn-circle btn-primary text-3xl">
         <span class="mdi mdi-plus"></span>
     </summary>
     <ul tabindex="0" class="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">

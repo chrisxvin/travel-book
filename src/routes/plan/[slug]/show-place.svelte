@@ -9,7 +9,7 @@ let { item }: IProps = $props();
 
 <!-- 图标 -->
 <div class="timeline-middle">
-    <p><span class="mdi mdi-map-marker text-2xl"></span></p>
+    <p><span class="mdi mdi-map-marker text-info text-2xl"></span></p>
     <p>&nbsp;</p>
 </div>
 
