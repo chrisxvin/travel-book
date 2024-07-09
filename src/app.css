@@ -1,7 +1,25 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 * {
     scrollbar-color: initial;
 }
+
+/*
+.btn:focus-visible,
+.card:focus-visible,
+.checkbox:focus-visible,
+.collapse:focus-visible,
+*/
+.file-input:focus,
+.input:focus,
+.input:focus-within,
+.input input:focus,
+.select:focus,
+.select:focus-within,
+.select select:focus,
+.textarea:focus {
+    @apply outline-offset-0;
+}
+
+@tailwind utilities;
