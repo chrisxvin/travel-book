@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb"
+import { env } from "$env/dynamic/private";
 // import { PrismaClient } from '@prisma/client'
 // import type { IPlan } from "$lib/types";
 // import { model, connect } from "mongoose";
@@ -6,10 +7,10 @@ import { MongoClient } from "mongodb"
 // const Plan = model<IPlan>("plans", PlanSchema);
 
 // Connection URL
-const DB_URL = process.env["DB_URL"] || "mongodb://localhost:27017";
+const DEFAULT_DB_URL = "mongodb://localhost:27017";
 const DB_NAME = "travel";
 
-const client = new MongoClient(DB_URL);
+const client = new MongoClient(env.DB_URL ?? DEFAULT_DB_URL);
 // const db = await connect(DB_URL);
 
 export const db = client.db(DB_NAME);
