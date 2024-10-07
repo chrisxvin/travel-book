@@ -14,14 +14,14 @@ export interface IItineraryItem {
     timeline: TimelineItem[];
 }
 
-export type TimelineItem = IUnknownTimelineItem | IPlace | ITransport | IActivity;
+export type TimelineItem = IUnknownItem | IPlace | ITransport | IActivity;
 
 export interface ITimelineEntry {
     kind: TimelineEntryKind;
     comment?: string;
 }
 
-export interface IUnknownTimelineItem extends ITimelineEntry {
+export interface IUnknownItem extends ITimelineEntry {
     kind: TimelineEntryKind.Unknown;
 }
 

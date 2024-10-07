@@ -1,7 +1,19 @@
 import { TimelineEntryKind, TransportType, type TimelineItem } from "$lib/types";
 import { EditMode } from "./types";
 
+let dragging = $state(false);
 let tracking = $state(false);
+
+export function getDragging() {
+    return {
+        get value() {
+            return dragging;
+        },
+        set value(v: boolean) {
+            dragging = v;
+        },
+    };
+}
 
 export function getTracking() {
     return {

@@ -64,16 +64,18 @@
     }
 
     .timeline-item {
-        .timeline-start, .timeline-middle, .timeline-end {
-            :first-child {
+        .timeline-start,
+        .timeline-middle,
+        .timeline-end {
+            > :first-child {
                 margin-top: 0.5em;
             }
 
-            :not(:first-child):not(:last-child) {
+            > :not(:first-child):not(:last-child) {
                 line-height: 3em;
             }
 
-            :last-child {
+            > :last-child {
                 margin-bottom: 0.5em;
             }
         }
@@ -91,7 +93,7 @@
 
     .tracking-border {
         // todo: 优化这个边框，避免激活时内部元素移位
-        @apply border-2 border-sky-200 rounded-lg;
+        @apply rounded-lg border-2 border-sky-200;
     }
 
     .timeline-handle {
@@ -101,13 +103,19 @@
         grid-row-start: 1;
         grid-row-end: 4;
     }
-    
+
     .timeline-item-drag {
         @apply border-2 border-sky-200;
     }
-    
+
     .timeline-item-ghost {
         @apply border-2 border-purple-200;
     }
-    
+
+    .add-new-item-inplace {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 4;
+    }
 }

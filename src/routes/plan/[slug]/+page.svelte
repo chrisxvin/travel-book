@@ -8,6 +8,7 @@ import type { PageData } from "./$types";
 
 import { TimelineEntryKind, } from "$lib/types";
 import Day from "./day.svelte";
+import AddItemInPlace from "./add-item-in-place.svelte";
 import EditPlace from "./edit-place.svelte";
 import EditTransport from "./edit-transport.svelte";
 import EditActivity from "./edit-activity.svelte";
@@ -25,7 +26,7 @@ let editingItem = getEditingItem();
 let editingKind: TimelineEntryKind = $state(TimelineEntryKind.Activity);
 
 const editComps: Record<TimelineEntryKind, Component<any, any, any>> = {
-    [TimelineEntryKind.Unknown]: EditPlace,
+    [TimelineEntryKind.Unknown]: AddItemInPlace,
     [TimelineEntryKind.Place]: EditPlace,
     [TimelineEntryKind.Transport]: EditTransport,
     [TimelineEntryKind.Activity]: EditActivity,
