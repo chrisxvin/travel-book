@@ -21,3 +21,11 @@ const plans = data.plans;
         <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
     {/each}
 </section>
+
+<section>
+    <h3>Table</h3>
+    {#each plans as plan}
+        <h1><a href={`/plan/${plan.id}/table`}>{plan.title}</a></h1>
+        <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p>
+    {/each}
+</section>

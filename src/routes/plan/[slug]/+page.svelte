@@ -1,8 +1,9 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 import "./styles.less";
 </script>
 
 <script lang="ts">
+import type { Component } from "svelte";
 import type { PageData } from "./$types";
 
 import { TimelineEntryKind, } from "$lib/types";
@@ -23,12 +24,14 @@ let tracking = getTracking();
 let editingItem = getEditingItem();
 let editingKind: TimelineEntryKind = $state(TimelineEntryKind.Activity);
 
-const editComps: Record<TimelineEntryKind, ConstructorOfATypedSvelteComponent> = {
+const editComps: Record<TimelineEntryKind, Component<any, any, any>> = {
     [TimelineEntryKind.Unknown]: EditPlace,
     [TimelineEntryKind.Place]: EditPlace,
     [TimelineEntryKind.Transport]: EditTransport,
     [TimelineEntryKind.Activity]: EditActivity,
 };
+
+let Editor = $derived(editComps[editingKind]);
 
 $effect(() => {
     if (editingItem.value.isEditing && editingItem.value.item != null) {
@@ -52,26 +55,12 @@ $effect(() => {
         <span>&nbsp;</span>
         <label class="label cursor-pointer">
             <span class="label-text">Tracking&nbsp;</span>
-            <input type="checkbox" class="toggle toggle-info" bind:checked={tracking.value} />
+            <input type="checkbox" class="toggle toggle-primary" bind:checked={tracking.value} />
         </label>
     </div>
 
-    <div role="tablist" class="tabs tabs-bordered">
-        {#each plan.itinerary as { date }, i}
-            <!-- svelte-ignore a11y-interactive-supports-focus -->
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <!-- svelte-ignore a11y-missing-attribute -->
-            <a role="tab" class="tab" class:tab-active={tabIndex === i} onclick={e => (tabIndex = i)}>
-                <span class="mdi mdi-calendar-today"></span>&nbsp;{date}
-            </a>
-        {/each}
-    </div>
-
-    <!-- 用 teleport 优化一下？减少循环次数。-->
     {#each plan.itinerary as { date, timeline }, i}
-        {#if tabIndex === i}
-            <Day {date} {timeline} />
-        {/if}
+        <Day {date} {timeline} />
     {/each}
 </section>
 
@@ -82,11 +71,11 @@ $effect(() => {
         <h3 class="text-lg font-bold">Edit</h3>
 
         {#if editingItem.value.item}
-            <svelte:component this={editComps[editingKind]} item={editingItem.value.item} />
+            <Editor item={editingItem.value.item} />
         {/if}
 
         <div class="modal-action">
-            <button class="btn" onclick={editingItem.save}>Save</button>
+            <button class="btn btn-primary" onclick={editingItem.save}>Save</button>
             <button class="btn" onclick={editingItem.close}>Cancel</button>
         </div>
     </div>

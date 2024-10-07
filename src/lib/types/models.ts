@@ -14,10 +14,15 @@ export interface IItineraryItem {
     timeline: TimelineItem[];
 }
 
-export type TimelineItem = IPlace | ITransport | IActivity;
+export type TimelineItem = IUnknownTimelineItem | IPlace | ITransport | IActivity;
 
 export interface ITimelineEntry {
     kind: TimelineEntryKind;
+    comment?: string;
+}
+
+export interface IUnknownTimelineItem extends ITimelineEntry {
+    kind: TimelineEntryKind.Unknown;
 }
 
 export interface IPlace extends ITimelineEntry {
@@ -51,7 +56,7 @@ export interface IHotel {
 }
 
 export enum TimelineEntryKind {
-    Unknown,
+    Unknown = 0,
     Place = "place",
     Transport = "transport",
     Activity = "activity",

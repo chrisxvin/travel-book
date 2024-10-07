@@ -16,5 +16,5 @@ let { item }: IProps = $props();
 <!-- 城市和地点 -->
 <div class="timeline-end">
     <p class="text-lg">{item.city}</p>
-    <p class="text-lg">{item.place ?? ""}</p>
+    <!-- <p class="text-lg">{item.place ?? ""}</p> -->
 </div>

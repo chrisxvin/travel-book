@@ -82,7 +82,7 @@ export default {
                 info: {
                     DEFAULT: "#54B4D3",
                     50: "#F3FAFC",
-                    "100": "#E7F4F9",
+                    100: "#E7F4F9",
                     200: "#CEE9F2",
                     300: "#B6DFEC",
                     400: "#9ED4E6",

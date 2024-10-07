@@ -18,6 +18,13 @@ const config = {
         // See https://kit.svelte.dev/docs/adapters for more information about adapters.
         adapter: adapter({ out: "dist" }),
     },
+
+    onwarn: (warning, handler) => {
+        if (warning.code.startsWith("a11y_")) {
+            return;
+        }
+        handler(warning);
+    },
 };
 
 export default config;

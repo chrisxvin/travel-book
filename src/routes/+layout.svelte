@@ -1,14 +1,27 @@
-<script>
+<script module>
+import "@mdi/font/css/materialdesignicons.min.css";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+
 import "../app.css";
-import Header from "./Header.svelte";
 import "./styles.css";
+</script>
+
+<script lang="ts">
+import Header from "./Header.svelte";
+
+interface IProps {
+    children?: any;
+}
+let { children }: IProps = $props();
 </script>
 
 <div class="app">
     <Header />
 
     <main class="container-sm">
-        <slot />
+        <!-- <slot /> -->
+        {@render children?.()}
     </main>
 
     <footer>

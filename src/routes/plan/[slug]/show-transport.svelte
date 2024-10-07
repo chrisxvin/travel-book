@@ -2,18 +2,14 @@
 import type { ITransport } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
+import { getPriceFormat } from "./utils";
 
 interface IProps {
     item: ITransport;
 }
 let { item }: IProps = $props();
 
-let format = new Intl.NumberFormat("zh-CN", {
-    style: "currency",
-    currency: item.currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-});
+const format = getPriceFormat(item.currency);
 </script>
 
 <div class="timeline-start text-right">
