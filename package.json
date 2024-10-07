@@ -24,7 +24,6 @@
     "devDependencies": {
         "@neoconfetti/svelte": "^2.2.1",
         "@sveltejs/adapter-auto": "^3.2.5",
-        "@sveltejs/adapter-node": "^5.2.5",
         "@sveltejs/kit": "^2.6.2",
         "@sveltejs/vite-plugin-svelte": "4.0.0-next.7",
         "@types/eslint": "^9.6.1",
@@ -55,5 +54,5 @@
         "vite": "^5.4.8",
         "vitest": "^1.6.0"
     },
-    "packageManager": "pnpm@9.1.0+sha512.67f5879916a9293e5cf059c23853d571beaf4f753c707f40cb22bed5fb1578c6aad3b6c4107ccb3ba0b35be003eb621a16471ac836c87beb53f9d54bb4612724"
+    "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca"
 }
