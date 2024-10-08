@@ -80,7 +80,7 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
     let item = timeline[index];
     if (isTracking && dateObj.isValid && item.kind === TimelineEntryKind.Transport) {
         const now = DateTime.now();
-        let result = stringToTime(item.leaveAt) <= now && stringToTime(item.arriveAt) >= now;
+        let result = stringToTime(item.departAt) <= now && stringToTime(item.arriveAt) >= now;
         return result;
     } else {
         return false;

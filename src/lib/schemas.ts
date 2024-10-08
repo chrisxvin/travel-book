@@ -30,8 +30,8 @@ ScheduleEntrySchema.discriminator(
     TimelineEntryKind.Transport,
     new Schema<ITransport>(
         {
-            leaveFrom: String,
-            leaveAt: Date,
+            departFrom: String,
+            departAt: Date,
             travelBy: {
                 type: String,
                 enum: [

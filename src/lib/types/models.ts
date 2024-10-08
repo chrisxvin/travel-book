@@ -33,8 +33,8 @@ export interface IPlace extends ITimelineEntry {
 
 export interface ITransport extends ITimelineEntry {
     kind: TimelineEntryKind.Transport;
-    leaveFrom?: string;
-    leaveAt?: string;
+    departFrom?: string;
+    departAt?: string;
     travelBy: TransportType;
     serviceId: string;
     arriveTo?: string;

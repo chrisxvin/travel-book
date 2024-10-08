@@ -8,9 +8,9 @@ let { item }: IProps = $props();
 </script>
 
 <div class="timeline-middle">
-    <span class="mdi mdi-check-circle text-info text-2xl"></span>
+    <p><span class="mdi mdi-check-circle text-info text-2xl"></span></p>
 </div>
 
 <div class="timeline-end">
-    <span>Activity: {item.activity}</span>
+    <p>Activity: {item.activity}</p>
 </div>

@@ -14,14 +14,14 @@ let { item }: IProps = $props();
 const transTypes = Object.keys(TransportIconMap) as TransportType[];
 </script>
 
-<h4>Leave:</h4>
+<h4>Depart:</h4>
 <div class="join w-full">
     <label class="input join-item input-bordered flex w-full items-center gap-2">
         <span class="mdi mdi-map-marker"></span>
-        <input type="text" class="" placeholder="From" bind:value={item.leaveFrom} />
+        <input type="text" class="w-full" placeholder="From" bind:value={item.departFrom} />
     </label>
     <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="time" class="" placeholder="At" bind:value={item.leaveAt} />
+        <input type="time" class="w-full" placeholder="At" bind:value={item.departAt} />
     </label>
 </div>
 
@@ -29,10 +29,10 @@ const transTypes = Object.keys(TransportIconMap) as TransportType[];
 <div class="join w-full">
     <label class="input join-item input-bordered flex w-full items-center gap-2">
         <span class="mdi mdi-map-marker"></span>
-        <input type="text" class="" placeholder="To" bind:value={item.arriveTo} />
+        <input type="text" class="w-full" placeholder="To" bind:value={item.arriveTo} />
     </label>
     <label class="input join-item input-bordered flex items-center gap-2">
-        <input type="time" class="" placeholder="At" bind:value={item.arriveAt} />
+        <input type="time" class="w-full" placeholder="At" bind:value={item.arriveAt} />
     </label>
 </div>
 

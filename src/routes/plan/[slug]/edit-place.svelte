@@ -11,7 +11,7 @@ let { item }: IProps = $props();
 
 function gma_PlaceChanged(e: CustomEvent) {
     console.log(e);
-    // transport && (transport.leaveFrom = e.detail.selectedPrediction);
+    // transport && (transport.departFrom = e.detail.selectedPrediction);
     item.place = e.detail.selectedPrediction;
 }
 </script>
