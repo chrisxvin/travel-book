@@ -1,9 +1,9 @@
-import type { PageServerLoad } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import type { IPlan } from "$lib/types";
 
 import { error } from "@sveltejs/kit";
 import { ObjectId } from "mongodb";
-import { db } from "$lib/server/db";
+import { db, db_plan_save } from "$lib/server/db";
 
 export const load: PageServerLoad = async ({ params }) => {
     const plans = await db.collection<IPlan>("plans").find(new ObjectId(params.slug)).toArray();
@@ -23,3 +23,12 @@ export const load: PageServerLoad = async ({ params }) => {
 
     error(404, "Not found");
 };
+
+export const actions = {
+    save: async ({ request }) => {
+        const data = await request.formData();
+        const plan = JSON.parse(String(data.get("plan")));
+        const result = await db_plan_save(plan);
+        console.log(result);
+    },
+} satisfies Actions;

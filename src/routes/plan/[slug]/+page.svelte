@@ -6,7 +6,8 @@ import "./styles.less";
 import type { Component } from "svelte";
 import type { PageData } from "./$types";
 
-import { TimelineEntryKind, } from "$lib/types";
+import { enhance } from '$app/forms';
+import { TimelineEntryKind } from "$lib/types";
 import Day from "./day.svelte";
 import AddItemInPlace from "./add-item-in-place.svelte";
 import EditPlace from "./edit-place.svelte";
@@ -14,10 +15,13 @@ import EditTransport from "./edit-transport.svelte";
 import EditActivity from "./edit-activity.svelte";
 import { getTracking, getEditingItem } from "./stores.svelte";
 
-let { data }: {
-    data: PageData,
+let {
+    data,
+}: {
+    data: PageData;
 } = $props();
 export const plan = data.plan;
+const jsonData = $derived(JSON.stringify(data.plan));
 
 let dlgEdit: HTMLDialogElement;
 let tabIndex = $state(0);
@@ -43,12 +47,35 @@ $effect(() => {
     }
 });
 
+function btnSave_Click() {
+    fetch("?/save", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(plan),
+    });
+}
+
+function btnRevert_Click() {
+    if (confirm("Cancel all editing?")) {
+        window.location.reload();
+    }
+}
 </script>
 
 <svelte:head>
     <title>Plan: {plan.title}</title>
 </svelte:head>
 
+<!-- edit toolbar -->
+<form method="POST" action="?/save" use:enhance>
+    <section class="join">
+        <button class="btn btn-success join-item">Save</button>
+        <button class="btn join-item" onclick={btnRevert_Click}>Revert</button>
+    </section>
+    <input type="hidden" name="plan" value={jsonData} />
+</form>
 <section class="plan">
     <div class="flex flex-row justify-between">
         <h1>{plan.title}</h1>

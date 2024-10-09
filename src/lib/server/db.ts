@@ -1,6 +1,7 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { building } from "$app/environment";
 import { env } from "$env/dynamic/private";
+import type { IPlan } from "$lib/types";
 // import { PrismaClient } from '@prisma/client'
 // import type { IPlan } from "$lib/types";
 // import { model, connect } from "mongoose";
@@ -21,3 +22,10 @@ client.connect().then(() => {
 });
 
 // export const prisma = new PrismaClient();
+
+export function db_plan_save(plan: IPlan) {
+    const _id = new ObjectId(plan.id);
+    delete (plan as any).id;
+    console.log("Saving plan with id:", _id, plan);
+    return db.collection<IPlan>("plans").replaceOne({ _id, }, plan);
+}
