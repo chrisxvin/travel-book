@@ -23,9 +23,25 @@ client.connect().then(() => {
 
 // export const prisma = new PrismaClient();
 
+export async function db_plan_load(id: string): Promise<IPlan | null> {
+    const plan = await db.collection<IPlan>("plans").findOne(new ObjectId(id));
+
+    if (plan) {
+        return {
+            id: plan._id.toHexString(),
+            title: plan.title,
+            // from: p.itinerary.length > 0 ? p.itinerary[0].date : "",
+            // to: p.itinerary.length > 0 ? p.itinerary[p.itinerary.length - 1].date : "",
+            itinerary: plan.itinerary,
+        } as IPlan;
+    } else {
+        return null;
+    }
+}
+
 export function db_plan_save(plan: IPlan) {
     const _id = new ObjectId(plan.id);
     delete (plan as any).id;
     console.log("Saving plan with id:", _id, plan);
-    return db.collection<IPlan>("plans").replaceOne({ _id, }, plan);
+    return db.collection<IPlan>("plans").replaceOne({ _id }, plan);
 }

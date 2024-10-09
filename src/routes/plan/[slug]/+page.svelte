@@ -57,11 +57,15 @@ function btnSave_Click() {
     });
 }
 
-function btnRevert_Click() {
-    if (confirm("Cancel all editing?")) {
+function btnRevert_Click(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (confirm("Discard all editings?")) {
         window.location.reload();
     }
 }
+
 </script>
 
 <svelte:head>
