@@ -21,14 +21,7 @@ declare global {
     declare const log: LogFunction & ILogger;
 }
 
-declare namespace NodeJS {
-    declare interface Global {
-        log: LogFunction & ILogger;
-    }
-}
-
 declare var window: Window & typeof globalThis;
-declare var global: Global & typeof globalThis;
 declare const log: LogFunction & ILogger;
 
 export { };

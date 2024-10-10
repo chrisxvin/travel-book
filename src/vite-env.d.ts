@@ -11,3 +11,5 @@ declare interface ILogger {
 }
 
 declare const log: LogFunction & ILogger;
+
+export { };

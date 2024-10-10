@@ -13,6 +13,7 @@
         "typeRoots": [
             "node_modules/@types",
             "./src/lib/types",
+            "src/types",
         ],
     },
     // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
