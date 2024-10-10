@@ -47,18 +47,10 @@ $effect(() => {
     }
 });
 
-function btnSave_Click() {
-    fetch("?/save", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(plan),
-    });
-}
-
 function btnRevert_Click(event: MouseEvent) {
+    // 阻止默认表单行为
     event.preventDefault();
+    // 阻止事件传播
     event.stopPropagation();
 
     if (confirm("Discard all editings?")) {
@@ -73,11 +65,13 @@ function btnRevert_Click(event: MouseEvent) {
 </svelte:head>
 
 <!-- edit toolbar -->
+<!-- 使用 use:enhance 实现表单提交后不刷新页面，用户体验更佳。 -->
 <form method="POST" action="?/save" use:enhance>
     <section class="join">
         <button class="btn btn-success join-item">Save</button>
         <button class="btn join-item" onclick={btnRevert_Click}>Revert</button>
     </section>
+    <!-- 页面数据是一个 JSON 对象，而 form 提交的是 FormData，用这个隐藏输入来转换。 -->
     <input type="hidden" name="plan" value={jsonData} />
 </form>
 <section class="plan">

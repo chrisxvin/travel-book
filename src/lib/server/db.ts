@@ -3,7 +3,6 @@ import { building } from "$app/environment";
 import { env } from "$env/dynamic/private";
 import type { IPlan } from "$lib/types";
 // import { PrismaClient } from '@prisma/client'
-// import type { IPlan } from "$lib/types";
 // import { model, connect } from "mongoose";
 
 // const Plan = model<IPlan>("plans", PlanSchema);
