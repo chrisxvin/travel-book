@@ -7,5 +7,10 @@ interface IProps {
 let { item }: IProps = $props();
 </script>
 
-&nbsp;
+<!-- 图标 -->
+<div class="">
+    <span class="mdi mdi-check-circle text-2xl text-info"></span>
+    <span class="text-lg">Activity</span>
+</div>
+
 <textarea class="textarea textarea-bordered w-full bg-base-100" placeholder="Activity" bind:value={item.activity}></textarea>

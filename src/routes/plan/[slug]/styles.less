@@ -43,26 +43,6 @@
         background-color: white;
     }
 
-    .edit-btn-fix {
-        display: none;
-        justify-self: end !important;
-        z-index: 10;
-    }
-
-    .add-btn-fix {
-        display: none;
-        --font-size: 1.5rem;
-        font-size: var(--font-size);
-        margin-bottom: calc(-1 * var(--font-size));
-        align-self: end !important;
-        justify-self: center !important;
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 4;
-        z-index: 5;
-    }
-
     .timeline-item {
         .timeline-start,
         .timeline-middle,
@@ -81,35 +61,9 @@
         }
     }
 
-    .timeline-item:hover {
-        .add-btn-fix {
-            display: flex;
-        }
-
-        .edit-btn-fix {
-            display: block;
-        }
-    }
-
     .tracking-border {
         // todo: 优化这个边框，避免激活时内部元素移位
         @apply rounded-lg border-2 border-sky-200;
-    }
-
-    .timeline-handle {
-        cursor: pointer;
-        grid-column-start: 1;
-        grid-column-end: 1;
-        grid-row-start: 1;
-        grid-row-end: 4;
-    }
-
-    .timeline-item-drag {
-        @apply border-2 border-sky-200;
-    }
-
-    .timeline-item-ghost {
-        @apply border-2 border-purple-200;
     }
 
     .add-new-item-inplace {
@@ -117,5 +71,76 @@
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 4;
+    }
+}
+
+.plan-editor {
+    @apply relative flex flex-col;
+    --spacing-size: 0.5rem;
+
+    .plan-editor-item {
+        @apply items-center border;
+        padding: var(--spacing-size) var(--spacing-size) var(--spacing-size) 0;
+
+        position: relative;
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: min-content 1fr;
+
+        .plan-editor-layout {
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+
+        .plan-editor-item-handle {
+            cursor: pointer;
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        .plan-editor-item-drag {
+            @apply border-2 border-sky-200;
+        }
+
+        .plan-editor-item-ghost {
+            @apply border-2 border-purple-200;
+        }
+    }
+
+    .add-btn-fix {
+        display: none;
+        --font-size: 1.5rem;
+        font-size: var(--font-size);
+        margin-bottom: calc(-1 * var(--font-size) - var(--spacing-size));
+        align-self: end !important;
+        justify-self: center !important;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        z-index: 10;
+    }
+
+    .edit-btn-fix {
+        display: none;
+        align-self: start;
+        justify-self: end !important;
+        z-index: 10;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .plan-editor-item:hover {
+        .add-btn-fix {
+            display: flex;
+        }
+
+        .edit-btn-fix {
+            display: block;
+        }
     }
 }
