@@ -9,3 +9,5 @@ export enum EditMode {
     Add,
     Edit,
 }
+
+export const EditingPlan = Symbol("editing-plan");

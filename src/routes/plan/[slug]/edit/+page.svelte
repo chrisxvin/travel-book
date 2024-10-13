@@ -1,24 +1,46 @@
 <script lang="ts">
 import type { Component } from "svelte";
+import type { IItineraryItem, TimelineItem } from "$lib/types";
 import type { PageData } from "./$types";
 
-import { enhance } from '$app/forms';
-import { TimelineEntryKind } from "$lib/types";
-import Day from "./day.svelte";
-import AddItemInPlace from "./add-item-in-place.svelte";
-import EditPlace from "./edit-place.svelte";
-import EditTransport from "./edit-transport.svelte";
-import EditActivity from "./edit-activity.svelte";
-import { getEditingItem } from "./stores.svelte";
+import { pascalCase } from "change-case";
+import { enhance } from "$app/forms";
+import { goto } from "$app/navigation";
+import { page } from "$app/stores";
+import { TimelineEntryKind, TransportType } from "$lib/types";
+import { config, TransportIconMap } from "$lib/utils";
+import { TransportIcon } from "$lib/components";
 
 let {
     data,
 }: {
     data: PageData;
 } = $props();
-export const plan = data.plan;
-const jsonData = $derived(JSON.stringify(data.plan));
+export const plan = $state(data.plan);
 
+const jsonData = $derived(JSON.stringify(plan));
+
+const timelineKinds: {
+    type: TimelineEntryKind;
+    caption: string;
+}[] = [
+    {
+        type: TimelineEntryKind.Place,
+        caption: pascalCase(TimelineEntryKind.Place),
+    },
+    {
+        type: TimelineEntryKind.Transport,
+        caption: pascalCase(TimelineEntryKind.Transport),
+    },
+    {
+        type: TimelineEntryKind.Activity,
+        caption: pascalCase(TimelineEntryKind.Activity),
+    },
+];
+
+const transTypes = Object.keys(TransportIconMap) as TransportType[];
+
+/*
 let dlgEdit: HTMLDialogElement;
 let tabIndex = $state(0);
 let editingItem = getEditingItem();
@@ -32,7 +54,9 @@ const editComps: Record<TimelineEntryKind, Component<any, any, any>> = {
 };
 
 let Editor = $derived(editComps[editingKind]);
+*/
 
+/*
 $effect(() => {
     if (editingItem.value.isEditing && editingItem.value.item != null) {
         editingKind = editingItem.value.item?.kind;
@@ -41,6 +65,19 @@ $effect(() => {
         dlgEdit.close();
     }
 });
+*/
+
+function btnGoBack_Click(event: MouseEvent) {
+    // 阻止默认表单行为
+    event.preventDefault();
+    // 阻止事件传播
+    event.stopPropagation();
+
+    const currentPath = $page.url.pathname;
+    // 获取父级路径，移除最后一级路径
+    const parentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+    goto(parentPath);
+}
 
 function btnRevert_Click(event: MouseEvent) {
     // 阻止默认表单行为
@@ -53,19 +90,63 @@ function btnRevert_Click(event: MouseEvent) {
     }
 }
 
+function btnTest_Click(event: MouseEvent) {
+    // 阻止默认表单行为
+    event.preventDefault();
+    // 阻止事件传播
+    event.stopPropagation();
+
+    log($state.snapshot(plan.itinerary[0].timeline));
+}
+
+function btnAddNewItem_Click(itineraryIndex: number, timelineIndex: number) {
+    const newItemChooser: TimelineItem = {
+        kind: TimelineEntryKind.Unknown,
+    };
+
+    plan.itinerary[itineraryIndex].timeline.splice(timelineIndex + 1, 0, newItemChooser);
+}
+
+function doAddItemCancel(itineraryIndex: number, timelineIndex: number) {
+    plan.itinerary[itineraryIndex].timeline.splice(timelineIndex, 1);
+}
+
+function doAddItemDone(itineraryIndex: number, timelineIndex: number, kind: TimelineEntryKind) {
+    const newItem = (plan.itinerary[itineraryIndex].timeline[timelineIndex] = {
+        kind,
+        // prettier-ignore
+        ...(
+            // kind === TimelineEntryKind.Unknown ? {} :
+            kind === TimelineEntryKind.Place ? { city: "A new place", } :
+            kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Train, currency: "GBP", } :
+            kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
+            {}
+        ) as any,
+    });
+
+    // editingItem.edit(index, newItem, timeline);
+}
+
+function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
+    if (confirm("Sure?")) {
+        plan.itinerary[itineraryIndex].timeline.splice(timelineIndex, 1);
+    }
+}
+
 </script>
 
 <!-- edit toolbar -->
 <!-- 使用 use:enhance 实现表单提交后不刷新页面，用户体验更佳。 -->
 <form method="POST" action="?/save" use:enhance>
     <section class="join">
+        <button class="btn btn-primary join-item" onclick={btnGoBack_Click}>Back</button>
         <button class="btn btn-success join-item">Save</button>
         <button class="btn join-item" onclick={btnRevert_Click}>Revert</button>
+        <button class="btn join-item" onclick={btnTest_Click}>Test</button>
     </section>
     <!-- 页面数据是一个 JSON 对象，而 form 提交的是 FormData，用这个隐藏输入来转换。 -->
     <input type="hidden" name="plan" value={jsonData} />
 </form>
-
 
 <section class="plan">
     <div class="flex flex-row justify-between">
@@ -74,26 +155,135 @@ function btnRevert_Click(event: MouseEvent) {
         <span>&nbsp;</span>
     </div>
 
-    {#each plan.itinerary as { date, timeline }, i}
-        <Day {date} {timeline} />
+    {#each plan.itinerary as itinerary, i1}
+        <!-- <Day itinerary={plan.itinerary[i]} onUpdate={(a) => doUpdate(i, a)} /> -->
+
+        <h2><span class="mdi mdi-calendar-today">&nbsp;{itinerary.date}</span></h2>
+        <ul class="plan-editor">
+            {#each itinerary.timeline as timelineItem, j}
+                <li class="plan-editor-item">
+                    <span class="plan-editor-item-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
+
+                    {#if timelineItem.kind === TimelineEntryKind.Unknown}
+                        <!-- <AddItemInPlace done={kind => doAddItemDone(j, kind)} cancel={() => doAddItemCancel(j)} /> -->
+
+                        <div class="add-new-item-inplace m-2 flex flex-row gap-2">
+                            <div class="join">
+                                {#each timelineKinds as item}
+                                    <button class="btn btn-outline btn-primary join-item" onclick={() => doAddItemDone(i1, j, item.type)}>{item.caption}</button>
+                                {/each}
+                            </div>
+
+                            <button class="btn btn-ghost" onclick={() => doAddItemCancel(i1, j)}>Cancel</button>
+                        </div>
+                    {:else}
+                        <!-- <EditTimelineItem item={timeline[j]} onDelete={() => doDeleteItem(j)} /> -->
+                        <div class="plan-editor-layout w-full">
+                            <!-- <Editor {item} {onUpdate} /> -->
+                            {#if timelineItem.kind === TimelineEntryKind.Place}
+                                <!-- 图标 -->
+                                <div class="">
+                                    <span class="mdi mdi-map-marker text-2xl text-info"></span>
+                                    <span class="text-lg">City</span>
+                                </div>
+
+                                <div class="grid w-full grid-cols-2 gap-2 bg-base-100">
+                                    <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" onplaceChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
+                                    <label class="input input-bordered flex items-center gap-2">
+                                        <span class="mdi mdi-city join-item"></span>
+                                        <input type="text" class="grow" placeholder="City" bind:value={timelineItem.city} />
+                                    </label>
+
+                                    <label class="input input-bordered flex items-center gap-2">
+                                        <span class="mdi mdi-map-marker"></span>
+                                        <input type="text" class="grow" placeholder="Place" bind:value={timelineItem.place} />
+                                    </label>
+                                </div>
+                            {:else if timelineItem.kind === TimelineEntryKind.Transport}
+
+                                <div>
+                                    <TransportIcon className="text-info text-2xl" type={timelineItem.travelBy} />
+                                    <span class="text-lg">Transport</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <h4>Depart:</h4>
+                                        <div class="join w-full">
+                                            <label class="input join-item input-bordered flex items-center gap-2">
+                                                <input type="time" class="w-full" placeholder="At" bind:value={timelineItem.departAt} />
+                                            </label>
+                                            <label class="input join-item input-bordered flex w-full items-center gap-2">
+                                                <span class="mdi mdi-map-marker"></span>
+                                                <input type="text" class="w-full" placeholder="From" bind:value={timelineItem.departFrom} />
+                                            </label>
+                                        </div>
+                                    </div>
+                                
+                                    <div>
+                                        <h4>Arrive:</h4>
+                                        <div class="join w-full">
+                                            <label class="input join-item input-bordered flex items-center gap-2">
+                                                <input type="time" class="w-full" placeholder="At" bind:value={timelineItem.arriveAt} />
+                                            </label>
+                                            <label class="input join-item input-bordered flex w-full items-center gap-2">
+                                                <span class="mdi mdi-map-marker"></span>
+                                                <input type="text" class="w-full" placeholder="To" bind:value={timelineItem.arriveTo} />
+                                            </label>
+                                        </div>
+                                    </div>
+                                
+                                    <div>
+                                        <h4>Travel By:</h4>
+                                        <div class="join w-full">
+                                            <select class="join-item select select-bordered max-w-xs" bind:value={timelineItem.travelBy}>
+                                                {#each transTypes as type}
+                                                    <option value={type}>{type}</option>
+                                                {/each}
+                                            </select>
+                                            <input type="text" class="input join-item input-bordered w-full" placeholder="Service Id" bind:value={timelineItem.serviceId} />
+                                        </div>
+                                    </div>
+                                
+                                    <div>
+                                        <h4>Price:</h4>
+                                        <div class="join w-full">
+                                            <select class="join-item select select-bordered w-1/3" bind:value={timelineItem.currency}>
+                                                {#each config.currencies as c}
+                                                    <option>{c}</option>
+                                                {/each}
+                                            </select>
+                                            <input type="number" class="input join-item input-bordered w-2/3" placeholder="Price" bind:value={timelineItem.price} />
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            {:else if timelineItem.kind === TimelineEntryKind.Activity}
+                                <!-- 图标 -->
+                                <div class="">
+                                    <span class="mdi mdi-check-circle text-2xl text-info"></span>
+                                    <span class="text-lg">Activity</span>
+                                </div>
+
+                                <textarea class="textarea textarea-bordered w-full bg-base-100" placeholder="Activity" bind:value={timelineItem.activity}></textarea>
+                            {/if}
+                        </div>
+
+                        <!-- TODO: 这几个按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
+                        <div class="edit-btn-fix">
+                            <div class="join">
+                                <button class="btn btn-error join-item btn-xs" onclick={() => doDeleteItem(i1, j)}>
+                                    <span class="mdi mdi-delete-alert"></span>
+                                </button>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <button class="add-btn-fix btn btn-circle text-3xl" onclick={() => btnAddNewItem_Click(i1, j)}>
+                        <span class="mdi mdi-plus"></span>
+                    </button>
+                </li>
+            {/each}
+        </ul>
     {/each}
 </section>
-
-
-
-<!-- Open the modal using ID.showModal() method. can be closed using ID.close() method -->
-<!-- <button class="btn" onclick="dlgEdit.showModal()">open modal</button> -->
-<dialog id="dlgEdit" bind:this={dlgEdit} class="modal">
-    <div class="modal-box">
-        <h3 class="text-lg font-bold">Edit</h3>
-
-        {#if editingItem.value.item}
-            <Editor item={editingItem.value.item} />
-        {/if}
-
-        <div class="modal-action">
-            <button class="btn btn-primary" onclick={editingItem.save}>Save</button>
-            <button class="btn" onclick={editingItem.close}>Cancel</button>
-        </div>
-    </div>
-</dialog>
