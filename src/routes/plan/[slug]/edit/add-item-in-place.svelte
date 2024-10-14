@@ -28,7 +28,7 @@ const items: {
 
 </script>
 
-<div class="add-new-item-inplace flex flex-row m-2 gap-2">
+<div class="plan-editor-layout add-new-item-inplace flex flex-row m-2 gap-2">
     <div class="join">
         {#each items as item}
             <button class="btn btn-outline btn-primary join-item" onclick={() => done(item.type)}>{item.caption}</button>

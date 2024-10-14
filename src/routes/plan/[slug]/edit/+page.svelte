@@ -7,9 +7,9 @@ import { pascalCase } from "change-case";
 import { enhance } from "$app/forms";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import { TimelineEntryKind, TransportType } from "$lib/types";
-import { config, TransportIconMap } from "$lib/utils";
 import { TransportIcon } from "$lib/components";
+import { TimelineEntryKind, TransportType } from "$lib/types";
+import { config, preventDefault, TransportIconMap } from "$lib/utils";
 
 let {
     data,
@@ -41,38 +41,10 @@ const timelineKinds: {
 const transTypes = Object.keys(TransportIconMap) as TransportType[];
 
 /*
-let dlgEdit: HTMLDialogElement;
 let tabIndex = $state(0);
-let editingItem = getEditingItem();
-let editingKind: TimelineEntryKind = $state(TimelineEntryKind.Activity);
-
-const editComps: Record<TimelineEntryKind, Component<any, any, any>> = {
-    [TimelineEntryKind.Unknown]: AddItemInPlace,
-    [TimelineEntryKind.Place]: EditPlace,
-    [TimelineEntryKind.Transport]: EditTransport,
-    [TimelineEntryKind.Activity]: EditActivity,
-};
-
-let Editor = $derived(editComps[editingKind]);
-*/
-
-/*
-$effect(() => {
-    if (editingItem.value.isEditing && editingItem.value.item != null) {
-        editingKind = editingItem.value.item?.kind;
-        dlgEdit.showModal();
-    } else {
-        dlgEdit.close();
-    }
-});
 */
 
 function btnGoBack_Click(event: MouseEvent) {
-    // 阻止默认表单行为
-    event.preventDefault();
-    // 阻止事件传播
-    event.stopPropagation();
-
     const currentPath = $page.url.pathname;
     // 获取父级路径，移除最后一级路径
     const parentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
@@ -80,26 +52,16 @@ function btnGoBack_Click(event: MouseEvent) {
 }
 
 function btnRevert_Click(event: MouseEvent) {
-    // 阻止默认表单行为
-    event.preventDefault();
-    // 阻止事件传播
-    event.stopPropagation();
-
     if (confirm("Discard all editings?")) {
         window.location.reload();
     }
 }
 
 function btnTest_Click(event: MouseEvent) {
-    // 阻止默认表单行为
-    event.preventDefault();
-    // 阻止事件传播
-    event.stopPropagation();
-
     log($state.snapshot(plan.itinerary[0].timeline));
 }
 
-function btnAddNewItem_Click(itineraryIndex: number, timelineIndex: number) {
+function doAddNewTimeline(itineraryIndex: number, timelineIndex: number) {
     const newItemChooser: TimelineItem = {
         kind: TimelineEntryKind.Unknown,
     };
@@ -107,12 +69,12 @@ function btnAddNewItem_Click(itineraryIndex: number, timelineIndex: number) {
     plan.itinerary[itineraryIndex].timeline.splice(timelineIndex + 1, 0, newItemChooser);
 }
 
-function doAddItemCancel(itineraryIndex: number, timelineIndex: number) {
+function doCancelAddTimeline(itineraryIndex: number, timelineIndex: number) {
     plan.itinerary[itineraryIndex].timeline.splice(timelineIndex, 1);
 }
 
 function doAddItemDone(itineraryIndex: number, timelineIndex: number, kind: TimelineEntryKind) {
-    const newItem = (plan.itinerary[itineraryIndex].timeline[timelineIndex] = {
+    /*const newItem = */plan.itinerary[itineraryIndex].timeline[timelineIndex] = {
         kind,
         // prettier-ignore
         ...(
@@ -122,12 +84,12 @@ function doAddItemDone(itineraryIndex: number, timelineIndex: number, kind: Time
             kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
             {}
         ) as any,
-    });
+    };
 
     // editingItem.edit(index, newItem, timeline);
 }
 
-function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
+function doDeleteTimeline(itineraryIndex: number, timelineIndex: number) {
     if (confirm("Sure?")) {
         plan.itinerary[itineraryIndex].timeline.splice(timelineIndex, 1);
     }
@@ -139,48 +101,53 @@ function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
 <!-- 使用 use:enhance 实现表单提交后不刷新页面，用户体验更佳。 -->
 <form method="POST" action="?/save" use:enhance>
     <section class="join">
-        <button class="btn btn-primary join-item" onclick={btnGoBack_Click}>Back</button>
+        <button class="btn btn-primary join-item" onclick={preventDefault(btnGoBack_Click)}>Back</button>
         <button class="btn btn-success join-item">Save</button>
-        <button class="btn join-item" onclick={btnRevert_Click}>Revert</button>
-        <button class="btn join-item" onclick={btnTest_Click}>Test</button>
+        <button class="btn join-item" onclick={preventDefault(btnRevert_Click)}>Revert</button>
+        <button class="btn join-item" onclick={preventDefault(btnTest_Click)}>Test</button>
     </section>
     <!-- 页面数据是一个 JSON 对象，而 form 提交的是 FormData，用这个隐藏输入来转换。 -->
     <input type="hidden" name="plan" value={jsonData} />
 </form>
+<br />
 
 <section class="plan">
     <div class="flex flex-row justify-between">
-        <h1>{plan.title}</h1>
+        <label class="input input-bordered flex items-center gap-2">
+            <span class="mdi mdi-pencil"></span>
+            <input type="text" class="grow" placeholder="Plan Title" bind:value={plan.title} />
+        </label>
+
         <!-- <p>{showDate(plan.from)} --&gt; {showDate(plan.to)}</p> -->
         <span>&nbsp;</span>
     </div>
 
-    {#each plan.itinerary as itinerary, i1}
-        <!-- <Day itinerary={plan.itinerary[i]} onUpdate={(a) => doUpdate(i, a)} /> -->
-
+    {#each plan.itinerary as itinerary, dayIndex}
         <h2><span class="mdi mdi-calendar-today">&nbsp;{itinerary.date}</span></h2>
         <ul class="plan-editor">
-            {#each itinerary.timeline as timelineItem, j}
+            {#each itinerary.timeline as timelineItem, timelineIndex}
                 <li class="plan-editor-item">
                     <span class="plan-editor-item-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 
                     {#if timelineItem.kind === TimelineEntryKind.Unknown}
-                        <!-- <AddItemInPlace done={kind => doAddItemDone(j, kind)} cancel={() => doAddItemCancel(j)} /> -->
+                        <!-- 添加新的时间线条目 -->
 
-                        <div class="add-new-item-inplace m-2 flex flex-row gap-2">
+                        <div class="plan-editor-layout my-2 flex flex-row gap-2">
                             <div class="join">
                                 {#each timelineKinds as item}
-                                    <button class="btn btn-outline btn-primary join-item" onclick={() => doAddItemDone(i1, j, item.type)}>{item.caption}</button>
+                                    <button class="btn btn-outline btn-primary join-item" onclick={() => doAddItemDone(dayIndex, timelineIndex, item.type)}>{item.caption}</button>
                                 {/each}
                             </div>
 
-                            <button class="btn btn-ghost" onclick={() => doAddItemCancel(i1, j)}>Cancel</button>
+                            <button class="btn btn-ghost" onclick={() => doCancelAddTimeline(dayIndex, timelineIndex)}>Cancel</button>
                         </div>
                     {:else}
-                        <!-- <EditTimelineItem item={timeline[j]} onDelete={() => doDeleteItem(j)} /> -->
+                        <!-- 编辑时间线条目 -->
+
                         <div class="plan-editor-layout w-full">
-                            <!-- <Editor {item} {onUpdate} /> -->
                             {#if timelineItem.kind === TimelineEntryKind.Place}
+                                <!-- 地点 -->
+
                                 <!-- 图标 -->
                                 <div class="">
                                     <span class="mdi mdi-map-marker text-2xl text-info"></span>
@@ -200,7 +167,9 @@ function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
                                     </label>
                                 </div>
                             {:else if timelineItem.kind === TimelineEntryKind.Transport}
+                                <!-- 交通 -->
 
+                                <!-- 图标 -->
                                 <div>
                                     <TransportIcon className="text-info text-2xl" type={timelineItem.travelBy} />
                                     <span class="text-lg">Transport</span>
@@ -259,6 +228,8 @@ function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
                                 </div>
                             
                             {:else if timelineItem.kind === TimelineEntryKind.Activity}
+                                <!-- 活动 -->
+
                                 <!-- 图标 -->
                                 <div class="">
                                     <span class="mdi mdi-check-circle text-2xl text-info"></span>
@@ -272,14 +243,14 @@ function doDeleteItem(itineraryIndex: number, timelineIndex: number) {
                         <!-- TODO: 这几个按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
                         <div class="edit-btn-fix">
                             <div class="join">
-                                <button class="btn btn-error join-item btn-xs" onclick={() => doDeleteItem(i1, j)}>
+                                <button class="btn btn-error join-item btn-xs" onclick={() => doDeleteTimeline(dayIndex, timelineIndex)}>
                                     <span class="mdi mdi-delete-alert"></span>
                                 </button>
                             </div>
                         </div>
                     {/if}
 
-                    <button class="add-btn-fix btn btn-circle text-3xl" onclick={() => btnAddNewItem_Click(i1, j)}>
+                    <button class="add-btn-fix btn btn-circle text-3xl" onclick={() => doAddNewTimeline(dayIndex, timelineIndex)}>
                         <span class="mdi mdi-plus"></span>
                     </button>
                 </li>
