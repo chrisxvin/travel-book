@@ -22,7 +22,7 @@ function btnEdit_Click() {}
 
 <!-- edit toolbar -->
 <section class="join">
-    <a class="btn btn-primary join-item" data-sveltekit-preload-data="tap" href={path + "/edit"}>Edit</a>
+    <a class="btn btn-primary join-item" href={path + "/edit"}>Edit</a>
 </section>
 
 <section class="plan">

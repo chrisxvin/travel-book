@@ -1,7 +1,5 @@
 <script module>
 import "@mdi/font/css/materialdesignicons.min.css";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import "../app.css";
 import "./styles.css";
@@ -25,7 +23,7 @@ let { children }: IProps = $props();
     </main>
 
     <footer>
-        <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+        <p>This is a footer. App is built with SvelteKit.</p>
     </footer>
 </div>
 
