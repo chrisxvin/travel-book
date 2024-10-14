@@ -1,4 +1,6 @@
 .plan {
+    @apply py-2;
+
     .timeline-start {
         align-self: start;
     }
@@ -75,11 +77,11 @@
 }
 
 .plan-editor {
-    @apply relative flex flex-col;
+    @apply relative flex flex-col divide-y;
     --spacing-size: 0.5rem;
 
     .plan-editor-item {
-        @apply items-center border;
+        @apply items-center;
         padding: var(--spacing-size) var(--spacing-size) var(--spacing-size) 0;
 
         position: relative;
@@ -120,14 +122,14 @@
         grid-column-end: 3;
         grid-row-start: 1;
         grid-row-end: 2;
-        z-index: 10;
+        z-index: 5;
     }
 
     .edit-btn-fix {
         display: none;
         align-self: start;
         justify-self: end !important;
-        z-index: 10;
+        z-index: 5;
         grid-column-start: 2;
         grid-column-end: 3;
         grid-row-start: 1;

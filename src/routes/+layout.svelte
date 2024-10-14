@@ -23,7 +23,7 @@ let { children }: IProps = $props();
     </main>
 
     <footer>
-        <p>This is a footer. App is built with SvelteKit.</p>
+        <p>This is a footer. App is built by SvelteKit, with love from Kitty Hui.</p>
     </footer>
 </div>
 
@@ -38,7 +38,7 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    /* padding: 1rem; */
     width: 100%;
     /* max-width: 64rem; */
     margin: 0 auto;
