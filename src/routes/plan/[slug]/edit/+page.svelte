@@ -9,7 +9,7 @@ import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { TransportIcon } from "$lib/components";
 import { TimelineEntryKind, TransportType } from "$lib/types";
-import { config, preventDefault, TransportIconMap } from "$lib/utils";
+import { config, evt, TransportIconMap } from "$lib/utils";
 
 let {
     data,
@@ -101,10 +101,10 @@ function doDeleteTimeline(itineraryIndex: number, timelineIndex: number) {
 <!-- 使用 use:enhance 实现表单提交后不刷新页面，用户体验更佳。 -->
 <form method="POST" action="?/save" use:enhance>
     <section class="join">
-        <button class="btn btn-primary join-item" onclick={preventDefault(btnGoBack_Click)}>Back</button>
+        <button class="btn btn-primary join-item" onclick={evt(btnGoBack_Click).preventDefault}>Back</button>
         <button class="btn btn-success join-item">Save</button>
-        <button class="btn join-item" onclick={preventDefault(btnRevert_Click)}>Revert</button>
-        <button class="btn join-item" onclick={preventDefault(btnTest_Click)}>Test</button>
+        <button class="btn join-item" onclick={evt(btnRevert_Click).preventDefault}>Revert</button>
+        <button class="btn join-item" onclick={evt(btnTest_Click).preventDefault}>Test</button>
     </section>
     <!-- 页面数据是一个 JSON 对象，而 form 提交的是 FormData，用这个隐藏输入来转换。 -->
     <input type="hidden" name="plan" value={jsonData} />
