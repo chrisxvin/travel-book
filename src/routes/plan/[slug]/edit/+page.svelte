@@ -1,6 +1,5 @@
 <script lang="ts" module>
 import "./styles.less";
-
 </script>
 
 <script lang="ts">
@@ -153,7 +152,7 @@ function editTitle(e: MouseEvent) {
             </div>
 
             <!-- plan-editor ==> timeline-editor -->
-            <ul class="plan-editor collapse-content">
+            <ul class="plan-editor collapse-content p-0 xl:p-4">
                 {#each itinerary.timeline as timelineItem, timelineIndex}
                     <li class="plan-editor-item">
                         <span class="plan-editor-item-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
@@ -184,19 +183,15 @@ function editTitle(e: MouseEvent) {
                                     </div>
 
                                     <div class="grid w-full grid-cols-2 gap-2 bg-base-100">
-                                        <!-- <GoogleMapsPlacesAutocomplete apiKey={GOOGLE_API_KEY} styleClass="input input-bordered join-item" onplaceChanged={gma_PlaceChanged} value={editingItem.city} language="zh" /> -->
-                                        <!--
-                                    <label class="input input-bordered flex items-center gap-2">
-                                        <span class="mdi mdi-city join-item"></span>
-                                        <input type="text" class="grow" placeholder="City" bind:value={timelineItem.city} />
-                                    </label>
-                                    -->
                                         <PlaceEditor placeholder="City" bind:value={timelineItem.city} />
+                                        <input class="input input-bordered w-full bg-base-100" placeholder="Comment" bind:value={timelineItem.comment} />
 
+                                        <!--
                                         <label class="input input-bordered flex items-center gap-2">
                                             <span class="mdi mdi-map-marker"></span>
                                             <input type="text" class="grow" placeholder="Place" bind:value={timelineItem.place} />
                                         </label>
+                                        -->
                                     </div>
                                 {:else if timelineItem.kind === TimelineEntryKind.Transport}
                                     <!-- 交通 -->
@@ -207,7 +202,7 @@ function editTitle(e: MouseEvent) {
                                         <span class="text-lg">Transport</span>
                                     </div>
 
-                                    <div class="grid grid-cols-[repeat(2,min-content_1fr)] gap-2 items-center">
+                                    <div class="grid grid-cols-[min-content_1fr] lg:grid-cols-[repeat(2,min-content_1fr)] xl:grid-cols-[repeat(3,min-content_1fr)] items-center gap-2">
                                         <span class="grow">Depart:&nbsp;</span>
                                         <WhenAndWhere bind:when={timelineItem.departAt} bind:where={timelineItem.departFrom} />
 
@@ -216,7 +211,7 @@ function editTitle(e: MouseEvent) {
 
                                         <span class="grow">Travel&nbsp;By:&nbsp;</span>
                                         <div class="join">
-                                            <select class="join-item w-28 select select-bordered" bind:value={timelineItem.travelBy}>
+                                            <select class="join-item select select-bordered w-28" bind:value={timelineItem.travelBy}>
                                                 {#each transTypes as type}
                                                     <option value={type}>{type}</option>
                                                 {/each}
@@ -226,13 +221,15 @@ function editTitle(e: MouseEvent) {
 
                                         <span class="grow">Price:&nbsp;</span>
                                         <div class="join">
-                                            <select class="join-item w-28 select select-bordered" bind:value={timelineItem.currency}>
+                                            <select class="join-item select select-bordered w-28" bind:value={timelineItem.currency}>
                                                 {#each config.currencies as c}
                                                     <option>{c}</option>
                                                 {/each}
                                             </select>
                                             <input type="number" class="input join-item input-bordered grow" placeholder="Price" bind:value={timelineItem.price} />
                                         </div>
+
+                                        <textarea class="textarea textarea-bordered col-span-2 row-span-2 lg:col-span-4 xl:col-start-5 xl:row-start-1 w-full bg-base-100" placeholder="Comment" bind:value={timelineItem.comment}></textarea>
                                     </div>
                                 {:else if timelineItem.kind === TimelineEntryKind.Activity}
                                     <!-- 活动 -->

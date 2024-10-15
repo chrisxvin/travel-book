@@ -9,9 +9,6 @@ let { when = $bindable(), where = $bindable() }: IProps = $props();
 </script>
 
 <div class="join">
-    <label class="input join-item input-bordered w-28 flex items-center gap-2">
-        <input type="time" class="w-full" placeholder="At" bind:value={when} />
-    </label>
-
+    <input type="time" class="input join-item input-bordered w-28" placeholder="At" bind:value={when} />
     <PlaceEditor placeholder="From" bind:value={where} />
 </div>

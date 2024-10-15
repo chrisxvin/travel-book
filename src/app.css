@@ -22,4 +22,16 @@
     @apply outline-offset-0;
 }
 
+.input {
+    @apply input-sm;
+}
+
+.select {
+    @apply select-sm;
+}
+
+.textarea {
+    @apply textarea-sm;
+}
+
 @tailwind utilities;
