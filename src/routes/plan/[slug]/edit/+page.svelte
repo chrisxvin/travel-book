@@ -1,3 +1,8 @@
+<script lang="ts" module>
+import "./styles.less";
+
+</script>
+
 <script lang="ts">
 import type { Component } from "svelte";
 import type { IItineraryItem, TimelineItem } from "$lib/types";
@@ -7,7 +12,7 @@ import { pascalCase } from "change-case";
 import { enhance } from "$app/forms";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import { PlaceEditor, TransportIcon } from "$lib/components";
+import { PlaceEditor, TransportIcon, WhenAndWhere } from "$lib/components";
 import { TimelineEntryKind, TransportType } from "$lib/types";
 import { config, evt, TransportIconMap } from "$lib/utils";
 
@@ -202,53 +207,31 @@ function editTitle(e: MouseEvent) {
                                         <span class="text-lg">Transport</span>
                                     </div>
 
-                                    <div class="grid grid-cols-2 gap-2 xl:grid-cols-4">
-                                        <div class="join w-full items-center">
-                                            Depart:&nbsp;
-                                            <label class="input join-item input-bordered flex items-center gap-2">
-                                                <input type="time" class="w-full" placeholder="At" bind:value={timelineItem.departAt} />
-                                            </label>
-                                            <!--
-                                            <label class="input join-item input-bordered flex w-full items-center gap-2">
-                                                <span class="mdi mdi-map-marker"></span>
-                                                <input type="text" class="w-full" placeholder="From" bind:value={timelineItem.departFrom} />
-                                            </label>
-                                            -->
-                                            <PlaceEditor placeholder="From" bind:value={timelineItem.departFrom} />
-                                        </div>
+                                    <div class="grid grid-cols-[repeat(2,min-content_1fr)] gap-2 items-center">
+                                        <span class="grow">Depart:&nbsp;</span>
+                                        <WhenAndWhere bind:when={timelineItem.departAt} bind:where={timelineItem.departFrom} />
 
-                                        <div class="join w-full items-center">
-                                            Arrive:&nbsp;
-                                            <label class="input join-item input-bordered flex items-center gap-2">
-                                                <input type="time" class="w-full" placeholder="At" bind:value={timelineItem.arriveAt} />
-                                            </label>
-                                            <!--
-                                            <label class="input join-item input-bordered flex w-full items-center gap-2">
-                                                <span class="mdi mdi-map-marker"></span>
-                                                <input type="text" class="w-full" placeholder="To" bind:value={timelineItem.arriveTo} />
-                                            </label>
-                                            -->
-                                            <PlaceEditor placeholder="To" bind:value={timelineItem.arriveTo} />
-                                        </div>
+                                        <span class="grow">Arrive:&nbsp;</span>
+                                        <WhenAndWhere bind:when={timelineItem.arriveAt} bind:where={timelineItem.arriveTo} />
 
-                                        <div class="join w-full items-center">
-                                            Travel&nbsp;By:&nbsp;
-                                            <select class="join-item select select-bordered max-w-xs" bind:value={timelineItem.travelBy}>
+                                        <span class="grow">Travel&nbsp;By:&nbsp;</span>
+                                        <div class="join">
+                                            <select class="join-item w-28 select select-bordered" bind:value={timelineItem.travelBy}>
                                                 {#each transTypes as type}
                                                     <option value={type}>{type}</option>
                                                 {/each}
                                             </select>
-                                            <input type="text" class="input join-item input-bordered w-full" placeholder="Service Id" bind:value={timelineItem.serviceId} />
+                                            <input type="text" class="input join-item input-bordered grow" placeholder="Service Id" bind:value={timelineItem.serviceId} />
                                         </div>
 
-                                        <div class="join w-full items-center">
-                                            Price:&nbsp;
-                                            <select class="join-item select select-bordered w-1/3" bind:value={timelineItem.currency}>
+                                        <span class="grow">Price:&nbsp;</span>
+                                        <div class="join">
+                                            <select class="join-item w-28 select select-bordered" bind:value={timelineItem.currency}>
                                                 {#each config.currencies as c}
                                                     <option>{c}</option>
                                                 {/each}
                                             </select>
-                                            <input type="number" class="input join-item input-bordered w-2/3" placeholder="Price" bind:value={timelineItem.price} />
+                                            <input type="number" class="input join-item input-bordered grow" placeholder="Price" bind:value={timelineItem.price} />
                                         </div>
                                     </div>
                                 {:else if timelineItem.kind === TimelineEntryKind.Activity}
