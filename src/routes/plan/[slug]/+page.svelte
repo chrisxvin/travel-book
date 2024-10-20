@@ -2,7 +2,6 @@
 import type { PageData } from "./$types";
 
 import { page } from "$app/stores";
-import { TimelineEntryKind } from "$lib/types";
 import Day from "./day.svelte";
 import { getTracking } from "./stores.svelte";
 
@@ -13,11 +12,9 @@ let {
 } = $props();
 export const plan = data.plan;
 
-let tabIndex = $state(0);
 let tracking = getTracking();
 let path = $derived($page.url.pathname);
 
-function btnEdit_Click() {}
 </script>
 
 <!-- edit toolbar -->

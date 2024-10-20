@@ -1,5 +1,3 @@
-import { TimelineEntryKind, TransportType, type TimelineItem } from "$lib/types";
-
 let tracking = $state(false);
 
 export function getTracking() {

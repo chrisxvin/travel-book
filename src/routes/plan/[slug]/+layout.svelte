@@ -20,6 +20,6 @@ export const plan = data.plan;
     <title>Plan: {plan.title}</title>
 </svelte:head>
 
-<div class="mx-20 ring-1 ring-slate-900/10">
+<div class="xl:mx-20 ring-1 ring-slate-900/10">
     {@render children()}
 </div>

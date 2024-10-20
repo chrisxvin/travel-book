@@ -2,8 +2,7 @@
 import type { TimelineItem, } from "$lib/types";
 
 import { DateTime } from "luxon";
-import { TimelineEntryKind } from "$lib/types";
-import ShowTimelineItem from "./show-timeline-item.svelte";
+import ShowTransport from "./show-transport.svelte";
 import { getTracking } from "./stores.svelte";
 import { stringToTime } from "$lib/utils";
 
@@ -19,7 +18,7 @@ let timeline = $state(props.timeline);
 
 function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
     let item = timeline[index];
-    if (isTracking && dateObj.isValid && item.kind === TimelineEntryKind.Transport) {
+    if (isTracking && dateObj.isValid) {
         const now = DateTime.now();
         let result = stringToTime(item.departAt) <= now && stringToTime(item.arriveAt) >= now;
         return result;
@@ -34,12 +33,12 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
     {#each timeline as item, i}
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
         <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, tracking.value)}>
-            {#if i !== 0 && item.kind !== TimelineEntryKind.Unknown}<hr class="bg-info-200" />{/if}
+            {#if i !== 0}<hr class="bg-info-200" />{/if}
             <!-- <span class="timeline-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span> -->
 
-            <ShowTimelineItem {item} />
+            <ShowTransport {item} />
 
-            {#if i !== timeline.length - 1 && item.kind !== TimelineEntryKind.Unknown}<hr class="bg-info-200" />{/if}
+            {#if i !== timeline.length - 1}<hr class="bg-info-200" />{/if}
         </li>
     {/each}
 </ul>

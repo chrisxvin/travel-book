@@ -5,6 +5,16 @@
     scrollbar-color: initial;
 }
 
+/* 移除 Chrome、Edge 和 Safari 的默认时钟图标 */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* 移除 Firefox 的默认时钟图标 */
+input[type="time"] {
+    -moz-appearance: textfield;
+}
+
 /*
 .btn:focus-visible,
 .card:focus-visible,

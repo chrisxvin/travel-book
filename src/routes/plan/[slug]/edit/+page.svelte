@@ -3,16 +3,14 @@ import "./styles.less";
 </script>
 
 <script lang="ts">
-import type { Component } from "svelte";
-import type { IItineraryItem, TimelineItem } from "$lib/types";
+import type { TimelineItem } from "$lib/types";
 import type { PageData } from "./$types";
 
-import { pascalCase } from "change-case";
 import { enhance } from "$app/forms";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { PlaceEditor, TransportIcon, WhenAndWhere } from "$lib/components";
-import { TimelineEntryKind, TransportType } from "$lib/types";
+import { TransportType } from "$lib/types";
 import { config, evt, TransportIconMap } from "$lib/utils";
 
 let {
@@ -23,25 +21,6 @@ let {
 export const plan = $state(data.plan);
 
 const jsonData = $derived(JSON.stringify(plan));
-
-const timelineKinds: {
-    type: TimelineEntryKind;
-    caption: string;
-}[] = [
-    {
-        type: TimelineEntryKind.Place,
-        caption: pascalCase(TimelineEntryKind.Place),
-    },
-    {
-        type: TimelineEntryKind.Transport,
-        caption: pascalCase(TimelineEntryKind.Transport),
-    },
-    {
-        type: TimelineEntryKind.Activity,
-        caption: pascalCase(TimelineEntryKind.Activity),
-    },
-];
-
 const transTypes = Object.keys(TransportIconMap) as TransportType[];
 
 /*
@@ -66,31 +45,17 @@ function btnTest_Click(event: MouseEvent) {
 }
 
 function doAddNewTimeline(itineraryIndex: number, timelineIndex: number) {
-    const newItemChooser: TimelineItem = {
-        kind: TimelineEntryKind.Unknown,
+    const newItem: TimelineItem = {
+        // kind: TimelineEntryKind.Unknown,
+        city: "A new place to stay",
+        travelBy: TransportType.Walk,
     };
 
-    plan.itinerary[itineraryIndex].timeline.splice(timelineIndex + 1, 0, newItemChooser);
+    plan.itinerary[itineraryIndex].timeline.splice(timelineIndex + 1, 0, newItem);
 }
 
 function doCancelAddTimeline(itineraryIndex: number, timelineIndex: number) {
     plan.itinerary[itineraryIndex].timeline.splice(timelineIndex, 1);
-}
-
-function doAddItemDone(itineraryIndex: number, timelineIndex: number, kind: TimelineEntryKind) {
-    /*const newItem = */ plan.itinerary[itineraryIndex].timeline[timelineIndex] = {
-        kind,
-        // prettier-ignore
-        ...(
-            // kind === TimelineEntryKind.Unknown ? {} :
-            kind === TimelineEntryKind.Place ? { city: "A new place", } :
-            kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Train, currency: "GBP", } :
-            kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
-            {}
-        ) as any,
-    };
-
-    // editingItem.edit(index, newItem, timeline);
 }
 
 function doDeleteTimeline(itineraryIndex: number, timelineIndex: number) {
@@ -157,23 +122,10 @@ function editTitle(e: MouseEvent) {
                     <li class="plan-editor-item">
                         <span class="plan-editor-item-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 
-                        {#if timelineItem.kind === TimelineEntryKind.Unknown}
-                            <!-- 添加新的时间线条目 -->
-
-                            <div class="plan-editor-layout my-2 flex flex-row gap-2">
-                                <div class="join">
-                                    {#each timelineKinds as item}
-                                        <button class="btn btn-outline btn-primary join-item" onclick={() => doAddItemDone(dayIndex, timelineIndex, item.type)}>{item.caption}</button>
-                                    {/each}
-                                </div>
-
-                                <button class="btn btn-ghost" onclick={() => doCancelAddTimeline(dayIndex, timelineIndex)}>Cancel</button>
-                            </div>
-                        {:else}
+                       
                             <!-- 编辑时间线条目 -->
 
                             <div class="plan-editor-layout w-full">
-                                {#if timelineItem.kind === TimelineEntryKind.Place}
                                     <!-- 地点 -->
 
                                     <!-- 图标 -->
@@ -193,7 +145,6 @@ function editTitle(e: MouseEvent) {
                                         </label>
                                         -->
                                     </div>
-                                {:else if timelineItem.kind === TimelineEntryKind.Transport}
                                     <!-- 交通 -->
 
                                     <!-- 图标 -->
@@ -231,17 +182,7 @@ function editTitle(e: MouseEvent) {
 
                                         <textarea class="textarea textarea-bordered col-span-2 row-span-2 lg:col-span-4 xl:col-start-5 xl:row-start-1 w-full bg-base-100" placeholder="Comment" bind:value={timelineItem.comment}></textarea>
                                     </div>
-                                {:else if timelineItem.kind === TimelineEntryKind.Activity}
-                                    <!-- 活动 -->
-
-                                    <!-- 图标 -->
-                                    <div class="mb-2">
-                                        <span class="mdi mdi-check-circle text-2xl text-info"></span>
-                                        <span class="text-lg">Activity</span>
-                                    </div>
-
-                                    <textarea class="textarea textarea-bordered w-full bg-base-100" placeholder="Activity" bind:value={timelineItem.activity}></textarea>
-                                {/if}
+                                
                             </div>
 
                             <!-- TODO: 这几个按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
@@ -253,7 +194,6 @@ function editTitle(e: MouseEvent) {
                                     </button>
                                 </div>
                             </div>
-                        {/if}
 
                         <!-- 添加新条目 -->
                         <button class="add-btn-fix btn btn-circle text-3xl" tabindex="-1" onclick={() => doAddNewTimeline(dayIndex, timelineIndex)}>
