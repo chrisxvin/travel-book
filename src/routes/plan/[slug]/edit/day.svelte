@@ -3,11 +3,11 @@ import type { TimelineItem, } from "$lib/types";
 
 import { DateTime } from "luxon";
 import Sortable from "sortablejs";
-import { TimelineEntryKind, TransportType } from "$lib/types";
-import AddItemInPlace from "./add-item-in-place.svelte";
+import { TransportType } from "$lib/types";
 // import AddNewItem from "./add-new-item.svelte";
-import EditTimelineItem from "./edit-timeline-item.svelte";
-import { getDragging, getEditingItem } from "./stores.svelte";
+// import EditTimelineItem from "./edit-timeline-item.svelte";
+import EditTransport from "./edit-transport.svelte";
+import { getDragging, /* getEditingItem */ } from "./stores.svelte";
 
 interface IProps {
     date: string;
@@ -19,7 +19,7 @@ const dateObj = DateTime.fromFormat(props.date, "yyyy-MM-dd");
 let ulTimeline: HTMLUListElement;
 let sortable: Sortable;
 let dragging = getDragging();
-let editingItem = getEditingItem();
+// let editingItem = getEditingItem();
 let timeline = $state(props.timeline);
 
 $effect(() => {
@@ -38,31 +38,17 @@ $effect(() => {
 });
 
 function btnAddNewItem_Inplace_Click(index: number) {
-    const newItemChooser: TimelineItem = {
-        kind: TimelineEntryKind.Unknown,
+    const newItem: TimelineItem = {
+        // kind: TimelineEntryKind.Unknown,
+        city: "A new place to stay",
+        travelBy: TransportType.Walk,
     };
 
-    timeline.splice(index + 1, 0, newItemChooser);
+    timeline.splice(index + 1, 0, newItem);
 }
 
 function doAddItemCancel(index: number) {
     timeline.splice(index, 1);
-}
-
-function doAddItemDone(index: number, kind: TimelineEntryKind) {
-    const newItem = timeline[index] = {
-        kind,
-        // prettier-ignore
-        ...(
-            // kind === TimelineEntryKind.Unknown ? {} :
-            kind === TimelineEntryKind.Place ? { city: "A new place", } :
-            kind === TimelineEntryKind.Transport ? { travelBy: TransportType.Train, currency: "GBP", } :
-            kind === TimelineEntryKind.Activity ? { activity: "What do you like to do?", } : 
-            {}
-        ) as any,
-    };
-
-    editingItem.edit(index, newItem, timeline);
 }
 
 function doDeleteItem(index: number) {
@@ -79,11 +65,17 @@ function doDeleteItem(index: number) {
         <li class="plan-editor-item">
             <span class="plan-editor-item-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span>
 
-            {#if item.kind === TimelineEntryKind.Unknown}
-                <AddItemInPlace done={(kind) => doAddItemDone(i, kind)} cancel={() => doAddItemCancel(i)} />
-            {:else}
-                <EditTimelineItem {item} onEdit={() => editingItem.edit(i, item, timeline)} onDelete={() => doDeleteItem(i)} />
-            {/if}
+                <!-- <EditTransport {item} onEdit={() => editingItem.edit(i, item, timeline)} onDelete={() => doDeleteItem(i)} /> -->
+
+                <!-- 编辑按钮，不出现在添加功能里。所以不能合并到 Day 组件上。 -->
+                <!-- TODO: 这几个按钮，能否做到列表之外，根据 hover 的 item 来显示 -->
+                <div class="edit-btn-fix">
+                    <div class="join">
+                        <!-- <button class="btn btn-error join-item btn-xs" hidden={dragging.value} onclick={onDelete}>
+                            <span class="mdi mdi-delete-alert"></span>
+                        </button> -->
+                    </div>
+                </div>
 
             <button class="add-btn-fix btn btn-circle text-3xl" onclick={() => btnAddNewItem_Inplace_Click(i)}>
                 <span class="mdi mdi-plus"></span>

@@ -11,7 +11,7 @@ export interface IPlanEx extends IPlan {
 
 export interface IItineraryItem {
     date: string;
-    timeline: TimelineItem[];
+    timeline: ITimelineEntry[];
 }
 
 export type TimelineItem = ITimelineEntry;

@@ -1,11 +1,11 @@
 <script lang="ts">
-import type { ITransport } from "$lib/types";
+import type { ITimelineEntry } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 import { getPriceFormat } from "./utils";
 
 interface IProps {
-    item: ITransport;
+    item: ITimelineEntry;
 }
 let { item }: IProps = $props();
 

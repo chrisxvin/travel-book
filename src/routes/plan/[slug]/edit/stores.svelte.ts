@@ -1,4 +1,4 @@
-import { TimelineEntryKind, TransportType, type TimelineItem } from "$lib/types";
+import { TransportType, type TimelineItem } from "$lib/types";
 import { EditMode } from "./types";
 
 let dragging = $state(false);
@@ -14,6 +14,7 @@ export function getDragging() {
     };
 }
 
+/*
 interface IEditingItem {
     isEditing: boolean;
     index: number;
@@ -84,3 +85,4 @@ export function getEditingItem() {
         },
     };
 }
+*/

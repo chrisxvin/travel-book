@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { ITransport } from "$lib/types";
+import type { ITimelineEntry } from "$lib/types";
 
 import { TransportIcon } from "$lib/components";
 import { TransportType } from "$lib/types";
@@ -7,7 +7,7 @@ import { TransportIconMap } from "$lib/utils";
 import config from "$lib/utils/config";
 
 interface IProps {
-    item: ITransport;
+    item: ITimelineEntry;
 }
 let { item }: IProps = $props();
 
