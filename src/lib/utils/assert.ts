@@ -265,12 +265,12 @@ function greaterThanOrEqual(actual: any, expected: any, msg: string) {
 // --------------
 
 // Assertion error class
-class AssertionError extends Object {
-    private readonly name: string = "";
+class AssertionError extends Error {
+    // private readonly name: string = "";
     private readonly actual?: unknown;
     private readonly expected?: unknown;
     private readonly operator?: string = "";
-    private readonly message?: string = "";
+    // private readonly message?: string = "";
 
     constructor(opts?: {
         name?: string;
@@ -280,13 +280,13 @@ class AssertionError extends Object {
         message?: string;
         stackStartFunction?: Function;
     }) {
-        super();
+        super(opts?.message);
         opts = opts || {};
         this.name = "AssertionError";
         this.actual = opts.actual;
         this.expected = opts.expected;
         this.operator = opts.operator || "";
-        this.message = opts.message;
+        // this.message = opts.message;
 
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, opts.stackStartFunction || fail);

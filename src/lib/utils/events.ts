@@ -6,11 +6,11 @@ type EventHandler<E extends Event = Event, T extends EventTarget = Element> = (
 type EventModifiers = "once" | "preventDefault" | "stopPropagation" | "passive" | "nonpassive" | "capture" | "trusted";
 
 // 使用类型映射来为 EventHandler 添加修饰符属性
-type CallableWithModifiers<E extends Event = Event, T extends EventTarget = Element> = EventHandler<E, T> & {
-    [K in EventModifiers]: CallableWithModifiers;
+type EventHandlerWithModifiers<E extends Event = Event, T extends EventTarget = Element> = EventHandler<E, T> & {
+    [K in EventModifiers]: EventHandlerWithModifiers;
 };
 
-interface CallableOptions {
+interface EventHandlerOptions {
     once: boolean;
     preventDefault: boolean;
     stopPropagation: boolean;
@@ -20,8 +20,8 @@ interface CallableOptions {
     trusted: boolean;
 }
 
-export function callable<E extends Event = Event, T extends EventTarget = Element>(handler: EventHandler<E, T>): CallableWithModifiers<E, T>{
-    const options: CallableOptions = {
+export function handler<E extends Event = Event, T extends EventTarget = Element>(handler: EventHandler<E, T>): EventHandlerWithModifiers<E, T>{
+    const options: EventHandlerOptions = {
         once: false,
         preventDefault: false,
         stopPropagation: false,
@@ -63,9 +63,5 @@ export function callable<E extends Event = Event, T extends EventTarget = Elemen
         },
     });
 
-    return proxy as CallableWithModifiers<E, T>;
+    return proxy as EventHandlerWithModifiers<E, T>;
 }
-
-export {
-    callable as evt,
-};
