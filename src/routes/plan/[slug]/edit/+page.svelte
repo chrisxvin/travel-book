@@ -11,7 +11,7 @@ import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { PlaceEditor, TransportIcon, WhenAndWhere } from "$lib/components";
 import { TransportType } from "$lib/types";
-import { config, evt, TransportIconMap } from "$lib/utils";
+import { config, handler, TransportIconMap } from "$lib/utils";
 
 let {
     data,
@@ -86,10 +86,10 @@ function editTitle(e: MouseEvent) {
 <!-- 使用 use:enhance 实现表单提交后不刷新页面，用户体验更佳。 -->
 <form method="POST" action="?/save" class="sticky top-0 z-10 border-b-2 bg-slate-50/90 p-2 backdrop-blur-sm" use:enhance>
     <section class="join">
-        <button class="btn btn-primary join-item" onclick={evt(btnGoBack_Click).preventDefault}>Back</button>
+        <button class="btn btn-primary join-item" onclick={handler(btnGoBack_Click).preventDefault}>Back</button>
         <button class="btn btn-success join-item">Save</button>
-        <button class="btn join-item" onclick={evt(btnRevert_Click).preventDefault}>Revert</button>
-        <button class="btn join-item" onclick={evt(btnTest_Click).preventDefault}>Test</button>
+        <button class="btn join-item" onclick={handler(btnRevert_Click).preventDefault}>Revert</button>
+        <button class="btn join-item" onclick={handler(btnTest_Click).preventDefault}>Test</button>
     </section>
     <!-- 页面数据是一个 JSON 对象，而 form 提交的是 FormData，用这个隐藏输入来转换。 -->
     <input type="hidden" name="plan" value={jsonData} />

@@ -20,7 +20,7 @@ const format = getPriceFormat(item.currency);
 </div>
 
 <div class="timeline-middle">
-    <p><TransportIcon className="text-info text-2xl" type={item.travelBy} /></p>
+    <p><TransportIcon className="text-primary text-2xl" type={item.travelBy} /></p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 </div>

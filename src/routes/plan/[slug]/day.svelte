@@ -33,12 +33,12 @@ function isCurrentTrackingItem(index: number, isTracking: boolean): boolean {
     {#each timeline as item, i}
         <!--                                                    TODO: change here later, when add time property to ITimelineEntry -->
         <li class="timeline-item border" class:tracking-border={isCurrentTrackingItem(i, tracking.value)}>
-            {#if i !== 0}<hr class="bg-info-200" />{/if}
+            {#if i !== 0}<hr class="bg-primary" />{/if}
             <!-- <span class="timeline-handle mdi mdi-drag-vertical justify-self-start text-3xl"></span> -->
 
             <ShowTransport {item} />
 
-            {#if i !== timeline.length - 1}<hr class="bg-info-200" />{/if}
+            {#if i !== timeline.length - 1}<hr class="bg-primary" />{/if}
         </li>
     {/each}
 </ul>
