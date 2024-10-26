@@ -16,15 +16,15 @@ export const load: PageServerLoad = async ({ params }) => {
     if (plans) {
         return {
             plans: plans.map<Exclude<IPlanEx, "itinerary">>(p => {
-                const kv = Object.entries(p.itinerary);
-
-                return {
+                const result = {
                     title: p.title,
-                    from: kv.length > 0 ? kv[0][0] : "",
-                    to: kv.length > 0 ? kv[kv.length - 1][0] : "",
+                    from: p.itinerary.length > 0 ? p.itinerary[0].date : "<Unknown date>",
+                    to: p.itinerary.length > 0 ? p.itinerary.at(-1)!.date : "<Unknown date>",
                     itinerary: [],
                     id: p._id.toHexString(),
                 };
+
+                return result;
             }),
         };
     }
