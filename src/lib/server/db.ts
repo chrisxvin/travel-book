@@ -9,7 +9,7 @@ import type { IPlan } from "$lib/types";
 
 // Connection URL
 const DEFAULT_DB_URL = "mongodb://localhost:27017";
-const DB_URL_RAW = building ? DEFAULT_DB_URL : env.DB_URL;
+const DB_URL_RAW = building ? DEFAULT_DB_URL : (env.DB_URL ?? env.MONGODB_URI);
 const DB_NAME = "travel";
 
 const client = new MongoClient(DB_URL_RAW);
