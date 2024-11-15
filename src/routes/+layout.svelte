@@ -23,7 +23,7 @@ let { children }: IProps = $props();
     </main>
 
     <footer>
-        <p>This is a footer. App is built by SvelteKit, with love from Kitty Hui.</p>
+        <p>This is a footer. App is built by SvelteKit, with love from Kitty H, meow.</p>
     </footer>
 </div>
 
